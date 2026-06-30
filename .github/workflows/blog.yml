@@ -1,0 +1,54 @@
+name: Blog auto-writer
+
+on:
+  schedule:
+    - cron: "0 7 * * *"       # her gün 10:00 TR — günde 3 özgün SEO yazı (yeni domain için güvenli tempo)
+  workflow_dispatch:
+    inputs:
+      count:
+        description: "Kaç yazı üretilsin"
+        default: "1"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: blog-writer
+  cancel-in-progress: false
+
+jobs:
+  write:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install deps (Google Indexing)
+        run: pip install -r _gen/requirements.txt
+      - name: Generate post(s)
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          BLOG_COUNT: ${{ github.event.inputs.count || '3' }}
+        run: python -u _gen/generate.py
+      - name: Ping Google Indexing + IndexNow
+        env:
+          GOOGLE_INDEXING_SA: ${{ secrets.GOOGLE_INDEXING_SA }}
+        run: python -u _gen/index_ping.py
+      - name: Post new posts to Bluesky
+        env:
+          BLUESKY_IDENTIFIER: ${{ secrets.BLUESKY_IDENTIFIER }}
+          BLUESKY_PASSWORD: ${{ secrets.BLUESKY_PASSWORD }}
+        run: python -u _gen/social_post.py
+      - name: Commit & push
+        run: |
+          [ -n "$(git status --porcelain)" ] || { echo "yeni içerik yok"; exit 0; }
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "content: yeni blog yazısı (AI, tam-SEO) [skip ci]"
+          for i in 1 2 3 4 5; do
+            git pull --rebase -X ours origin main && git push && exit 0 || { git rebase --abort 2>/dev/null; sleep $((RANDOM%5+3)); }
+          done
+          echo "::warning::blog push başarısız"
