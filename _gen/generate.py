@@ -171,6 +171,7 @@ PAGE = """<!DOCTYPE html>
 <meta name="description" content="__DESC__">
 <meta name="keywords" content="__KW__">
 <link rel="canonical" href="__URL__">
+<meta name="robots" content="index,follow">
 <meta property="og:type" content="article">
 <meta property="og:title" content="__TITLE__">
 <meta property="og:description" content="__DESC__">
@@ -312,6 +313,14 @@ def rebuild_index(posts):
 <title>__T__ | Türkiye Gezi Rehberi</title>
 <meta name="description" content="Türkiye'nin il il, ilçe ilçe gezilecek yerleri, gezi rehberleri ve rotaları. Routevia ile rotanı saniyede planla.">
 <link rel="canonical" href="__CANON__">
+<meta name="robots" content="index,follow">
+<meta property="og:type" content="website">
+<meta property="og:title" content="__T__">
+<meta property="og:description" content="Türkiye'nin il il, ilçe ilçe gezilecek yerleri, gezi rehberleri ve rotaları. Routevia ile planla.">
+<meta property="og:url" content="__CANON__">
+<meta property="og:image" content="https://gezi.tabserve.com.tr/assets/logo.svg">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">{{"@context":"https://schema.org","@type":"WebSite","name":"Türkiye Gezi Rehberi","url":"https://gezi.tabserve.com.tr/","inLanguage":"tr-TR","publisher":{{"@type":"Organization","name":"Tabserve","url":"https://gezi.tabserve.com.tr/","logo":{{"@type":"ImageObject","url":"https://gezi.tabserve.com.tr/assets/logo.svg"}}}}}}</script>
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;600&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;600&display=swap"></noscript>
@@ -347,7 +356,7 @@ def rebuild_index(posts):
 <script src="/assets/cookie.js" defer></script>
 </body></html>
 """
-    home = (head.replace("__T__", "Türkiye Gezi Rehberi — İl İl Gezilecek Yerler").replace("__CANON__", f"{SITE}/")
+    home = (head.replace("__T__", "İl İl, İlçe İlçe Türkiye'yi Keşfet").replace("__CANON__", f"{SITE}/")
         + f"""
 <header style="text-align:center;padding:70px 22px 30px">
   <span class="brand" style="display:inline-block;font-size:13px;letter-spacing:.28em;text-transform:uppercase;font-weight:700;color:var(--accent3)">Türkiye Gezi Rehberi</span>
