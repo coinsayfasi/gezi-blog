@@ -80,10 +80,19 @@ Yazı tek başına gerçekten faydalı olmalı; sonuna otomatik küçük bir uyg
 
 KESİN KURALLAR — hepsine uy:
 1. Hedef anahtar kelime "{kw}" BAŞLIKTA geçmeli ve net konu olmalı. Başlık aynı zamanda H1'dir — <h1> YAZMA.
-2. Uzunluk: 600-800 KELİME gerçek gövde metni (kelime say, karakter değil). Dolgu yapma.
-3. Başlık hiyerarşisi: 4-6 <h2> (anahtar kelime varyasyonlu), H2 altında <h3>, en az bir <h4> (gerekirse <h5>). Mantıklı yuvalama H2 > H3 > H4.
-4. Kısa bir sonuç paragrafıyla bitir.
-5. ÖZGÜN ve somut — gerçek faydalı bilgi (gezilecek yerler, ne zaman gidilir, ulaşım, ipuçları, nerede kalınır). İstatistik/fiyat/alıntı UYDURMA. Tekrar yok, "spin"/genel dolgu yok.
+2. Uzunluk: 750-1100 KELİME gerçek gövde metni (kelime say, karakter değil). Dolgu yapma, her bölüm gerçek bilgi içersin.
+3. ZORUNLU BÖLÜM YAPISI — büyük gezi siteleri gibi, her biri ayrı <h2> (anahtar kelime varyasyonlu) olacak:
+   - Kısa giriş paragrafı (H2'siz)
+   - <h2> En iyi gezilecek yerler (3-6 gerçek yer, her biri <h3> + açıklama)
+   - <h2> Ne zaman gidilir? (en iyi mevsim/aylar)
+   - <h2> Kaç gün yeterli? (önerilen süre)
+   - <h2> Nasıl gidilir / ulaşım
+   - <h2> Nerede kalınır (semt/bölge önerisi)
+   - <h2> Ne yenir? (yöresel lezzetler)
+   - <h2> Pratik gezi ipuçları (madde madde <ul>)
+   H2 altında uygun yerlerde <h3>/<h4> kullan. Mantıklı yuvalama.
+4. EN SONDA <h2>Sık Sorulan Sorular</h2> bölümü: 3 soru — her soru <h3>, cevabı <p>. Sonra kısa kapanış paragrafı.
+5. ÖZGÜN ve SOMUT — gerçek yer adları, gerçek bilgi. İstatistik/kesin fiyat/alıntı UYDURMA (genel bütçe ipucu olur). Tekrar yok, "spin"/genel dolgu yok.
 6. SADECE şu etiketler: h2, h3, h4, h5, p, ul, li, strong, a. Markdown yok, <h1> yok, <html>/<head>/<style> yok.
 7. 1-2 dış OTORİTE linki ekle (resmi turizm/kültür sitesi, .gov.tr ya da ilgili Wikipedia maddesi). Sadece var olduğundan EMİN olduğun stabil URL'ler — https://tr.wikipedia.org/wiki/<Konu> tercih et. Deep URL UYDURMA. Cümle içinde doğal yerleştir, başlıkta değil.
 
@@ -150,7 +159,6 @@ def validate(d, kw):
     if wc < 600: errs.append(f"kelime {wc}<600")
     if h2 < 3: errs.append(f"H2 {h2}<3")
     if h3 < 2: errs.append(f"H3 {h3}<2")
-    if h4 < 1: errs.append(f"H4 {h4}<1")
     if kw.split()[0].lower() not in d.get("title","").lower(): errs.append("anahtar kelime title'da yok")
     return errs, wc, (h2,h3,h4)
 
