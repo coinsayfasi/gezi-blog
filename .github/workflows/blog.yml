@@ -2,7 +2,7 @@ name: Blog auto-writer
 
 on:
   schedule:
-    - cron: "0 7 * * *"       # her gün 10:00 TR — günde 3 özgün SEO yazı (yeni domain için güvenli tempo)
+    - cron: "0 7 * * *"       # her gün 10:00 TR — günde 1 özgün (maliyet kontrolü) SEO yazı (yeni domain için güvenli tempo)
   workflow_dispatch:
     inputs:
       count:
@@ -30,7 +30,7 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          BLOG_COUNT: ${{ github.event.inputs.count || '4' }}
+          BLOG_COUNT: ${{ github.event.inputs.count || '1' }}
         run: python -u _gen/generate.py
       - name: Ping Google Indexing + IndexNow
         env:
