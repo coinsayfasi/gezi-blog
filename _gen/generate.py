@@ -333,7 +333,7 @@ def rebuild_index(posts):
     <div class="foot-col"><h4>Kurumsal</h4>
       <a href="/hakkinda.html">Hakkında</a>
       <a href="/gizlilik.html">Gizlilik Politikası</a>
-      <a href="/cerez.html">Çerez Politikası</a>
+      <a href="/cerez.html">Çerez Politikası</a><a href="/kullanim-kosullari.html">Kullanım Koşulları</a>
       <a href="mailto:teknopattv@gmail.com">İletişim</a>
     </div>
   </div>
@@ -374,7 +374,7 @@ def rebuild_index(posts):
 """ + foot)
     (BLOG / "index.html").write_text(listing, encoding="utf-8")
     # sitemap
-    static = [("/","1.0","daily"),("/blog/","0.8","weekly"),("/hakkinda.html","0.3","yearly"),("/gizlilik.html","0.3","yearly"),("/cerez.html","0.3","yearly")]
+    static = [("/","1.0","daily"),("/blog/","0.8","weekly"),("/hakkinda.html","0.3","yearly"),("/gizlilik.html","0.3","yearly"),("/cerez.html","0.3","yearly"),("/kullanim-kosullari.html","0.3","yearly")]
     urls = "".join(f'  <url><loc>{SITE}{u}</loc><changefreq>{c}</changefreq><priority>{p}</priority></url>\n' for u,p,c in static)
     urls += "".join(f'  <url><loc>{SITE}/blog/{po["slug"]}/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>\n' for po in posts)
     (ROOT / "sitemap.xml").write_text(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}</urlset>\n', encoding="utf-8")
