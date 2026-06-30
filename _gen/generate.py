@@ -360,13 +360,18 @@ def rebuild_index(posts):
         + f"""
 <header style="text-align:center;padding:70px 22px 30px">
   <span class="brand" style="display:inline-block;font-size:13px;letter-spacing:.28em;text-transform:uppercase;font-weight:700;color:var(--accent3)">Türkiye Gezi Rehberi</span>
-  <h1 style="font-family:'Sora',sans-serif;font-size:clamp(30px,5.5vw,52px);font-weight:800;letter-spacing:-.02em;margin:16px 0 12px">İl il, ilçe ilçe<br>Türkiye'yi keşfet</h1>
-  <p style="color:var(--muted);font-size:18px;max-width:600px;margin:0 auto">Gezilecek yerler, gezi rehberleri ve rotalar. Rotanı <strong>Routevia</strong> ile saniyede planla.</p>
+  <h1 style="font-family:'Sora',sans-serif;font-size:clamp(30px,5.5vw,52px);font-weight:800;letter-spacing:-.02em;margin:16px 0 12px">İl il, ilçe ilçe<br>gezilecek yerler</h1>
+  <p style="color:var(--muted);font-size:18px;max-width:600px;margin:0 auto">Türkiye'nin gezilecek yerleri, gezi rehberleri ve rotaları. Rotanı <strong>Routevia</strong> ile saniyede planla.</p>
 </header>
 <main class="wrap page" style="padding-top:10px">
   <div class="posts">
 {cards}
   </div>
+  <section class="reveal" style="max-width:780px;margin:52px auto 6px;color:var(--muted);font-size:16px;line-height:1.85">
+    <h2 style="font-family:'Sora',sans-serif;font-size:25px;color:var(--ink);margin-bottom:14px">Türkiye'nin il il, ilçe ilçe gezi rehberi</h2>
+    <p>Türkiye Gezi Rehberi; İstanbul'dan Kapadokya'ya, Karadeniz yaylalarından Akdeniz koylarına kadar <strong>il il, ilçe ilçe gezilecek yerleri</strong> tek tek ele alır. Her gezi rehberinde <strong>en iyi gezilecek yerler</strong>, ne zaman gidilir, kaç gün yeterli, nasıl gidilir, nerede kalınır ve yöresel lezzetler gibi başlıklarla planını kolaylaştırırız.</p>
+    <p>Amacımız gerçekten faydalı, güncel ve özgün <strong>gezi rehberleri</strong> sunmak; rotanı ise <a href="https://coinsayfasi.github.io/routevia-app/">Routevia uygulaması</a> ile saniyeler içinde planlamanı sağlamak. Yeni il ve ilçe rehberleri düzenli olarak eklenir — favori destinasyonunu keşfetmeye buradan başla.</p>
+  </section>
 </main>
 """ + foot)
     (ROOT / "index.html").write_text(home, encoding="utf-8")
