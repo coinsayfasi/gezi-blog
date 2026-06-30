@@ -223,6 +223,7 @@ __BODY__
     <span>Made with ♥ in Türkiye</span>
   </div></div>
 </footer>
+<script src="/assets/cookie.js" defer></script>
 </body>
 </html>
 """
@@ -343,6 +344,7 @@ def rebuild_index(posts):
 </footer>
 <script>const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}}),{threshold:.12});document.querySelectorAll('.pcard,.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%4*70)+'ms';io.observe(el)});</script>
 <noscript><style>.pcard,.reveal{opacity:1;transform:none}</style></noscript>
+<script src="/assets/cookie.js" defer></script>
 </body></html>
 """
     home = (head.replace("__T__", "Türkiye Gezi Rehberi — İl İl Gezilecek Yerler").replace("__CANON__", f"{SITE}/")
