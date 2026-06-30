@@ -55,8 +55,8 @@ article.post strong{color:var(--ink)}
 .appcta{margin:34px 0;padding:24px 26px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:14px;background:linear-gradient(180deg,#fff,#f6fbfc);box-shadow:var(--shadow)}
 .appcta b{font-family:'Sora',sans-serif;font-size:18px;color:var(--ink)}
 .appcta p{font-size:15px!important;color:var(--muted)!important;margin:8px 0 14px!important}
-.appcta a{display:inline-block;font-weight:700;font-size:14.5px;text-decoration:none;color:#fff;background:linear-gradient(110deg,var(--accent),var(--accent3));padding:11px 20px;border-radius:11px;box-shadow:0 8px 22px rgba(19,128,166,.28);transition:transform .15s}
-.appcta a:hover{transform:translateY(-2px)}
+article.post .appcta a,.appcta a{display:inline-block;font-weight:700;font-size:14.5px;text-decoration:none;color:#fff;background:linear-gradient(110deg,var(--accent),var(--accent3));padding:11px 22px;border-radius:11px;box-shadow:0 8px 22px rgba(19,128,166,.28);transition:transform .15s,box-shadow .2s}
+article.post .appcta a:hover,.appcta a:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(19,128,166,.4);color:#fff;text-decoration:none}
 
 /* kart grid (anasayfa/listeleme) */
 .posts{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;padding:14px 0 50px}
