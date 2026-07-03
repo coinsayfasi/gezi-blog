@@ -190,6 +190,7 @@ PAGE = """<!DOCTYPE html>
 <meta property="og:image" content="__OGIMG__">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="__OGIMG__">
+<link rel="alternate" type="application/rss+xml" title="Türkiye Gezi Rehberi RSS" href="/feed.xml">
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -490,6 +491,24 @@ q.addEventListener('input',function(){var v=norm(q.value.trim());
 });});</script>
 """
 
+
+# ── Bölge mimarisi: il/ilçe → bölge (hub sayfaları /<bolge>-gezilecek-yerler/) ──
+REGION_NAMES = {"ege":"Ege","akdeniz":"Akdeniz","karadeniz":"Karadeniz","marmara":"Marmara",
+                "ic-anadolu":"İç Anadolu","dogu-anadolu":"Doğu Anadolu","guneydogu-anadolu":"Güneydoğu Anadolu"}
+_R = {
+ "ege":"izmir aydin mugla manisa denizli usak kutahya afyon afyonkarahisar cesme alacati bodrum marmaris fethiye kusadasi sirince ayvalik cunda didim datca akyaka pamukkale",
+ "akdeniz":"antalya mersin adana hatay isparta burdur kahramanmaras osmaniye alanya side kas kalkan kemer belek olimpos cirali kekova anamur",
+ "karadeniz":"trabzon rize artvin giresun ordu samsun sinop kastamonu bartin zonguldak duzce bolu amasya tokat corum gumushane bayburt uzungol ayder amasra safranbolu karabuk abant",
+ "marmara":"istanbul bursa canakkale balikesir edirne kirklareli tekirdag kocaeli sakarya yalova bilecik iznik bozcaada gokceada sapanca",
+ "ic-anadolu":"ankara konya kayseri eskisehir sivas yozgat kirsehir nevsehir nigde aksaray karaman kirikkale cankiri kapadokya goreme urgup avanos",
+ "dogu-anadolu":"erzurum kars van agri ardahan igdir mus bitlis bingol tunceli elazig malatya erzincan hakkari dogubayazit",
+ "guneydogu-anadolu":"gaziantep sanliurfa urfa mardin diyarbakir batman siirt sirnak adiyaman kilis midyat hasankeyf halfeti nemrut",
+}
+CITY2REGION = {c: r for r, cities in _R.items() for c in cities.split()}
+
+def region_of(slug):
+    return CITY2REGION.get(slug.split("-")[0])
+
 def rebuild_index(posts):
     def card(p):
         return (f'    <a class="pcard" href="/blog/{p["slug"]}/"><span class="tag">{html.escape(p["tag"])}</span>'
@@ -513,6 +532,7 @@ def rebuild_index(posts):
 <meta property="og:image" content="https://gezi.tabserve.com.tr/assets/logo.svg">
 <meta name="twitter:card" content="summary">
 <script type="application/ld+json">{{"@context":"https://schema.org","@type":"WebSite","name":"Türkiye Gezi Rehberi","url":"https://gezi.tabserve.com.tr/","inLanguage":"tr-TR","publisher":{{"@type":"Organization","name":"Tabserve","url":"https://gezi.tabserve.com.tr/","logo":{{"@type":"ImageObject","url":"https://gezi.tabserve.com.tr/assets/logo.svg"}}}}}}</script>
+<link rel="alternate" type="application/rss+xml" title="Türkiye Gezi Rehberi RSS" href="/feed.xml">
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;600&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;600&display=swap"></noscript>
@@ -628,9 +648,62 @@ def rebuild_index(posts):
                 for f in d.iterdir(): f.unlink()
                 d.rmdir()
 
+    # ── Bölge hub sayfaları ───────────────────────────────────────────────────
+    by_region = {}
+    for po in posts:
+        r = region_of(po["slug"])
+        if r: by_region.setdefault(r, []).append(po)
+    region_slugs = []
+    for r, rposts in by_region.items():
+        rname = REGION_NAMES[r]
+        rslug = f"{r}-gezilecek-yerler"
+        region_slugs.append((rslug, rname, len(rposts)))
+        rcards = "\n".join(card(pp) for pp in rposts)
+        rpage = (head.replace("__T__", f"{rname} Bölgesi Gezilecek Yerler").replace("__CANON__", f"{SITE}/{rslug}/").replace("__PREVNEXT__", "")
+            + f"""
+<main class="wrap page">
+  <div class="crumb"><a href="/">Anasayfa</a> › <a href="/blog/">Rehberler</a> › {rname}</div>
+  <h1 class="title">{rname} Bölgesi Gezilecek Yerler</h1>
+  <p class="meta">{rname} Bölgesi'nin il il, ilçe ilçe gezi rehberleri — gezilecek yerler, ulaşım, konaklama ve rota önerileri. ({len(rposts)} rehber)</p>
+  <div class="posts">
+{rcards}
+  </div>
+  <p style="margin-top:26px"><a class="allbtn" href="/blog/">Tüm Gezi Rehberleri →</a></p>
+</main>
+""" + foot)
+        outd = ROOT / rslug
+        outd.mkdir(parents=True, exist_ok=True)
+        (outd / "index.html").write_text(rpage, encoding="utf-8")
+
+    # Bölge çipleri (anasayfa + listeleme sayfalarına enjekte)
+    if region_slugs:
+        region_slugs.sort(key=lambda x: -x[2])
+        chips = '<nav class="chips" aria-label="Bölgeler">' + "".join(
+            f'<a href="/{rs}/">{rn} ({n})</a>' for rs, rn, n in region_slugs) + "</nav>"
+        for fpath in [ROOT / "index.html", BLOG / "index.html"] + sorted((BLOG / "page").glob("*/index.html")) if (BLOG/"page").exists() else [ROOT / "index.html", BLOG / "index.html"]:
+            try:
+                c = fpath.read_text(encoding="utf-8")
+                c = c.replace('<div class="posts">', chips + '\n  <div class="posts">', 1)
+                fpath.write_text(c, encoding="utf-8")
+            except FileNotFoundError:
+                pass
+
+    # ── RSS feed ─────────────────────────────────────────────────────────────
+    items = "".join(
+        f"<item><title>{html.escape(pp['title'])}</title><link>{SITE}/blog/{pp['slug']}/</link>"
+        f"<guid>{SITE}/blog/{pp['slug']}/</guid><description>{html.escape(pp['desc'])}</description>"
+        f"<pubDate>{datetime.datetime.strptime(pp.get('date','2026-06-30'), '%Y-%m-%d').strftime('%a, %d %b %Y')} 09:00:00 GMT</pubDate></item>"
+        for pp in posts[:20])
+    (ROOT / "feed.xml").write_text(
+        '<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel>'
+        f'<title>Türkiye Gezi Rehberi</title><link>{SITE}/</link>'
+        '<description>İl il, ilçe ilçe gezilecek yerler ve gezi rehberleri</description>'
+        f'<language>tr</language>{items}</channel></rss>', encoding="utf-8")
+
     # sitemap
     static = [("/","1.0","daily"),("/blog/","0.8","weekly"),("/hakkinda.html","0.3","yearly"),("/gizlilik.html","0.3","yearly"),("/cerez.html","0.3","yearly"),("/kullanim-kosullari.html","0.3","yearly")]
     urls = "".join(f'  <url><loc>{SITE}{u}</loc><changefreq>{c}</changefreq><priority>{p}</priority></url>\n' for u,p,c in static)
+    urls += "".join(f'  <url><loc>{SITE}/{rs}/</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>\n' for rs, _, _ in region_slugs)
     urls += "".join(f'  <url><loc>{SITE}/blog/page/{n}/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>\n' for n in range(2, total+1))
     urls += "".join(f'  <url><loc>{SITE}/blog/{po["slug"]}/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>\n' for po in posts)
     (ROOT / "sitemap.xml").write_text(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}</urlset>\n', encoding="utf-8")
