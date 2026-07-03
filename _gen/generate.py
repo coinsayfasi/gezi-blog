@@ -195,7 +195,7 @@ PAGE = """<!DOCTYPE html>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;600&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;600&display=swap"></noscript>
-<link rel="stylesheet" href="/assets/blog.css?v=5">
+<link rel="stylesheet" href="/assets/blog.css?v=6">
 <script type="application/ld+json">__SCHEMA__</script>
 <script src="/assets/analytics.js" defer></script><script src="/assets/enhance.js" defer></script>
 </head>
@@ -536,7 +536,7 @@ def rebuild_index(posts):
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;600&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;600&display=swap"></noscript>
-<link rel="stylesheet" href="/assets/blog.css?v=5"><script src="/assets/analytics.js" defer></script><script src="/assets/enhance.js" defer></script>
+<link rel="stylesheet" href="/assets/blog.css?v=6"><script src="/assets/analytics.js" defer></script><script src="/assets/enhance.js" defer></script>
 </head>
 <body>
 <div class="aurora"></div>
@@ -678,8 +678,12 @@ def rebuild_index(posts):
     # Bölge çipleri (anasayfa + listeleme sayfalarına enjekte)
     if region_slugs:
         region_slugs.sort(key=lambda x: -x[2])
-        chips = '<nav class="chips" aria-label="Bölgeler">' + "".join(
-            f'<a href="/{rs}/">{rn} ({n})</a>' for rs, rn, n in region_slugs) + "</nav>"
+        EMO = {"ege":"🌊","akdeniz":"🏖️","karadeniz":"🌲","marmara":"🌉",
+               "ic-anadolu":"🎈","dogu-anadolu":"⛰️","guneydogu-anadolu":"🕌"}
+        chips = ('<div class="chipwrap"><span class="chiplbl">Bölgelere göre keşfet</span>'
+                 '<nav class="chips" aria-label="Bölgeler">' + "".join(
+            f'<a href="/{rs}/">{EMO.get(rs.replace("-gezilecek-yerler",""),"📍")} {rn}<b>{n}</b></a>'
+            for rs, rn, n in region_slugs) + "</nav></div>")
         for fpath in [ROOT / "index.html", BLOG / "index.html"] + sorted((BLOG / "page").glob("*/index.html")) if (BLOG/"page").exists() else [ROOT / "index.html", BLOG / "index.html"]:
             try:
                 c = fpath.read_text(encoding="utf-8")
