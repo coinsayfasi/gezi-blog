@@ -350,6 +350,16 @@ def write_post(d, app, posts=()):
     (BLOG / slug).mkdir(parents=True, exist_ok=True)
     (BLOG / slug / "index.html").write_text(page, encoding="utf-8")
 
+SEARCH = """
+<div class="psearch" style="max-width:540px;margin:0 auto 26px;position:relative">
+  <input id="q" type="search" placeholder="Rehber ara: şehir, ilçe, yer…" aria-label="Rehber ara" autocomplete="off"
+    style="width:100%;box-sizing:border-box;padding:13px 20px 13px 46px;border-radius:999px;border:1px solid rgba(120,120,140,.28);background:rgba(255,255,255,.75);font:inherit;font-size:15px;outline:none">
+  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" style="position:absolute;left:17px;top:50%;transform:translateY(-50%);opacity:.5" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  <p id="qn" hidden style="text-align:center;color:var(--muted);margin:14px 0 0">Sonuç bulunamadı — farklı bir kelime deneyin.</p>
+</div>
+<script>document.addEventListener('DOMContentLoaded',function(){var q=document.getElementById('q');if(!q)return;var cards=[].slice.call(document.querySelectorAll('.pcard')),qn=document.getElementById('qn');q.addEventListener('input',function(){var v=q.value.trim().toLocaleLowerCase('tr'),n=0;cards.forEach(function(c){var h=!v||c.textContent.toLocaleLowerCase('tr').indexOf(v)>-1;c.style.display=h?'':'none';if(h)n++});qn.hidden=n>0||!v});});</script>
+"""
+
 def rebuild_index(posts):
     cards = "\n".join(
       f'    <a class="pcard" href="/blog/{p["slug"]}/"><span class="tag">{html.escape(p["tag"])}</span>'
@@ -413,6 +423,7 @@ def rebuild_index(posts):
   <p style="color:var(--muted);font-size:18px;max-width:600px;margin:0 auto">Türkiye'nin gezilecek yerleri, gezi rehberleri ve rotaları. Rotanı <strong>Routevia</strong> ile saniyede planla.</p>
 </header>
 <main class="wrap page" style="padding-top:10px">
+{SEARCH}
   <div class="posts">
 {cards}
   </div>
@@ -430,6 +441,7 @@ def rebuild_index(posts):
   <div class="crumb"><a href="/">Anasayfa</a> › Rehberler</div>
   <h1 class="title">Tüm Gezi Rehberleri</h1>
   <p class="meta">Türkiye'nin il il, ilçe ilçe gezilecek yerleri.</p>
+{SEARCH}
   <div class="posts">
 {cards}
   </div>
