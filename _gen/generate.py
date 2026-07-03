@@ -93,6 +93,16 @@ KESİN KURALLAR — hepsine uy:
    H2 altında uygun yerlerde <h3>/<h4> kullan. Mantıklı yuvalama.
 4. EN SONDA <h2>Sık Sorulan Sorular</h2> bölümü: 3 soru — her soru <h3>, cevabı <p>. Sonra kısa kapanış paragrafı.
 5. ÖZGÜN ve SOMUT — gerçek yer adları, gerçek bilgi. İstatistik/kesin fiyat/alıntı UYDURMA (genel bütçe ipucu olur). Tekrar yok, "spin"/genel dolgu yok.
+5b. KLİŞE YASAK: "unutulmaz deneyim", "büyüleyici", "mutlaka görülmeli", "eşsiz güzellik", "adeta", "cennet köşesi" gibi kalıpları KULLANMA. Bunun yerine SOMUT fayda yaz: hangi kapıdan girilir, sabah mı öğleden sonra mı gidilir, ne kadar sürer, yürüme mesafesi, çocukla/yaşlıyla uygun mu, otopark/toplu taşıma durumu.
+5c. GİRİŞTEN HEMEN SONRA "Hızlı Bilgiler" kutusu ekle — tam şu HTML yapısıyla:
+<div class="quickfacts"><h2>Hızlı Bilgiler</h2><ul>
+<li><strong>Kaç gün yeterli:</strong> ...</li>
+<li><strong>En iyi dönem:</strong> ...</li>
+<li><strong>Ortalama bütçe:</strong> ... (genel aralık, "kişi başı orta bütçe" gibi)</li>
+<li><strong>Araç gerekli mi:</strong> ...</li>
+<li><strong>Çocukla uygun mu:</strong> ...</li>
+<li><strong>En yakın havalimanı:</strong> ...</li>
+</ul></div>
 6. SADECE şu etiketler: h2, h3, h4, h5, p, ul, li, strong, a. Markdown yok, <h1> yok, <html>/<head>/<style> yok.
 7. 1-2 dış OTORİTE linki ekle (resmi turizm/kültür sitesi, .gov.tr ya da ilgili Wikipedia maddesi). Sadece var olduğundan EMİN olduğun stabil URL'ler — https://tr.wikipedia.org/wiki/<Konu> tercih et. Deep URL UYDURMA. Cümle içinde doğal yerleştir, başlıkta değil.
 
@@ -355,9 +365,9 @@ SEARCH = """
   <input id="q" type="search" placeholder="Rehber ara: şehir, ilçe, yer…" aria-label="Rehber ara" autocomplete="off"
     style="width:100%;box-sizing:border-box;padding:13px 20px 13px 46px;border-radius:999px;border:1px solid rgba(120,120,140,.28);background:rgba(255,255,255,.75);font:inherit;font-size:15px;outline:none">
   <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" style="position:absolute;left:17px;top:50%;transform:translateY(-50%);opacity:.5" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-  <p id="qn" hidden style="text-align:center;color:var(--muted);margin:14px 0 0">Sonuç bulunamadı — farklı bir kelime deneyin.</p>
+  <p id="qn" style="display:none;text-align:center;color:var(--muted);margin:14px 0 0">Sonuç bulunamadı — farklı bir kelime deneyin.</p>
 </div>
-<script>document.addEventListener('DOMContentLoaded',function(){var q=document.getElementById('q');if(!q)return;var cards=[].slice.call(document.querySelectorAll('.pcard')),qn=document.getElementById('qn');q.addEventListener('input',function(){var v=q.value.trim().toLocaleLowerCase('tr'),n=0;cards.forEach(function(c){var h=!v||c.textContent.toLocaleLowerCase('tr').indexOf(v)>-1;c.style.display=h?'':'none';if(h)n++});qn.hidden=n>0||!v});});</script>
+<script>document.addEventListener('DOMContentLoaded',function(){var q=document.getElementById('q');if(!q)return;var cards=[].slice.call(document.querySelectorAll('.pcard')),qn=document.getElementById('qn');q.addEventListener('input',function(){var v=q.value.trim().toLocaleLowerCase('tr'),n=0;cards.forEach(function(c){var h=!v||c.textContent.toLocaleLowerCase('tr').indexOf(v)>-1;c.style.display=h?'':'none';if(h)n++});qn.style.display=(n>0||!v)?'none':'block'});});</script>
 """
 
 def rebuild_index(posts):
@@ -368,12 +378,12 @@ def rebuild_index(posts):
 <html lang="tr"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>__T__ | Türkiye Gezi Rehberi</title>
-<meta name="description" content="Türkiye'nin il il, ilçe ilçe gezilecek yerleri, gezi rehberleri ve rotaları. Routevia ile rotanı saniyede planla.">
+<meta name="description" content="Türkiye'nin 81 ili ve popüler ilçeleri için gezilecek yerler, ulaşım, konaklama, yeme-içme, rota önerileri ve pratik seyahat ipuçları. Seyahat planını Routevia ile saniyeler içinde oluştur.">
 <link rel="canonical" href="__CANON__">
 <meta name="robots" content="index,follow">
 <meta property="og:type" content="website">
 <meta property="og:title" content="__T__">
-<meta property="og:description" content="Türkiye'nin il il, ilçe ilçe gezilecek yerleri, gezi rehberleri ve rotaları. Routevia ile planla.">
+<meta property="og:description" content="Türkiye'nin 81 ili ve popüler ilçeleri için gezilecek yerler, ulaşım, konaklama ve rota önerileri. Routevia ile planla.">
 <meta property="og:url" content="__CANON__">
 <meta property="og:image" content="https://gezi.tabserve.com.tr/assets/logo.svg">
 <meta name="twitter:card" content="summary">
@@ -419,8 +429,8 @@ def rebuild_index(posts):
         + f"""
 <header style="text-align:center;padding:70px 22px 30px">
   <span class="brand" style="display:inline-block;font-size:13px;letter-spacing:.28em;text-transform:uppercase;font-weight:700;color:var(--accent3)">Türkiye Gezi Rehberi</span>
-  <h1 style="font-family:'Sora',sans-serif;font-size:clamp(30px,5.5vw,52px);font-weight:800;letter-spacing:-.02em;margin:16px 0 12px">İl il, ilçe ilçe<br>gezilecek yerler</h1>
-  <p style="color:var(--muted);font-size:18px;max-width:600px;margin:0 auto">Türkiye'nin gezilecek yerleri, gezi rehberleri ve rotaları. Rotanı <strong>Routevia</strong> ile saniyede planla.</p>
+  <h1 style="font-family:'Sora',sans-serif;font-size:clamp(30px,5.5vw,52px);font-weight:800;letter-spacing:-.02em;margin:16px 0 12px">Türkiye Gezi Rehberi:<br>İl İl, İlçe İlçe Gezilecek Yerler</h1>
+  <p style="color:var(--muted);font-size:18px;max-width:640px;margin:0 auto">81 il ve popüler ilçeler için gezilecek yerler, ulaşım, konaklama, yeme-içme ve rota önerileri. Seyahat planını <strong>Routevia</strong> ile saniyeler içinde oluştur.</p>
 </header>
 <main class="wrap page" style="padding-top:10px">
 {SEARCH}

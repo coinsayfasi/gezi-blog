@@ -106,3 +106,9 @@ article.post .appcta a:hover,.appcta a:hover{transform:translateY(-2px);box-shad
 .reveal{opacity:0;transform:translateY(22px);transition:opacity .6s,transform .6s}
 .reveal.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.pcard,.reveal{opacity:1;transform:none}}
+
+/* Hızlı Bilgiler kutusu */
+.quickfacts{background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.25);border-radius:14px;padding:18px 22px;margin:22px 0}
+.quickfacts h2{font-size:19px;margin:0 0 10px}
+.quickfacts ul{margin:0;padding-left:18px;list-style:none}
+.quickfacts li{margin:5px 0}
