@@ -231,6 +231,47 @@ __BODY__
 </html>
 """
 
+def faq_schema(body):
+    """Gövdedeki 'Sık Sorulan Sorular' bölümünden FAQPage JSON-LD üretir.
+    Google'da 'People also ask' / zengin sonuç alanı kazandırır."""
+    m = re.search(r'<h2[^>]*>[^<]*S[ıi]k Sorulan Sorular[^<]*</h2>([\s\S]*)', body, re.I)
+    if not m: return None
+    strip = lambda s: re.sub(r'<[^>]+>', '', s).strip()
+    qas = re.findall(r'<h3[^>]*>([\s\S]*?)</h3>\s*<p[^>]*>([\s\S]*?)</p>', m.group(1))
+    items = [{"@type":"Question","name":strip(q),
+              "acceptedAnswer":{"@type":"Answer","text":strip(a)}}
+             for q, a in qas if strip(q) and strip(a)]
+    if not items: return None
+    return {"@context":"https://schema.org","@type":"FAQPage","mainEntity":items}
+
+def add_internal_links(body, posts, current_slug, max_links=4):
+    """Diğer yazıların şehir adı gövdede ilk geçtiği paragrafta iç link olur.
+    Yeni domain'de otorite dağılımı için kritik. Sadece <p> içinde, link/başlık
+    içermeyen serbest metinde, yazı başına şehir başına 1 kez."""
+    added = 0
+    for p in posts:
+        if added >= max_links or p["slug"] == current_slug: continue
+        city = p["title"].split()[0]
+        if len(city) < 4: continue
+        href = f'/blog/{p["slug"]}/'
+        if href in body: continue
+        pat = re.compile(r'<p>((?:(?!</p>|<a\s|<h\d)[\s\S])*?)\b(' + re.escape(city) + r')\b')
+        mm = pat.search(body)
+        if not mm: continue
+        s, e = mm.start(2), mm.end(2)
+        body = body[:s] + f'<a href="{href}">{mm.group(2)}</a>' + body[e:]
+        added += 1
+    return body
+
+def related_block(posts, current_slug, n=4):
+    """Yazı sonuna 'İlgili Gezi Rehberleri' bloğu — iç linkleme + gezinme."""
+    others = [p for p in posts if p["slug"] != current_slug][:n]
+    if not others: return ""
+    lis = "".join(f'<li><a href="/blog/{p["slug"]}/">{html.escape(p["title"])}</a></li>'
+                  for p in others)
+    return ('<section class="related"><h2>İlgili Gezi Rehberleri</h2><ul>'
+            + lis + '</ul></section>')
+
 def insert_cta(body, cta):
     if "{{APP_CTA}}" in body:
         return body.replace("{{APP_CTA}}", cta, 1)
@@ -275,9 +316,10 @@ def _h2_text(body, p):
     m = re.match(r'<h2[^>]*>(.*?)</h2>', body[p:], re.S)
     return re.sub(r'<[^>]+>', '', m.group(1)).strip() if m else ''
 
-def write_post(d, app):
+def write_post(d, app, posts=()):
     slug = d["slug"]; url = f"{SITE}/blog/{slug}/"
     body = insert_cta(d["body"], APPS[app]["cta"])
+    body = add_internal_links(body, posts, slug)
     ogimg = f"{SITE}/assets/tabserve-og.png"
     # Görsel: kullanıcı assets/blog/<slug>.(jpg|png|webp) yüklerse hero olarak kullanılır; yoksa görselsiz (temiz).
     for ext in ("jpg","jpeg","png","webp"):
@@ -290,13 +332,16 @@ def write_post(d, app):
             print(f"  🖼  manuel görsel: {rel}")
             break
     today = datetime.date.today()
-    schema = json.dumps({"@context":"https://schema.org","@type":"Article","headline":d["title"],
+    schemas = [{"@context":"https://schema.org","@type":"Article","headline":d["title"],
         "description":d["meta_description"],"image":ogimg,"author":{"@type":"Organization","name":"Tabserve"},
         "publisher":{"@type":"Organization","name":"Tabserve","logo":{"@type":"ImageObject","url":f"{SITE}/assets/tabserve-og.png"}},
-        "datePublished":today.isoformat(),"dateModified":today.isoformat(),"mainEntityOfPage":url}, ensure_ascii=False)
+        "datePublished":today.isoformat(),"dateModified":today.isoformat(),"mainEntityOfPage":url}]
+    faq = faq_schema(body)
+    if faq: schemas.append(faq)
+    schema = json.dumps(schemas if len(schemas) > 1 else schemas[0], ensure_ascii=False)
     read = max(4, round(words(body)/180))
     extras, rail = post_extras(url, d["title"])
-    body = body + extras  # alt paylaş çubuğu + yazar kutusu (Follow Us)
+    body = body + related_block(posts, slug) + extras  # ilgili rehberler + paylaş + yazar
     page = (PAGE.replace("__TITLE__", html.escape(d["title"])).replace("__DESC__", html.escape(d["meta_description"]))
         .replace("__KW__", html.escape(d["keywords"])).replace("__URL__", url).replace("__OGIMG__", html.escape(ogimg))
         .replace("__SCHEMA__", schema).replace("__CRUMB__", html.escape(d["title"][:40]))
@@ -422,7 +467,7 @@ def main():
         if not d:
             print("  ⚠️ bu konu atlandı (kalite tutmadı)"); used.add(kw); continue
         d["slug"] = slugify(d.get("slug") or d["title"])
-        write_post(d, app)
+        write_post(d, app, posts)
         posts.insert(0, {"slug":d["slug"],"title":d["title"],"desc":d["meta_description"],
                          "tag":APPS[app]["tag"],"date":datetime.date.today().isoformat()})
         used.add(kw); made += 1
