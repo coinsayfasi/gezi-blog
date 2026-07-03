@@ -206,7 +206,7 @@ PAGE = """<!DOCTYPE html>
 <style>:root{--bg:#fbfaf7;--card:#fff;--ink:#1f2733;--muted:#69727f;--accent:#2f6bff;--accent2:#8b5cf6;--accent3:#2563eb;--line:#ece8e1;--shadow:0 6px 24px rgba(31,39,51,.07)}*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--ink);line-height:1.75;-webkit-font-smoothing:antialiased;overflow-x:hidden}.wrap{max-width:1080px;margin:0 auto;padding:0 22px}nav{position:sticky;top:0;z-index:40;background:rgba(251,250,247,.82);border-bottom:1px solid var(--line)}nav .nwrap{max-width:1080px;margin:0 auto;padding:0 22px;display:flex;align-items:center;justify-content:space-between;height:64px}.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:19px;color:var(--ink);text-decoration:none}.logo img{width:30px;height:30px;border-radius:9px}.nav-links a{color:var(--muted);text-decoration:none;font-size:14.5px;font-weight:600;margin-left:24px}h1,h2{font-family:'Sora',sans-serif}.page{padding:46px 0 30px}.aurora{position:fixed;inset:0;z-index:-2;background:var(--bg)}</style>
 <link rel="preload" href="/assets/blog.css?v=10" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/assets/blog.css?v=10"></noscript>
 <script type="application/ld+json">__SCHEMA__</script>
-<script src="/assets/analytics.js?v=2" defer></script><script src="/assets/enhance.js?v=7" defer></script>
+<script src="/assets/analytics.js?v=3" defer></script><script src="/assets/enhance.js?v=7" defer></script>
 </head>
 <body>
 <div class="aurora"></div>
@@ -248,7 +248,7 @@ __BODY__
     <span>Made with ♥ in Türkiye</span>
   </div></div>
 </footer>
-<script src="/assets/cookie.js" defer></script>
+<script src="/assets/cookie.js?v=2" defer></script>
 </body>
 </html>
 """
@@ -532,7 +532,9 @@ q.addEventListener('input',function(){var v=norm(q.value.trim());
   res.innerHTML=hits.map(function(p){return '<a class="pcard in" href="'+p.u+'"><h2>'+esc(p.t)+'</h2><p>'+esc(p.d)+'</p></a>'}).join('');
   res.style.display='';}
  if(idx){run()}else{fetch('/assets/search.json').then(function(r){return r.json()}).then(function(j){idx=j;run()}).catch(function(){})}
-});});</script>
+});
+var qp=new URLSearchParams(location.search).get("q");
+if(qp){q.value=qp;q.dispatchEvent(new Event("input"));}});</script>
 """
 
 
@@ -573,15 +575,16 @@ def rebuild_index(posts):
 <meta property="og:title" content="__T__">
 <meta property="og:description" content="Türkiye'nin 81 ili ve popüler ilçeleri için gezilecek yerler, ulaşım, konaklama ve rota önerileri. Routevia ile planla.">
 <meta property="og:url" content="__CANON__">
-<meta property="og:image" content="https://gezi.tabserve.com.tr/assets/logo.svg">
-<meta name="twitter:card" content="summary">
-<script type="application/ld+json">{{"@context":"https://schema.org","@type":"WebSite","name":"Türkiye Gezi Rehberi","url":"https://gezi.tabserve.com.tr/","inLanguage":"tr-TR","publisher":{{"@type":"Organization","name":"Tabserve","url":"https://gezi.tabserve.com.tr/","logo":{{"@type":"ImageObject","url":"https://gezi.tabserve.com.tr/assets/logo.svg"}}}}}}</script>
+<meta property="og:image" content="https://gezi.tabserve.com.tr/assets/og-home.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gezi.tabserve.com.tr/assets/og-home.jpg">
+<script type="application/ld+json">{{"@context":"https://schema.org","@type":"WebSite","name":"Türkiye Gezi Rehberi","url":"https://gezi.tabserve.com.tr/","inLanguage":"tr-TR","publisher":{{"@type":"Organization","name":"Tabserve","url":"https://gezi.tabserve.com.tr/","logo":{{"@type":"ImageObject","url":"https://gezi.tabserve.com.tr/assets/logo.svg"}}}},"potentialAction":{{"@type":"SearchAction","target":"https://gezi.tabserve.com.tr/blog/?q={{search_term_string}}","query-input":"required name=search_term_string"}}}}</script>__XSCHEMA__
 <link rel="alternate" type="application/rss+xml" title="Türkiye Gezi Rehberi RSS" href="/feed.xml">
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;600&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;600&display=swap"></noscript>
 <style>:root{{--bg:#fbfaf7;--card:#fff;--ink:#1f2733;--muted:#69727f;--accent:#2f6bff;--accent2:#8b5cf6;--accent3:#2563eb;--line:#ece8e1;--shadow:0 6px 24px rgba(31,39,51,.07)}}*{{box-sizing:border-box;margin:0;padding:0}}body{{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--ink);line-height:1.75;-webkit-font-smoothing:antialiased;overflow-x:hidden}}.wrap{{max-width:1080px;margin:0 auto;padding:0 22px}}nav{{position:sticky;top:0;z-index:40;background:rgba(251,250,247,.82);border-bottom:1px solid var(--line)}}nav .nwrap{{max-width:1080px;margin:0 auto;padding:0 22px;display:flex;align-items:center;justify-content:space-between;height:64px}}.logo{{display:flex;align-items:center;gap:10px;font-weight:700;font-size:19px;color:var(--ink);text-decoration:none}}.logo img{{width:30px;height:30px;border-radius:9px}}.nav-links a{{color:var(--muted);text-decoration:none;font-size:14.5px;font-weight:600;margin-left:24px}}h1,h2{{font-family:'Sora',sans-serif}}.page{{padding:46px 0 30px}}.aurora{{position:fixed;inset:0;z-index:-2;background:var(--bg)}}</style>
-<link rel="preload" href="/assets/blog.css?v=10" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/assets/blog.css?v=10"></noscript><script src="/assets/analytics.js?v=2" defer></script><script src="/assets/enhance.js?v=7" defer></script>
+<link rel="preload" href="/assets/blog.css?v=10" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/assets/blog.css?v=10"></noscript><script src="/assets/analytics.js?v=3" defer></script><script src="/assets/enhance.js?v=7" defer></script>
 </head>
 <body>
 <div class="aurora"></div>
@@ -613,15 +616,25 @@ def rebuild_index(posts):
 </footer>
 <script>const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}}),{threshold:.12});document.querySelectorAll('.pcard,.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%4*70)+'ms';io.observe(el)});</script>
 <noscript><style>.pcard,.reveal{opacity:1;transform:none}</style></noscript>
-<script src="/assets/cookie.js" defer></script>
+<script src="/assets/cookie.js?v=2" defer></script>
 </body></html>
 """
     home_cards = "\n".join(card(p) for p in posts[:PER_PAGE])
-    home = (head.replace("__T__", "İl İl, İlçe İlçe Türkiye'yi Keşfet").replace("__CANON__", f"{SITE}/").replace("__PREVNEXT__", "")
+    # Popüler Rotalar bloğu (yayında olan yazılardan)
+    POPD = [("sanliurfa","2 Günlük Şanlıurfa Rotası"),("kapadokya","3 Günlük Kapadokya Rotası"),
+            ("safranbolu","1 Günlük Safranbolu Rotası"),("gaziantep","Hafta Sonu Gaziantep Rotası"),
+            ("gobeklitepe","Göbeklitepe Günübirlik Rota"),("mardin","2 Günlük Mardin Rotası")]
+    _slugmap = {pp["slug"].split("-")[0]: pp["slug"] for pp in posts}
+    _pr = [(f"/blog/{_slugmap[k]}/", lbl) for k, lbl in POPD if k in _slugmap][:4]
+    poproutes = ("" if not _pr else
+        '<div class="chipwrap" style="margin-top:26px"><span class="chiplbl">🧭 Popüler Rotalar</span><nav class="chips">'
+        + "".join(f'<a href="{u}">{lbl}</a>' for u, lbl in _pr) + "</nav></div>")
+    home = (head.replace("__T__", "İl İl, İlçe İlçe Türkiye'yi Keşfet").replace("__CANON__", f"{SITE}/").replace("__PREVNEXT__", "").replace("__XSCHEMA__",
+        '<script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Türkiye Gezi Rehberi","url":"https://gezi.tabserve.com.tr/","inLanguage":"tr-TR","description":"Türkiye\'nin 81 ili ve popüler ilçeleri için gezi rehberleri."}</script>')
         + f"""
 <header style="text-align:center;padding:70px 22px 30px">
   <span class="brand" style="display:inline-block;font-size:13px;letter-spacing:.28em;text-transform:uppercase;font-weight:700;color:var(--accent3)">Türkiye Gezi Rehberi</span>
-  <h1 style="font-family:'Sora',sans-serif;font-size:clamp(30px,5.5vw,52px);font-weight:800;letter-spacing:-.02em;margin:16px 0 12px">Türkiye Gezi Rehberi:<br>İl İl, İlçe İlçe Gezilecek Yerler</h1>
+  <h1 style="font-family:'Sora',sans-serif;font-size:clamp(30px,5.5vw,52px);font-weight:800;letter-spacing:-.02em;margin:16px 0 12px">Türkiye Gezi Rehberi:<br>81 İl, İlçe İlçe Gezilecek Yerler</h1>
   <p style="color:var(--muted);font-size:18px;max-width:640px;margin:0 auto">81 il ve popüler ilçeler için gezilecek yerler, ulaşım, konaklama, yeme-içme ve rota önerileri. Seyahat planını <strong>Routevia</strong> ile saniyeler içinde oluştur.</p>
 </header>
 <main class="wrap page" style="padding-top:10px">
@@ -630,13 +643,14 @@ def rebuild_index(posts):
 {home_cards}
   </div>
   <div style="text-align:center;margin:28px 0 4px"><a class="allbtn" href="/blog/">Tüm Gezi Rehberleri →</a></div>
+{poproutes}
 
   <!-- Routevia uygulama vitrini -->
   <section class="appshow reveal">
     <img class="aico" src="/assets/routevia.webp" alt="Routevia uygulama simgesi" width="96" height="96" loading="lazy">
     <div class="abody">
       <h2>Routevia — cebindeki gezi rehberi</h2>
-      <div class="stars">★★★★★ 4.9 <span>· App Store puanı</span></div>
+      <div class="stars">★★★★★ 4.9 <span>· App Store puanı (25 değerlendirme)</span></div>
       <p>Bu sitedeki tüm rehberlerin uygulaması: 81 ilin gezilecek yerleri cebinde, yapay zekâ rotanı saniyede planlasın.</p>
       <ul><li>İl il keşif</li><li>AI rota planı</li><li>Favoriler &amp; check-in</li><li>Ücretsiz</li></ul>
       <div class="appbadges"><a href="https://apps.apple.com/app/id6761003117" rel="noopener" aria-label="Routevia — App Store">&#63743; App Store</a><a href="https://play.google.com/store/apps/details?id=com.yunusgunes.routevia" rel="noopener" aria-label="Routevia — Google Play">&#9654; Google Play</a></div>
@@ -669,7 +683,8 @@ def rebuild_index(posts):
             items.append(f'<a href="{page_href(n+1)}" aria-label="Sonraki">›</a>' if n < total else '<span class="dis">›</span>')
             pagenav = '<nav class="pagenav" aria-label="Sayfalar">' + "".join(items) + '</nav>'
         title = "Tüm Gezi Rehberleri" if n == 1 else f"Gezi Rehberleri — Sayfa {n}"
-        listing = (head.replace("__T__", title).replace("__CANON__", page_url(n)).replace("__PREVNEXT__", prevnext)
+        listing = (head.replace("__T__", title).replace("__CANON__", page_url(n)).replace("__PREVNEXT__", prevnext).replace("__XSCHEMA__",
+            '<script type="application/ld+json">' + json.dumps({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Anasayfa","item":SITE+"/"},{"@type":"ListItem","position":2,"name":"Rehberler" if n==1 else f"Rehberler — Sayfa {n}","item":page_url(n)}]}, ensure_ascii=False) + '</script>')
             + f"""
 <main class="wrap page">
   <div class="crumb"><a href="/">Anasayfa</a> › Rehberler{'' if n == 1 else f' › Sayfa {n}'}</div>
@@ -705,7 +720,8 @@ def rebuild_index(posts):
         rslug = f"{r}-gezilecek-yerler"
         region_slugs.append((rslug, rname, len(rposts)))
         rcards = "\n".join(card(pp) for pp in rposts)
-        rpage = (head.replace("__T__", f"{rname} Bölgesi Gezilecek Yerler").replace("__CANON__", f"{SITE}/{rslug}/").replace("__PREVNEXT__", "")
+        rpage = (head.replace("__T__", f"{rname} Bölgesi Gezilecek Yerler").replace("__CANON__", f"{SITE}/{rslug}/").replace("__PREVNEXT__", "").replace("__XSCHEMA__",
+            '<script type="application/ld+json">' + json.dumps({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Anasayfa","item":SITE+"/"},{"@type":"ListItem","position":2,"name":"Rehberler","item":SITE+"/blog/"},{"@type":"ListItem","position":3,"name":rname}]}, ensure_ascii=False) + '</script>')
             + f"""
 <main class="wrap page">
   <div class="crumb"><a href="/">Anasayfa</a> › <a href="/blog/">Rehberler</a> › {rname}</div>

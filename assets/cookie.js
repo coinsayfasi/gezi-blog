@@ -8,7 +8,7 @@
     +'<span style="white-space:nowrap"><button id="ck-r" style="background:none;border:1px solid #d4cfc6;color:#69727f;padding:7px 14px;border-radius:9px;cursor:pointer;margin-right:8px;font-size:13px">Reddet</button>'
     +'<button id="ck-a" style="background:linear-gradient(110deg,#1380a6,#0f7a8c);border:0;color:#fff;padding:7px 17px;border-radius:9px;cursor:pointer;font-weight:600;font-size:13px">Kabul Et</button></span></div>';
   document.body.appendChild(d);
-  function close(v){try{localStorage.setItem('cookie_consent',v);}catch(e){}d.remove();}
+  function close(v){try{localStorage.setItem('cookie_consent',v);}catch(e){}if(window.__grantConsent)__grantConsent(v==='accepted');d.remove();}
   document.getElementById('ck-a').onclick=function(){close('accepted');};
   document.getElementById('ck-r').onclick=function(){close('rejected');};
 })();
