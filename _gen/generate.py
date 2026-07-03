@@ -107,7 +107,7 @@ KESİN KURALLAR — hepsine uy:
 7. 1-2 dış OTORİTE linki ekle (resmi turizm/kültür sitesi, .gov.tr ya da ilgili Wikipedia maddesi). Sadece var olduğundan EMİN olduğun stabil URL'ler — https://tr.wikipedia.org/wiki/<Konu> tercih et. Deep URL UYDURMA. Cümle içinde doğal yerleştir, başlıkta değil.
 
 SADECE geçerli minified JSON çıktısı ver (kod bloğu/yorum yok), tam şu anahtarlar:
-{{"title":"...","meta_description":"max 155 karakter, anahtar kelimeyi içersin","keywords":"4-6 virgülle ayrılmış anahtar kelime","slug":"baslıktan-kebab-case-ascii","body":"makale HTML'i"}}"""
+{{"title":"...","meta_description":"max 155 karakter, anahtar kelimeyi içersin","keywords":"4-6 virgülle ayrılmış anahtar kelime","slug":"baslıktan-kebab-case-ascii","img_query":"stok fotoğraf araması için 2-4 İNGİLİZCE kelime; yazının konusunu BİREBİR görsel karşılayan somut sahne (örn: Cappadocia hot air balloons / Mardin old stone city)","body":"makale HTML'i"}}"""
 
 def _post(url, body, headers):
     req = urllib.request.Request(url, data=json.dumps(body).encode(), headers=headers, method="POST")
@@ -297,6 +297,42 @@ def insert_cta(body, cta):
         i = pos[len(pos)//2]; return body[:i] + cta + body[i:]
     return body + cta
 
+def fetch_hero(query, slug):
+    """Pexels'ten konuya birebir uygun YATAY görsel indir →
+    assets/blog/<slug>.webp (1600w, masaüstü) + <slug>-800.webp (mobil, srcset).
+    Key yoksa veya sonuç zayıfsa sessizce görselsiz devam (kötü görsel > görselsiz değildir)."""
+    key = os.environ.get("PEXELS_API_KEY", "").strip()
+    if not key: return False
+    out = ROOT / "assets" / "blog"
+    if any((out / f"{slug}{s}.{e}").exists() for s in ("",) for e in ("webp","jpg","jpeg","png")):
+        return True  # manuel/mevcut görsel korunur
+    try:
+        u = "https://api.pexels.com/v1/search?" + urllib.parse.urlencode(
+            {"query": query, "orientation": "landscape", "size": "large", "per_page": 5})
+        r = json.loads(urllib.request.urlopen(
+            urllib.request.Request(u, headers={"Authorization": key, "User-Agent": "tabserve-blog/1.0"}), timeout=25).read())
+        photos = r.get("photos") or []
+        if not photos: return False
+        src = photos[0]["src"].get("large2x") or photos[0]["src"].get("large")
+        raw = urllib.request.urlopen(urllib.request.Request(
+            src, headers={"User-Agent": "tabserve-blog/1.0"}), timeout=40).read()
+        out.mkdir(parents=True, exist_ok=True)
+        try:
+            import io
+            from PIL import Image
+            im = Image.open(io.BytesIO(raw)).convert("RGB")
+            for w_, suf in ((1600, ""), (800, "-800")):
+                img = im if im.width <= w_ else im.resize(
+                    (w_, round(im.height * w_ / im.width)), Image.LANCZOS)
+                img.save(out / f"{slug}{suf}.webp", "WEBP", quality=82)
+        except ImportError:
+            (out / f"{slug}.jpg").write_bytes(raw)  # Pillow yoksa JPEG fallback
+        print(f"  🖼  Pexels: {slug} ← \"{query}\" (foto: {photos[0].get('photographer','?')})")
+        return True
+    except Exception as e:
+        print(f"  (görsel atlandı: {type(e).__name__})")
+        return False
+
 def _openverse(q, n):
     out = []
     try:
@@ -339,15 +375,18 @@ def write_post(d, app, posts=()):
     body = insert_cta(d["body"], APPS[app]["cta"])
     body = add_internal_links(body, posts, slug)
     ogimg = f"{SITE}/assets/tabserve-og.png"
-    # Görsel: kullanıcı assets/blog/<slug>.(jpg|png|webp) yüklerse hero olarak kullanılır; yoksa görselsiz (temiz).
-    for ext in ("jpg","jpeg","png","webp"):
+    # Görsel: assets/blog/<slug>.(webp|jpg|png) varsa hero olur (Pexels otomasyonu
+    # veya manuel). -800 varyantı varsa srcset ile tam mobil/masaüstü uyum.
+    for ext in ("webp","jpg","jpeg","png"):
         ip = ROOT / "assets" / "blog" / f"{slug}.{ext}"
         if ip.exists():
             rel = f"/assets/blog/{slug}.{ext}"
-            body = (f'<figure class="hero"><img src="{rel}" alt="{html.escape(d["title"])}" loading="eager" fetchpriority="high" '
+            small = ROOT / "assets" / "blog" / f"{slug}-800.{ext}"
+            srcset = (f' srcset="/assets/blog/{slug}-800.{ext} 800w, {rel} 1600w"'
+                      f' sizes="(max-width:820px) 100vw, 780px"') if small.exists() else ""
+            body = (f'<figure class="hero"><img src="{rel}"{srcset} alt="{html.escape(d["title"])}" loading="eager" fetchpriority="high" '
                     f'width="1200" height="630"><figcaption>{html.escape(d["meta_description"])}</figcaption></figure>') + body
             ogimg = SITE + rel
-            print(f"  🖼  manuel görsel: {rel}")
             break
     today = datetime.date.today()
     schemas = [{"@context":"https://schema.org","@type":"Article","headline":d["title"],
@@ -559,6 +598,7 @@ def main():
         if not d:
             print("  ⚠️ bu konu atlandı (kalite tutmadı)"); used.add(kw); continue
         d["slug"] = slugify(d.get("slug") or d["title"])
+        fetch_hero(d.get("img_query") or f"{kw.split()[0]} Turkey travel", d["slug"])
         write_post(d, app, posts)
         posts.insert(0, {"slug":d["slug"],"title":d["title"],"desc":d["meta_description"],
                          "tag":APPS[app]["tag"],"date":datetime.date.today().isoformat()})
