@@ -107,7 +107,7 @@ KESİN KURALLAR — hepsine uy:
 7. 1-2 dış OTORİTE linki ekle (resmi turizm/kültür sitesi, .gov.tr ya da ilgili Wikipedia maddesi). Sadece var olduğundan EMİN olduğun stabil URL'ler — https://tr.wikipedia.org/wiki/<Konu> tercih et. Deep URL UYDURMA. Cümle içinde doğal yerleştir, başlıkta değil.
 
 SADECE geçerli minified JSON çıktısı ver (kod bloğu/yorum yok), tam şu anahtarlar:
-{{"title":"...","meta_description":"max 155 karakter, anahtar kelimeyi içersin","keywords":"4-6 virgülle ayrılmış anahtar kelime","slug":"baslıktan-kebab-case-ascii","img_query":"stok fotoğraf araması için 2-4 İNGİLİZCE kelime; yazının konusunu BİREBİR görsel karşılayan somut sahne (örn: Cappadocia hot air balloons / Mardin old stone city)","body":"makale HTML'i"}}"""
+{{"title":"...","meta_description":"max 155 karakter, anahtar kelimeyi içersin","keywords":"4-6 virgülle ayrılmış anahtar kelime","slug":"baslıktan-kebab-case-ascii","img_queries":["3 ayrı stok foto araması, her biri 2-4 İNGİLİZCE kelime, yazının FARKLI bölümlerini birebir karşılayan somut sahneler: 1) kapak manzarası 2) yemek/çarşı/kültür 3) doğa/detay (örn: [\"Sanliurfa Gobeklitepe\",\"Urfa kebab food\",\"Balikligol pool Urfa\"])"],"body":"makale HTML'i"}}"""
 
 def _post(url, body, headers):
     req = urllib.request.Request(url, data=json.dumps(body).encode(), headers=headers, method="POST")
@@ -332,6 +332,48 @@ def fetch_hero(query, slug):
     except Exception as e:
         print(f"  (görsel atlandı: {type(e).__name__})")
         return False
+
+def fetch_inpost(query, slug, idx):
+    """İçerik içi görsel: 1000w tek boyut, lazy — assets/blog/<slug>-in<idx>.webp"""
+    key = os.environ.get("PEXELS_API_KEY", "").strip()
+    if not key: return None
+    out = ROOT / "assets" / "blog"
+    f = out / f"{slug}-in{idx}.webp"
+    if f.exists(): return f"/assets/blog/{f.name}"
+    try:
+        u = "https://api.pexels.com/v1/search?" + urllib.parse.urlencode(
+            {"query": query, "orientation": "landscape", "size": "large", "per_page": 3})
+        r = json.loads(urllib.request.urlopen(urllib.request.Request(
+            u, headers={"Authorization": key, "User-Agent": "tabserve-blog/1.0"}), timeout=25).read())
+        photos = r.get("photos") or []
+        if not photos: return None
+        src = photos[0]["src"].get("large") or photos[0]["src"].get("large2x")
+        raw = urllib.request.urlopen(urllib.request.Request(
+            src, headers={"User-Agent": "tabserve-blog/1.0"}), timeout=40).read()
+        import io
+        from PIL import Image
+        im = Image.open(io.BytesIO(raw)).convert("RGB")
+        if im.width > 1000:
+            im = im.resize((1000, round(im.height * 1000 / im.width)), Image.LANCZOS)
+        out.mkdir(parents=True, exist_ok=True)
+        im.save(f, "WEBP", quality=80)
+        print(f"  🖼  Pexels iç görsel {idx}: {slug} ← \"{query}\"")
+        return f"/assets/blog/{f.name}"
+    except Exception as e:
+        print(f"  (iç görsel atlandı: {type(e).__name__})"); return None
+
+def insert_inpost_images(body, slug, queries, alt_base):
+    """2. ve 4. H2 öncesine içerik görseli yerleştirir (varsa)."""
+    pos = [m.start() for m in re.finditer(r"<h2", body)]
+    spots = [i for i in (1, 3) if i < len(pos)][:len(queries)]
+    for k in reversed(range(len(spots))):
+        rel = fetch_inpost(queries[k], slug, k + 1)
+        if not rel: continue
+        fig = (f'<figure class="inpost"><img src="{rel}" alt="{html.escape(alt_base)}" '
+               f'loading="lazy" decoding="async" width="1000" height="560"></figure>')
+        i = pos[spots[k]]
+        body = body[:i] + fig + body[i:]
+    return body
 
 def _openverse(q, n):
     out = []
@@ -598,7 +640,10 @@ def main():
         if not d:
             print("  ⚠️ bu konu atlandı (kalite tutmadı)"); used.add(kw); continue
         d["slug"] = slugify(d.get("slug") or d["title"])
-        fetch_hero(d.get("img_query") or f"{kw.split()[0]} Turkey travel", d["slug"])
+        iqs = d.get("img_queries") or ([d["img_query"]] if d.get("img_query") else [])
+        fetch_hero((iqs[0] if iqs else f"{kw.split()[0]} Turkey travel"), d["slug"])
+        if len(iqs) > 1:
+            d["body"] = insert_inpost_images(d["body"], d["slug"], iqs[1:3], d["title"])
         write_post(d, app, posts)
         posts.insert(0, {"slug":d["slug"],"title":d["title"],"desc":d["meta_description"],
                          "tag":APPS[app]["tag"],"date":datetime.date.today().isoformat()})
