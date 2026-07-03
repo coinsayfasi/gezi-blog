@@ -80,18 +80,22 @@ Yazı tek başına gerçekten faydalı olmalı; sonuna otomatik küçük bir uyg
 
 KESİN KURALLAR — hepsine uy:
 1. Hedef anahtar kelime "{kw}" BAŞLIKTA geçmeli ve net konu olmalı. Başlık aynı zamanda H1'dir — <h1> YAZMA.
-2. Uzunluk: 750-1100 KELİME gerçek gövde metni (kelime say, karakter değil). Dolgu yapma, her bölüm gerçek bilgi içersin.
+2. Uzunluk: 1000-1400 KELİME gerçek gövde metni (kelime say, karakter değil). Dolgu yapma, her bölüm gerçek bilgi içersin.
 3. ZORUNLU BÖLÜM YAPISI — büyük gezi siteleri gibi, her biri ayrı <h2> (anahtar kelime varyasyonlu) olacak:
    - Kısa giriş paragrafı (H2'siz)
-   - <h2> En iyi gezilecek yerler (3-6 gerçek yer, her biri <h3> + açıklama)
-   - <h2> Ne zaman gidilir? (en iyi mevsim/aylar)
-   - <h2> Kaç gün yeterli? (önerilen süre)
-   - <h2> Nasıl gidilir / ulaşım
-   - <h2> Nerede kalınır (semt/bölge önerisi)
-   - <h2> Ne yenir? (yöresel lezzetler)
+   - <h2> En iyi gezilecek yerler (4-7 gerçek yer, her biri <h3> + açıklama: giriş nereden, ne kadar sürer, çocukla uygun mu)
+   - <h2> Aylara göre hava durumu ve en iyi dönem (mevsim mevsim iklim karakteri + hangi ay ne için ideal)
+   - <h2> Kaç gün yeterli? (önerilen süre + örnek gün planı)
+   - <h2> Nasıl gidilir / ulaşım (uçak/otobüs/araç; şehir içi ulaşım ipuçları)
+   - <h2> Nerede kalınır (semt/bölge önerisi; kime hangi bölge uyar)
+   - <h2> Ne yenir? (yöresel lezzetler + nerede aranır)
+   - <h2> Bütçe rehberi (ekonomik/orta/konfor için GENEL günlük aralık mantığı — kesin fiyat uydurmadan oran ve tasarruf ipuçlarıyla; <ul>)
+   - <h2> Turist tuzakları ve güvenlik (bölgeye özgü dolandırıcılık/tuzak uyarıları, pazarlık, taksi, "hediye" tuzağı vb. — SOMUT)
+   - <h2> En sık yapılan hatalar (gezginlerin bu destinasyonda yaptığı 4-6 gerçek hata + doğrusu; <ul>)
+   - <h2> Bu şehir sana göre mi? (gezgin profiline göre dürüst uygunluk: aileler, çiftler, solo gezginler, doğa tutkunları, tarih meraklıları, gastronomi avcıları — kime ÇOK uyar, kime uymayabilir; <ul> ile)
    - <h2> Pratik gezi ipuçları (madde madde <ul>)
    H2 altında uygun yerlerde <h3>/<h4> kullan. Mantıklı yuvalama.
-4. EN SONDA <h2>Sık Sorulan Sorular</h2> bölümü: 3 soru — her soru <h3>, cevabı <p>. Sonra kısa kapanış paragrafı.
+4. EN SONDA <h2>Sık Sorulan Sorular</h2> bölümü: 4 soru — her soru <h3>, cevabı <p>. Sonra kısa kapanış paragrafı.
 5. ÖZGÜN ve SOMUT — gerçek yer adları, gerçek bilgi. İstatistik/kesin fiyat/alıntı UYDURMA (genel bütçe ipucu olur). Tekrar yok, "spin"/genel dolgu yok.
 5b. KLİŞE YASAK: "unutulmaz deneyim", "büyüleyici", "mutlaka görülmeli", "eşsiz güzellik", "adeta", "cennet köşesi" gibi kalıpları KULLANMA. Bunun yerine SOMUT fayda yaz: hangi kapıdan girilir, sabah mı öğleden sonra mı gidilir, ne kadar sürer, yürüme mesafesi, çocukla/yaşlıyla uygun mu, otopark/toplu taşıma durumu.
 5c. GİRİŞTEN HEMEN SONRA "Hızlı Bilgiler" kutusu ekle — tam şu HTML yapısıyla:
@@ -166,7 +170,7 @@ def validate(d, kw):
     wc = words(b.replace("{{APP_CTA}}",""))
     h2,h3,h4 = len(re.findall(r"<h2",b)),len(re.findall(r"<h3",b)),len(re.findall(r"<h4",b))
     errs=[]
-    if wc < 600: errs.append(f"kelime {wc}<600")
+    if wc < 850: errs.append(f"kelime {wc}<850")
     if h2 < 3: errs.append(f"H2 {h2}<3")
     if h3 < 2: errs.append(f"H3 {h3}<2")
     if kw.split()[0].lower() not in d.get("title","").lower(): errs.append("anahtar kelime title'da yok")
@@ -196,9 +200,9 @@ PAGE = """<!DOCTYPE html>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;600&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;600&display=swap"></noscript>
 <style>:root{--bg:#fbfaf7;--card:#fff;--ink:#1f2733;--muted:#69727f;--accent:#2f6bff;--accent2:#8b5cf6;--accent3:#2563eb;--line:#ece8e1;--shadow:0 6px 24px rgba(31,39,51,.07)}*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--ink);line-height:1.75;-webkit-font-smoothing:antialiased;overflow-x:hidden}.wrap{max-width:1080px;margin:0 auto;padding:0 22px}nav{position:sticky;top:0;z-index:40;background:rgba(251,250,247,.82);border-bottom:1px solid var(--line)}nav .nwrap{max-width:1080px;margin:0 auto;padding:0 22px;display:flex;align-items:center;justify-content:space-between;height:64px}.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:19px;color:var(--ink);text-decoration:none}.logo img{width:30px;height:30px;border-radius:9px}.nav-links a{color:var(--muted);text-decoration:none;font-size:14.5px;font-weight:600;margin-left:24px}h1,h2{font-family:'Sora',sans-serif}.page{padding:46px 0 30px}.aurora{position:fixed;inset:0;z-index:-2;background:var(--bg)}</style>
-<link rel="preload" href="/assets/blog.css?v=8" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/assets/blog.css?v=8"></noscript>
+<link rel="preload" href="/assets/blog.css?v=9" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/assets/blog.css?v=9"></noscript>
 <script type="application/ld+json">__SCHEMA__</script>
-<script src="/assets/analytics.js?v=2" defer></script><script src="/assets/enhance.js?v=2" defer></script>
+<script src="/assets/analytics.js?v=2" defer></script><script src="/assets/enhance.js?v=3" defer></script>
 </head>
 <body>
 <div class="aurora"></div>
@@ -301,6 +305,33 @@ def insert_cta(body, cta):
     if len(pos) >= 2:
         i = pos[len(pos)//2]; return body[:i] + cta + body[i:]
     return body + cta
+
+
+CONTRIB_BOX = ('<div class="contrib"><b>🗣️ Sen de katkıda bulun</b>'
+ '<p>Bu rehbere eklenecek bir ipucun, güncel bir bilgin ya da düzeltmen mi var? '
+ '<a href="mailto:teknopattv@gmail.com?subject=Rehber%20katk%C4%B1s%C4%B1">Bize yaz</a> — '
+ 'seçilen katkıları adınla yayınlıyoruz. Yer fotoğraflarını ve deneyimlerini '
+ '<a href="https://coinsayfasi.github.io/routevia-app/" rel="noopener">Routevia topluluğunda</a> da paylaşabilirsin.</p></div>')
+
+ONEBAG_CTA = ('<div class="appcta onebagcta"><b>🧳 Bu gezi için bavulunu OneBag\'le hazırla</b>'
+ '<p>Ne alacağını şaşırma: OneBag destinasyonuna göre valiz listeni saniyede çıkarır, '
+ 'kabin bagajı ağırlığını 89 havayolunun limitine göre takip eder. '
+ '<a href="/gezi-butcesi-hesaplayici/">Gezi bütçeni de hesapla →</a></p>'
+ '<div class="appbadges"><a href="https://apps.apple.com/app/id6761047805" rel="noopener" aria-label="OneBag — App Store">&#63743; App Store</a>'
+ '<a href="https://play.google.com/store/apps/details?id=com.onebag.travel" rel="noopener" aria-label="OneBag — Google Play">&#9654; Google Play</a></div></div>')
+
+def insert_map(body, city):
+    """Hızlı Bilgiler kutusundan sonra keysiz Google Maps embed (lazy)."""
+    q = urllib.parse.quote(city + " Türkiye")
+    fig = (f'<figure class="mapembed"><iframe src="https://www.google.com/maps?q={q}&output=embed" '
+           f'width="100%" height="340" style="border:0;border-radius:16px" loading="lazy" '
+           f'referrerpolicy="no-referrer-when-downgrade" title="{html.escape(city)} haritası"></iframe>'
+           f'<figcaption>📍 {html.escape(city)} konumu — yakınlaştırıp keşfedebilirsin</figcaption></figure>')
+    i = body.find("</ul></div>")  # quickfacts kapanışı
+    if i != -1 and 'quickfacts' in body[:i]:
+        i += len("</ul></div>")
+        return body[:i] + fig + body[i:]
+    return fig + body
 
 def fetch_hero(query, slug):
     """Pexels'ten konuya birebir uygun YATAY görsel indir →
@@ -420,6 +451,7 @@ def _h2_text(body, p):
 def write_post(d, app, posts=()):
     slug = d["slug"]; url = f"{SITE}/blog/{slug}/"
     body = insert_cta(d["body"], APPS[app]["cta"])
+    body = insert_map(body, d["title"].split()[0])
     body = add_internal_links(body, posts, slug)
     ogimg = f"{SITE}/assets/tabserve-og.png"
     # Görsel: assets/blog/<slug>.(webp|jpg|png) varsa hero olur (Pexels otomasyonu
@@ -449,7 +481,7 @@ def write_post(d, app, posts=()):
     schema = json.dumps(schemas, ensure_ascii=False)
     read = max(4, round(words(body)/180))
     extras, rail = post_extras(url, d["title"])
-    body = body + related_block(posts, slug) + extras  # ilgili rehberler + paylaş + yazar
+    body = body + ONEBAG_CTA + CONTRIB_BOX + related_block(posts, slug) + extras  # ilgili rehberler + paylaş + yazar
     page = (PAGE.replace("__TITLE__", html.escape(d["title"])).replace("__DESC__", html.escape(d["meta_description"]))
         .replace("__KW__", html.escape(d["keywords"])).replace("__URL__", url).replace("__OGIMG__", html.escape(ogimg))
         .replace("__SCHEMA__", schema).replace("__CRUMB__", html.escape(d["title"][:40]))
@@ -538,7 +570,7 @@ def rebuild_index(posts):
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;600&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;600&display=swap"></noscript>
 <style>:root{{--bg:#fbfaf7;--card:#fff;--ink:#1f2733;--muted:#69727f;--accent:#2f6bff;--accent2:#8b5cf6;--accent3:#2563eb;--line:#ece8e1;--shadow:0 6px 24px rgba(31,39,51,.07)}}*{{box-sizing:border-box;margin:0;padding:0}}body{{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--ink);line-height:1.75;-webkit-font-smoothing:antialiased;overflow-x:hidden}}.wrap{{max-width:1080px;margin:0 auto;padding:0 22px}}nav{{position:sticky;top:0;z-index:40;background:rgba(251,250,247,.82);border-bottom:1px solid var(--line)}}nav .nwrap{{max-width:1080px;margin:0 auto;padding:0 22px;display:flex;align-items:center;justify-content:space-between;height:64px}}.logo{{display:flex;align-items:center;gap:10px;font-weight:700;font-size:19px;color:var(--ink);text-decoration:none}}.logo img{{width:30px;height:30px;border-radius:9px}}.nav-links a{{color:var(--muted);text-decoration:none;font-size:14.5px;font-weight:600;margin-left:24px}}h1,h2{{font-family:'Sora',sans-serif}}.page{{padding:46px 0 30px}}.aurora{{position:fixed;inset:0;z-index:-2;background:var(--bg)}}</style>
-<link rel="preload" href="/assets/blog.css?v=8" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/assets/blog.css?v=8"></noscript><script src="/assets/analytics.js?v=2" defer></script><script src="/assets/enhance.js?v=2" defer></script>
+<link rel="preload" href="/assets/blog.css?v=9" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/assets/blog.css?v=9"></noscript><script src="/assets/analytics.js?v=2" defer></script><script src="/assets/enhance.js?v=3" defer></script>
 </head>
 <body>
 <div class="aurora"></div>
@@ -552,6 +584,7 @@ def rebuild_index(posts):
     </div>
     <div class="foot-col"><p class="fh">Keşfet</p>
       <a href="/blog/">Tüm Rehberler</a>
+      <a href="/gezi-butcesi-hesaplayici/">Bütçe Hesaplayıcı</a>
       <a href="https://coinsayfasi.github.io/routevia-app/">Routevia Uygulaması</a>
       <a href="https://apps.tabserve.com.tr/blog/">Tabserve Blog (English)</a>
     </div>
@@ -707,7 +740,7 @@ def rebuild_index(posts):
         f'<language>tr</language>{items}</channel></rss>', encoding="utf-8")
 
     # sitemap
-    static = [("/","1.0","daily"),("/blog/","0.8","weekly"),("/hakkinda.html","0.3","yearly"),("/gizlilik.html","0.3","yearly"),("/cerez.html","0.3","yearly"),("/kullanim-kosullari.html","0.3","yearly")]
+    static = [("/","1.0","daily"),("/blog/","0.8","weekly"),("/gezi-butcesi-hesaplayici/","0.6","monthly"),("/hakkinda.html","0.3","yearly"),("/gizlilik.html","0.3","yearly"),("/cerez.html","0.3","yearly"),("/kullanim-kosullari.html","0.3","yearly")]
     urls = "".join(f'  <url><loc>{SITE}{u}</loc><changefreq>{c}</changefreq><priority>{p}</priority></url>\n' for u,p,c in static)
     urls += "".join(f'  <url><loc>{SITE}/{rs}/</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>\n' for rs, _, _ in region_slugs)
     urls += "".join(f'  <url><loc>{SITE}/blog/page/{n}/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>\n' for n in range(2, total+1))
@@ -730,7 +763,7 @@ def main():
         prompt = PROMPT.format(kw=kw, angle=topic["angle"], one=APPS[app]["one"], name=APPS[app]["name"])
         d = None
         for tryi in range(2):
-            txt = call_llm(prompt if tryi==0 else prompt+"\n\nYour previous attempt failed validation. Ensure 600+ WORDS and H2/H3/H4 hierarchy and the {{APP_CTA}} token.")
+            txt = call_llm(prompt if tryi==0 else prompt+"\n\nYour previous attempt failed validation. Ensure 1000+ WORDS and H2/H3/H4 hierarchy and the {{APP_CTA}} token.")
             try: cand = parse_json(txt)
             except Exception as e: print(f"  JSON parse hatası: {e}"); continue
             errs, wc, hh = validate(cand, kw)

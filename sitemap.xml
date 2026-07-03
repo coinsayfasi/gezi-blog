@@ -2,6 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://gezi.tabserve.com.tr/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>
   <url><loc>https://gezi.tabserve.com.tr/blog/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://gezi.tabserve.com.tr/gezi-butcesi-hesaplayici/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://gezi.tabserve.com.tr/hakkinda.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
   <url><loc>https://gezi.tabserve.com.tr/gizlilik.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
   <url><loc>https://gezi.tabserve.com.tr/cerez.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>

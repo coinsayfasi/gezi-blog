@@ -1,0 +1,49 @@
+<!DOCTYPE html><html lang="tr"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gezi Bütçesi Hesaplayıcı — Tatil Maliyeti Hesaplama | Türkiye Gezi Rehberi</title>
+<meta name="description" content="Ücretsiz gezi bütçesi hesaplayıcı: kişi sayısı, gün ve konfor seviyene göre tahmini tatil maliyetini saniyede hesapla. Konaklama, yeme-içme ve ulaşım dahil.">
+<link rel="canonical" href="https://gezi.tabserve.com.tr/gezi-butcesi-hesaplayici/">
+<meta name="robots" content="index,follow">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Gezi Bütçesi Hesaplayıcı","applicationCategory":"TravelApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"TRY"}}</script>
+<link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+<link rel="stylesheet" href="/assets/blog.css?v=9">
+<script src="/assets/analytics.js?v=2" defer></script>
+</head><body><div class="aurora"></div>
+<nav><div class="nwrap"><a class="logo" href="/"><img src="/assets/logo.svg" alt="">Gezi Rehberi</a>
+<div class="nav-links"><a href="/">Anasayfa</a><a href="/blog/">Rehberler</a></div></div></nav>
+<main class="wrap page" style="max-width:640px">
+<h1 class="title">🧮 Gezi Bütçesi Hesaplayıcı</h1>
+<p class="meta">Kişi sayısı, gün ve konfor seviyene göre tahmini tatil bütçeni hesapla — yurt içi geziler için genel aralıklar.</p>
+<div class="quickfacts" style="margin-top:22px">
+<label style="display:block;margin:10px 0;font-weight:600">Kişi sayısı
+<input id="ppl" type="number" min="1" max="12" value="2" style="width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;font:inherit;margin-top:6px"></label>
+<label style="display:block;margin:10px 0;font-weight:600">Kaç gün?
+<input id="days" type="number" min="1" max="30" value="3" style="width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;font:inherit;margin-top:6px"></label>
+<label style="display:block;margin:10px 0;font-weight:600">Konfor seviyesi
+<select id="lvl" style="width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;font:inherit;margin-top:6px">
+<option value="1">Ekonomik (pansiyon/hostel, esnaf lokantası)</option>
+<option value="2" selected>Orta (3★ otel, restoran karışık)</option>
+<option value="3">Konfor (4-5★ otel, restoranlar)</option>
+</select></label>
+<button class="allbtn" style="border:0;cursor:pointer;width:100%;margin-top:8px" onclick="calc()">Hesapla</button>
+<div id="out" style="display:none;margin-top:18px;text-align:center">
+<p style="font-size:14px;color:var(--muted)">Tahmini toplam bütçe aralığı</p>
+<p id="range" style="font-family:'Sora',sans-serif;font-size:32px;font-weight:800;color:var(--accent)"></p>
+<p id="note" style="font-size:13px;color:var(--muted)"></p>
+</div></div>
+<p style="font-size:13.5px;color:var(--muted);margin-top:16px">💡 Aralıklar; şehir içi ulaşım, konaklama, yeme-içme ve müze girişlerini kapsayan <strong>genel</strong> tahminlerdir. Şehre özel bütçe notları için <a href="/blog/">gezi rehberlerine</a> bak. Ulaşım (uçak/otobüs) hariçtir.</p>
+<div class="appcta" style="margin-top:22px"><b>🧳 Bütçe tamam — ya valiz?</b><p>OneBag, gideceğin yere göre valiz listeni çıkarır; bagaj ağırlığını havayolu limitine göre takip eder.</p>
+<div class="appbadges"><a href="https://apps.apple.com/app/id6761047805" rel="noopener" aria-label="OneBag — App Store">&#63743; App Store</a><a href="https://play.google.com/store/apps/details?id=com.onebag.travel" rel="noopener" aria-label="OneBag — Google Play">&#9654; Google Play</a></div></div>
+</main>
+<script>
+function calc(){
+ var p=+document.getElementById('ppl').value||1, d=+document.getElementById('days').value||1, l=+document.getElementById('lvl').value;
+ var base={1:[1200,2200],2:[2500,4500],3:[5500,10000]}[l]; // kişi/gün ₺ aralığı (2026 genel)
+ var lo=p*d*base[0], hi=p*d*base[1];
+ var f=new Intl.NumberFormat('tr-TR');
+ document.getElementById('range').textContent=f.format(lo)+' – '+f.format(hi)+' ₺';
+ document.getElementById('note').textContent=p+' kişi × '+d+' gün, '+['','ekonomik','orta','konfor'][l]+' seviye';
+ document.getElementById('out').style.display='block';
+ if(window.gtag)gtag('event','budget_calc',{people:p,days:d,level:l});
+}
+</script></body></html>
