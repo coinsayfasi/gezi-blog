@@ -193,8 +193,7 @@ PAGE = """<!DOCTYPE html>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;600&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;600&display=swap"></noscript>
 <link rel="stylesheet" href="/assets/blog.css">
 <script type="application/ld+json">__SCHEMA__</script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-EDZWXP6EEG"></script>
-<script src="/assets/analytics.js"></script>
+<script src="/assets/analytics.js" defer></script>
 </head>
 <body>
 <div class="aurora"></div>
@@ -274,11 +273,19 @@ def add_internal_links(body, posts, current_slug, max_links=4):
     return body
 
 def related_block(posts, current_slug, n=4):
-    """Yazı sonuna 'İlgili Gezi Rehberleri' bloğu — iç linkleme + gezinme."""
+    """Yazı sonuna 'İlgili Gezi Rehberleri' bloğu — iç linkleme + kardeş site."""
     others = [p for p in posts if p["slug"] != current_slug][:n]
     if not others: return ""
     lis = "".join(f'<li><a href="/blog/{p["slug"]}/">{html.escape(p["title"])}</a></li>'
                   for p in others)
+    # Kardeş İngilizce site: birebir konu varsa yazıya, yoksa blog köküne
+    x = CROSS.get(current_slug)
+    if x:
+        lis += (f'<li><a href="{SISTER_URL}/blog/{x}/" hreflang="en">'
+                f'Read this guide in English (Tabserve Blog)</a></li>')
+    else:
+        lis += (f'<li><a href="{SISTER_URL}/blog/" hreflang="en">'
+                f'İngilizce gezi &amp; seyahat rehberleri — Tabserve Blog</a></li>')
     return ('<section class="related"><h2>İlgili Gezi Rehberleri</h2><ul>'
             + lis + '</ul></section>')
 
@@ -318,8 +325,9 @@ def get_images(query, n=3, fallback="travel"):
 def _figure(img, alt, caption_text, hero=False):
     cap = (html.escape(caption_text) + " — " if caption_text else "") + f"Photo: {html.escape(img['creator'])} (Openverse, {html.escape(img['license'])})"
     w, h = (1200, 630) if hero else (1000, 560)
+    perf = ' fetchpriority="high"' if hero else ' decoding="async"'  # LCP boost / async decode
     return (f'<figure class="{"hero" if hero else "inpost"}"><img src="{html.escape(img["url"])}" '
-            f'alt="{html.escape(alt)}" loading="{"eager" if hero else "lazy"}" width="{w}" height="{h}">'
+            f'alt="{html.escape(alt)}" loading="{"eager" if hero else "lazy"}"{perf} width="{w}" height="{h}">'
             f'<figcaption>{cap}</figcaption></figure>')
 
 def _h2_text(body, p):
@@ -336,7 +344,7 @@ def write_post(d, app, posts=()):
         ip = ROOT / "assets" / "blog" / f"{slug}.{ext}"
         if ip.exists():
             rel = f"/assets/blog/{slug}.{ext}"
-            body = (f'<figure class="hero"><img src="{rel}" alt="{html.escape(d["title"])}" loading="eager" '
+            body = (f'<figure class="hero"><img src="{rel}" alt="{html.escape(d["title"])}" loading="eager" fetchpriority="high" '
                     f'width="1200" height="630"><figcaption>{html.escape(d["meta_description"])}</figcaption></figure>') + body
             ogimg = SITE + rel
             print(f"  🖼  manuel görsel: {rel}")
@@ -360,6 +368,16 @@ def write_post(d, app, posts=()):
     (BLOG / slug).mkdir(parents=True, exist_ok=True)
     (BLOG / slug / "index.html").write_text(page, encoding="utf-8")
 
+PER_PAGE = 9  # listeleme sayfası başına yazı
+
+# Kardeş site çapraz linkleri (aynı yayıncı — TR↔EN doğal iç ağ)
+SISTER_URL = "https://apps.tabserve.com.tr"
+CROSS = {  # gezi slug -> apps.tabserve slug (birebir konu eşleşmesi)
+  "kapadokya-gezi-rehberi-en-iyi-gezilecek-yerler-ve-ipuclari": "cappadocia-travel-guide",
+  "antalya-gezilecek-yerler-gezi-rehberi": "antalya-travel-guide-beaches-old-town-day-trips",
+}
+
+# Site GENELİ arama: /assets/search.json'dan tüm yazılarda arar (sayfalamadan bağımsız)
 SEARCH = """
 <div class="psearch" style="max-width:540px;margin:0 auto 26px;position:relative">
   <input id="q" type="search" placeholder="Rehber ara: şehir, ilçe, yer…" aria-label="Rehber ara" autocomplete="off"
@@ -367,19 +385,37 @@ SEARCH = """
   <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" style="position:absolute;left:17px;top:50%;transform:translateY(-50%);opacity:.5" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
   <p id="qn" style="display:none;text-align:center;color:var(--muted);margin:14px 0 0">Sonuç bulunamadı — farklı bir kelime deneyin.</p>
 </div>
-<script>document.addEventListener('DOMContentLoaded',function(){var q=document.getElementById('q');if(!q)return;var cards=[].slice.call(document.querySelectorAll('.pcard')),qn=document.getElementById('qn');q.addEventListener('input',function(){var v=q.value.trim().toLocaleLowerCase('tr'),n=0;cards.forEach(function(c){var h=!v||c.textContent.toLocaleLowerCase('tr').indexOf(v)>-1;c.style.display=h?'':'none';if(h)n++});qn.style.display=(n>0||!v)?'none':'block'});});</script>
+<div id="qres" class="posts" style="display:none"></div>
+<script>document.addEventListener('DOMContentLoaded',function(){var q=document.getElementById('q');if(!q)return;
+var grid=document.querySelector('.posts:not(#qres)'),nav=document.querySelector('.pagenav'),res=document.getElementById('qres'),qn=document.getElementById('qn'),idx=null;
+function norm(s){return s.toLocaleLowerCase('tr')}
+function esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML}
+q.addEventListener('input',function(){var v=norm(q.value.trim());
+ if(!v){res.style.display='none';res.innerHTML='';if(grid)grid.style.display='';if(nav)nav.style.display='';qn.style.display='none';return}
+ function run(){var hits=idx.filter(function(p){return norm(p.t+' '+p.d).indexOf(v)>-1}).slice(0,30);
+  if(grid)grid.style.display='none';if(nav)nav.style.display='none';
+  if(!hits.length){res.style.display='none';res.innerHTML='';qn.style.display='block';return}
+  qn.style.display='none';
+  res.innerHTML=hits.map(function(p){return '<a class="pcard in" href="'+p.u+'"><h2>'+esc(p.t)+'</h2><p>'+esc(p.d)+'</p></a>'}).join('');
+  res.style.display='';}
+ if(idx){run()}else{fetch('/assets/search.json').then(function(r){return r.json()}).then(function(j){idx=j;run()}).catch(function(){})}
+});});</script>
 """
 
 def rebuild_index(posts):
-    cards = "\n".join(
-      f'    <a class="pcard" href="/blog/{p["slug"]}/"><span class="tag">{html.escape(p["tag"])}</span>'
-      f'<h2>{html.escape(p["title"])}</h2><p>{html.escape(p["desc"])}</p></a>' for p in posts)
+    def card(p):
+        return (f'    <a class="pcard" href="/blog/{p["slug"]}/"><span class="tag">{html.escape(p["tag"])}</span>'
+                f'<h2>{html.escape(p["title"])}</h2><p>{html.escape(p["desc"])}</p></a>')
+    # site geneli arama index'i
+    (ROOT / "assets" / "search.json").write_text(json.dumps(
+        [{"t": p["title"], "d": p["desc"], "u": f"/blog/{p['slug']}/"} for p in posts],
+        ensure_ascii=False), encoding="utf-8")
     head = f"""<!DOCTYPE html>
 <html lang="tr"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>__T__ | Türkiye Gezi Rehberi</title>
 <meta name="description" content="Türkiye'nin 81 ili ve popüler ilçeleri için gezilecek yerler, ulaşım, konaklama, yeme-içme, rota önerileri ve pratik seyahat ipuçları. Seyahat planını Routevia ile saniyeler içinde oluştur.">
-<link rel="canonical" href="__CANON__">
+<link rel="canonical" href="__CANON__">__PREVNEXT__
 <meta name="robots" content="index,follow">
 <meta property="og:type" content="website">
 <meta property="og:title" content="__T__">
@@ -391,8 +427,7 @@ def rebuild_index(posts):
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;600&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;600&display=swap"></noscript>
-<link rel="stylesheet" href="/assets/blog.css"><script async src="https://www.googletagmanager.com/gtag/js?id=G-EDZWXP6EEG"></script>
-<script src="/assets/analytics.js"></script>
+<link rel="stylesheet" href="/assets/blog.css"><script src="/assets/analytics.js" defer></script>
 </head>
 <body>
 <div class="aurora"></div>
@@ -405,8 +440,9 @@ def rebuild_index(posts):
       <p>Türkiye'nin il il, ilçe ilçe gezilecek yerleri. Rotanı <a href="https://coinsayfasi.github.io/routevia-app/" style="color:var(--accent3)">Routevia</a> ile planla — ücretsiz.</p>
     </div>
     <div class="foot-col"><h4>Keşfet</h4>
-      <a href="/">Tüm Rehberler</a>
+      <a href="/blog/">Tüm Rehberler</a>
       <a href="https://coinsayfasi.github.io/routevia-app/">Routevia Uygulaması</a>
+      <a href="https://apps.tabserve.com.tr/blog/">Tabserve Blog (English)</a>
     </div>
     <div class="foot-col"><h4>Kurumsal</h4>
       <a href="/hakkinda.html">Hakkında</a>
@@ -425,7 +461,8 @@ def rebuild_index(posts):
 <script src="/assets/cookie.js" defer></script>
 </body></html>
 """
-    home = (head.replace("__T__", "İl İl, İlçe İlçe Türkiye'yi Keşfet").replace("__CANON__", f"{SITE}/")
+    home_cards = "\n".join(card(p) for p in posts[:PER_PAGE])
+    home = (head.replace("__T__", "İl İl, İlçe İlçe Türkiye'yi Keşfet").replace("__CANON__", f"{SITE}/").replace("__PREVNEXT__", "")
         + f"""
 <header style="text-align:center;padding:70px 22px 30px">
   <span class="brand" style="display:inline-block;font-size:13px;letter-spacing:.28em;text-transform:uppercase;font-weight:700;color:var(--accent3)">Türkiye Gezi Rehberi</span>
@@ -435,8 +472,9 @@ def rebuild_index(posts):
 <main class="wrap page" style="padding-top:10px">
 {SEARCH}
   <div class="posts">
-{cards}
+{home_cards}
   </div>
+  <div style="text-align:center;margin:28px 0 4px"><a class="allbtn" href="/blog/">Tüm Gezi Rehberleri →</a></div>
   <section class="reveal" style="max-width:780px;margin:52px auto 6px;color:var(--muted);font-size:16px;line-height:1.85">
     <h2 style="font-family:'Sora',sans-serif;font-size:25px;color:var(--ink);margin-bottom:14px">Türkiye'nin il il, ilçe ilçe gezi rehberi</h2>
     <p>Türkiye Gezi Rehberi; İstanbul'dan Kapadokya'ya, Karadeniz yaylalarından Akdeniz koylarına kadar <strong>il il, ilçe ilçe gezilecek yerleri</strong> tek tek ele alır. Her gezi rehberinde <strong>en iyi gezilecek yerler</strong>, ne zaman gidilir, kaç gün yeterli, nasıl gidilir, nerede kalınır ve yöresel lezzetler gibi başlıklarla planını kolaylaştırırız.</p>
@@ -445,22 +483,54 @@ def rebuild_index(posts):
 </main>
 """ + foot)
     (ROOT / "index.html").write_text(home, encoding="utf-8")
-    listing = (head.replace("__T__", "Tüm Gezi Rehberleri").replace("__CANON__", f"{SITE}/blog/")
-        + f"""
+
+    # ── Sayfalamalı listeleme: /blog/ (s.1), /blog/page/2/ ... ────────────────
+    chunks = [posts[i:i+PER_PAGE] for i in range(0, len(posts), PER_PAGE)] or [[]]
+    total = len(chunks)
+    page_url  = lambda n: f"{SITE}/blog/" if n == 1 else f"{SITE}/blog/page/{n}/"
+    page_href = lambda n: "/blog/" if n == 1 else f"/blog/page/{n}/"
+
+    for n, chunk in enumerate(chunks, 1):
+        cards = "\n".join(card(p) for p in chunk)
+        prevnext = ""
+        if n > 1:     prevnext += f'\n<link rel="prev" href="{page_url(n-1)}">'
+        if n < total: prevnext += f'\n<link rel="next" href="{page_url(n+1)}">'
+        pagenav = ""
+        if total > 1:
+            items = [f'<a href="{page_href(n-1)}" aria-label="Önceki">‹</a>' if n > 1 else '<span class="dis">‹</span>']
+            items += [('<span class="cur">%d</span>' % i) if i == n else f'<a href="{page_href(i)}">{i}</a>' for i in range(1, total+1)]
+            items.append(f'<a href="{page_href(n+1)}" aria-label="Sonraki">›</a>' if n < total else '<span class="dis">›</span>')
+            pagenav = '<nav class="pagenav" aria-label="Sayfalar">' + "".join(items) + '</nav>'
+        title = "Tüm Gezi Rehberleri" if n == 1 else f"Gezi Rehberleri — Sayfa {n}"
+        listing = (head.replace("__T__", title).replace("__CANON__", page_url(n)).replace("__PREVNEXT__", prevnext)
+            + f"""
 <main class="wrap page">
-  <div class="crumb"><a href="/">Anasayfa</a> › Rehberler</div>
-  <h1 class="title">Tüm Gezi Rehberleri</h1>
-  <p class="meta">Türkiye'nin il il, ilçe ilçe gezilecek yerleri.</p>
+  <div class="crumb"><a href="/">Anasayfa</a> › Rehberler{'' if n == 1 else f' › Sayfa {n}'}</div>
+  <h1 class="title">{title}</h1>
+  <p class="meta">Türkiye'nin il il, ilçe ilçe gezilecek yerleri.{f' ({len(posts)} rehber)' if n == 1 else ''}</p>
 {SEARCH}
   <div class="posts">
 {cards}
   </div>
+  {pagenav}
 </main>
 """ + foot)
-    (BLOG / "index.html").write_text(listing, encoding="utf-8")
+        outdir = BLOG if n == 1 else BLOG / "page" / str(n)
+        outdir.mkdir(parents=True, exist_ok=True)
+        (outdir / "index.html").write_text(listing, encoding="utf-8")
+
+    # yazı azalırsa bayat sayfa dizinlerini temizle
+    pd = BLOG / "page"
+    if pd.exists():
+        for d in pd.iterdir():
+            if d.is_dir() and d.name.isdigit() and int(d.name) > total:
+                for f in d.iterdir(): f.unlink()
+                d.rmdir()
+
     # sitemap
     static = [("/","1.0","daily"),("/blog/","0.8","weekly"),("/hakkinda.html","0.3","yearly"),("/gizlilik.html","0.3","yearly"),("/cerez.html","0.3","yearly"),("/kullanim-kosullari.html","0.3","yearly")]
     urls = "".join(f'  <url><loc>{SITE}{u}</loc><changefreq>{c}</changefreq><priority>{p}</priority></url>\n' for u,p,c in static)
+    urls += "".join(f'  <url><loc>{SITE}/blog/page/{n}/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>\n' for n in range(2, total+1))
     urls += "".join(f'  <url><loc>{SITE}/blog/{po["slug"]}/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>\n' for po in posts)
     (ROOT / "sitemap.xml").write_text(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}</urlset>\n', encoding="utf-8")
 

@@ -4,6 +4,7 @@
 <title>Tüm Gezi Rehberleri | Türkiye Gezi Rehberi</title>
 <meta name="description" content="Türkiye'nin 81 ili ve popüler ilçeleri için gezilecek yerler, ulaşım, konaklama, yeme-içme, rota önerileri ve pratik seyahat ipuçları. Seyahat planını Routevia ile saniyeler içinde oluştur.">
 <link rel="canonical" href="https://gezi.tabserve.com.tr/blog/">
+<link rel="next" href="https://gezi.tabserve.com.tr/blog/page/2/">
 <meta name="robots" content="index,follow">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Tüm Gezi Rehberleri">
@@ -15,8 +16,7 @@
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;600&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;600&display=swap"></noscript>
-<link rel="stylesheet" href="/assets/blog.css"><script async src="https://www.googletagmanager.com/gtag/js?id=G-EDZWXP6EEG"></script>
-<script src="/assets/analytics.js"></script>
+<link rel="stylesheet" href="/assets/blog.css"><script src="/assets/analytics.js" defer></script>
 </head>
 <body>
 <div class="aurora"></div>
@@ -25,7 +25,7 @@
 <main class="wrap page">
   <div class="crumb"><a href="/">Anasayfa</a> › Rehberler</div>
   <h1 class="title">Tüm Gezi Rehberleri</h1>
-  <p class="meta">Türkiye'nin il il, ilçe ilçe gezilecek yerleri.</p>
+  <p class="meta">Türkiye'nin il il, ilçe ilçe gezilecek yerleri. (10 rehber)</p>
 
 <div class="psearch" style="max-width:540px;margin:0 auto 26px;position:relative">
   <input id="q" type="search" placeholder="Rehber ara: şehir, ilçe, yer…" aria-label="Rehber ara" autocomplete="off"
@@ -33,7 +33,21 @@
   <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" style="position:absolute;left:17px;top:50%;transform:translateY(-50%);opacity:.5" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
   <p id="qn" style="display:none;text-align:center;color:var(--muted);margin:14px 0 0">Sonuç bulunamadı — farklı bir kelime deneyin.</p>
 </div>
-<script>document.addEventListener('DOMContentLoaded',function(){var q=document.getElementById('q');if(!q)return;var cards=[].slice.call(document.querySelectorAll('.pcard')),qn=document.getElementById('qn');q.addEventListener('input',function(){var v=q.value.trim().toLocaleLowerCase('tr'),n=0;cards.forEach(function(c){var h=!v||c.textContent.toLocaleLowerCase('tr').indexOf(v)>-1;c.style.display=h?'':'none';if(h)n++});qn.style.display=(n>0||!v)?'none':'block'});});</script>
+<div id="qres" class="posts" style="display:none"></div>
+<script>document.addEventListener('DOMContentLoaded',function(){var q=document.getElementById('q');if(!q)return;
+var grid=document.querySelector('.posts:not(#qres)'),nav=document.querySelector('.pagenav'),res=document.getElementById('qres'),qn=document.getElementById('qn'),idx=null;
+function norm(s){return s.toLocaleLowerCase('tr')}
+function esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML}
+q.addEventListener('input',function(){var v=norm(q.value.trim());
+ if(!v){res.style.display='none';res.innerHTML='';if(grid)grid.style.display='';if(nav)nav.style.display='';qn.style.display='none';return}
+ function run(){var hits=idx.filter(function(p){return norm(p.t+' '+p.d).indexOf(v)>-1}).slice(0,30);
+  if(grid)grid.style.display='none';if(nav)nav.style.display='none';
+  if(!hits.length){res.style.display='none';res.innerHTML='';qn.style.display='block';return}
+  qn.style.display='none';
+  res.innerHTML=hits.map(function(p){return '<a class="pcard in" href="'+p.u+'"><h2>'+esc(p.t)+'</h2><p>'+esc(p.d)+'</p></a>'}).join('');
+  res.style.display='';}
+ if(idx){run()}else{fetch('/assets/search.json').then(function(r){return r.json()}).then(function(j){idx=j;run()}).catch(function(){})}
+});});</script>
 
   <div class="posts">
     <a class="pcard" href="/blog/gaziantep-gezilecek-yerler-gezi-rehberi/"><span class="tag">Türkiye · Gezi</span><h2>Gaziantep Gezilecek Yerler: Kültür ve Lezzet Dolu En İyi Gezi Rehberi</h2><p>Gaziantep gezilecek yerler rehberi ile Zeugma Müzesi, tarihi sokaklar, yöresel lezzetler, ulaşım ve konaklama ipuçlarını keşfedin.</p></a>
@@ -45,8 +59,8 @@
     <a class="pcard" href="/blog/trabzon-gezilecek-yerler-gezi-rehberi/"><span class="tag">Türkiye · Gezi</span><h2>Trabzon Gezilecek Yerler: En İyi Rotalar ve Pratik Gezi Rehberi</h2><p>Trabzon gezilecek yerler listesi, ulaşım, konaklama, ne zaman gidilir ve yöresel lezzetler hakkında en güncel ve pratik Trabzon gezi rehberi.</p></a>
     <a class="pcard" href="/blog/izmir-gezilecek-yerler-gezi-rehberi/"><span class="tag">Türkiye · Gezi</span><h2>İzmir Gezilecek Yerler: Ege&#x27;nin Kalbinde Unutulmaz Bir Rota Rehberi</h2><p>İzmir gezilecek yerler rehberi ile tarihi kalıntıları, plajları ve lezzet duraklarını keşfedin. Ulaşım, konaklama ve pratik ipuçları burada.</p></a>
     <a class="pcard" href="/blog/antalya-gezilecek-yerler-gezi-rehberi/"><span class="tag">Türkiye · Gezi</span><h2>Antalya Gezilecek Yerler: En İyi Rotalar ve Detaylı Gezi Rehberi</h2><p>Antalya gezilecek yerler listesi, ulaşım, konaklama, ne zaman gidilir ve pratik ipuçlarıyla dolu en kapsamlı Antalya gezi rehberi sizi bekliyor.</p></a>
-    <a class="pcard" href="/blog/kapadokya-gezi-rehberi-en-iyi-gezilecek-yerler-ve-ipuclari/"><span class="tag">Türkiye · Gezi</span><h2>Kapadokya Gezi Rehberi: Masalsı Diyarı Keşfetme Rehberi</h2><p>En güncel Kapadokya gezi rehberi ile gezilecek yerler, konaklama, ulaşım, lezzet durakları ve bütçe dostu seyahat ipuçlarını hemen keşfedin.</p></a>
   </div>
+  <nav class="pagenav" aria-label="Sayfalar"><span class="dis">‹</span><span class="cur">1</span><a href="/blog/page/2/">2</a><a href="/blog/page/2/" aria-label="Sonraki">›</a></nav>
 </main>
 <footer class="site-footer">
   <div class="wrap foot-grid">
@@ -55,8 +69,9 @@
       <p>Türkiye'nin il il, ilçe ilçe gezilecek yerleri. Rotanı <a href="https://coinsayfasi.github.io/routevia-app/" style="color:var(--accent3)">Routevia</a> ile planla — ücretsiz.</p>
     </div>
     <div class="foot-col"><h4>Keşfet</h4>
-      <a href="/">Tüm Rehberler</a>
+      <a href="/blog/">Tüm Rehberler</a>
       <a href="https://coinsayfasi.github.io/routevia-app/">Routevia Uygulaması</a>
+      <a href="https://apps.tabserve.com.tr/blog/">Tabserve Blog (English)</a>
     </div>
     <div class="foot-col"><h4>Kurumsal</h4>
       <a href="/hakkinda.html">Hakkında</a>
