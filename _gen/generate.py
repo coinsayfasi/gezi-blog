@@ -188,13 +188,15 @@ PAGE = """<!DOCTYPE html>
 <meta property="og:description" content="__DESC__">
 <meta property="og:url" content="__URL__">
 <meta property="og:image" content="__OGIMG__">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="__OGIMG__">
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;600&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;600&display=swap"></noscript>
-<link rel="stylesheet" href="/assets/blog.css?v=4">
+<link rel="stylesheet" href="/assets/blog.css?v=5">
 <script type="application/ld+json">__SCHEMA__</script>
-<script src="/assets/analytics.js" defer></script>
+<script src="/assets/analytics.js" defer></script><script src="/assets/enhance.js" defer></script>
 </head>
 <body>
 <div class="aurora"></div>
@@ -438,7 +440,11 @@ def write_post(d, app, posts=()):
         "datePublished":today.isoformat(),"dateModified":today.isoformat(),"mainEntityOfPage":url}]
     faq = faq_schema(body)
     if faq: schemas.append(faq)
-    schema = json.dumps(schemas if len(schemas) > 1 else schemas[0], ensure_ascii=False)
+    schemas.append({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+        {"@type":"ListItem","position":1,"name":"Anasayfa","item":f"{SITE}/"},
+        {"@type":"ListItem","position":2,"name":"Blog","item":f"{SITE}/blog/"},
+        {"@type":"ListItem","position":3,"name":d["title"]}]})
+    schema = json.dumps(schemas, ensure_ascii=False)
     read = max(4, round(words(body)/180))
     extras, rail = post_extras(url, d["title"])
     body = body + related_block(posts, slug) + extras  # ilgili rehberler + paylaş + yazar
@@ -510,7 +516,7 @@ def rebuild_index(posts):
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;600&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;600&display=swap"></noscript>
-<link rel="stylesheet" href="/assets/blog.css?v=4"><script src="/assets/analytics.js" defer></script>
+<link rel="stylesheet" href="/assets/blog.css?v=5"><script src="/assets/analytics.js" defer></script><script src="/assets/enhance.js" defer></script>
 </head>
 <body>
 <div class="aurora"></div>
@@ -558,6 +564,18 @@ def rebuild_index(posts):
 {home_cards}
   </div>
   <div style="text-align:center;margin:28px 0 4px"><a class="allbtn" href="/blog/">Tüm Gezi Rehberleri →</a></div>
+
+  <!-- Routevia uygulama vitrini -->
+  <section class="appshow reveal">
+    <img class="aico" src="/assets/routevia.png" alt="Routevia uygulama simgesi" width="96" height="96" loading="lazy">
+    <div class="abody">
+      <h2>Routevia — cebindeki gezi rehberi</h2>
+      <div class="stars">★★★★★ 4.9 <span>· App Store puanı</span></div>
+      <p>Bu sitedeki tüm rehberlerin uygulaması: 81 ilin gezilecek yerleri cebinde, yapay zekâ rotanı saniyede planlasın.</p>
+      <ul><li>İl il keşif</li><li>AI rota planı</li><li>Favoriler &amp; check-in</li><li>Ücretsiz</li></ul>
+      <div class="appbadges"><a href="https://apps.apple.com/app/id6761003117" rel="noopener">&#63743; App Store</a><a href="https://play.google.com/store/apps/details?id=com.yunusgunes.routevia" rel="noopener">&#9654; Google Play</a></div>
+    </div>
+  </section>
   <section class="reveal" style="max-width:780px;margin:52px auto 6px;color:var(--muted);font-size:16px;line-height:1.85">
     <h2 style="font-family:'Sora',sans-serif;font-size:25px;color:var(--ink);margin-bottom:14px">Türkiye'nin il il, ilçe ilçe gezi rehberi</h2>
     <p>Türkiye Gezi Rehberi; İstanbul'dan Kapadokya'ya, Karadeniz yaylalarından Akdeniz koylarına kadar <strong>il il, ilçe ilçe gezilecek yerleri</strong> tek tek ele alır. Her gezi rehberinde <strong>en iyi gezilecek yerler</strong>, ne zaman gidilir, kaç gün yeterli, nasıl gidilir, nerede kalınır ve yöresel lezzetler gibi başlıklarla planını kolaylaştırırız.</p>
