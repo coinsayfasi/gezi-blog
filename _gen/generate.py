@@ -62,7 +62,7 @@ _gemini_ok = None  # çalıştığı doğrulanan model (cache)
 
 APPS = {
  "routevia":{"tag":"Türkiye · Gezi",
-   "cta":'<div class="appcta"><b>🚗 Rotanı saniyede planla — Routevia</b><p>Routevia, Türkiye\'nin il il, ilçe ilçe gezilecek yerlerini keşfetmeni ve yapay zekâ ile rotanı saniyede planlamanı sağlar. Ücretsiz, iOS &amp; Android.</p><a href="https://coinsayfasi.github.io/routevia-app/">Routevia\'yı keşfet → ücretsiz indir</a></div>',
+   "cta":'<div class="appcta"><b>🚗 Rotanı saniyede planla — Routevia</b><p>Routevia, Türkiye\'nin il il, ilçe ilçe gezilecek yerlerini keşfetmeni ve yapay zekâ ile rotanı saniyede planlamanı sağlar. Ücretsiz, iOS &amp; Android.</p><div class="appbadges"><a href="https://apps.apple.com/app/id6761003117" rel="noopener">&#63743; App Store</a><a href="https://play.google.com/store/apps/details?id=com.yunusgunes.routevia" rel="noopener">&#9654; Google Play</a><a class="ghost" href="https://coinsayfasi.github.io/routevia-app/">Daha fazla bilgi →</a></div></div>',
    "name":"Routevia","one":"Türkiye gezi uygulaması Routevia (il il gezilecek yerler + yapay zekâ rota planı)"},
 }
 
@@ -181,6 +181,7 @@ PAGE = """<!DOCTYPE html>
 <meta name="description" content="__DESC__">
 <meta name="keywords" content="__KW__">
 <link rel="canonical" href="__URL__">
+<meta name="apple-itunes-app" content="app-id=6761003117">
 <meta name="robots" content="index,follow">
 <meta property="og:type" content="article">
 <meta property="og:title" content="__TITLE__">
@@ -191,7 +192,7 @@ PAGE = """<!DOCTYPE html>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;600&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;600&display=swap"></noscript>
-<link rel="stylesheet" href="/assets/blog.css?v=3">
+<link rel="stylesheet" href="/assets/blog.css?v=4">
 <script type="application/ld+json">__SCHEMA__</script>
 <script src="/assets/analytics.js" defer></script>
 </head>
@@ -497,6 +498,7 @@ def rebuild_index(posts):
 <title>__T__ | Türkiye Gezi Rehberi</title>
 <meta name="description" content="Türkiye'nin 81 ili ve popüler ilçeleri için gezilecek yerler, ulaşım, konaklama, yeme-içme, rota önerileri ve pratik seyahat ipuçları. Seyahat planını Routevia ile saniyeler içinde oluştur.">
 <link rel="canonical" href="__CANON__">__PREVNEXT__
+<meta name="apple-itunes-app" content="app-id=6761003117">
 <meta name="robots" content="index,follow">
 <meta property="og:type" content="website">
 <meta property="og:title" content="__T__">
@@ -508,7 +510,7 @@ def rebuild_index(posts):
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;600&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;600&display=swap"></noscript>
-<link rel="stylesheet" href="/assets/blog.css?v=3"><script src="/assets/analytics.js" defer></script>
+<link rel="stylesheet" href="/assets/blog.css?v=4"><script src="/assets/analytics.js" defer></script>
 </head>
 <body>
 <div class="aurora"></div>
