@@ -82,20 +82,24 @@ KESİN KURALLAR — hepsine uy:
 1. Hedef anahtar kelime "{kw}" BAŞLIKTA geçmeli ve net konu olmalı. Başlık aynı zamanda H1'dir — <h1> YAZMA.
 2. Uzunluk: 1000-1400 KELİME gerçek gövde metni (kelime say, karakter değil). Dolgu yapma, her bölüm gerçek bilgi içersin.
 3. ZORUNLU BÖLÜM YAPISI — büyük gezi siteleri gibi, her biri ayrı <h2> (anahtar kelime varyasyonlu) olacak:
+   - EN BAŞA: <div class="tldr"><b>⚡ 30 saniyede ...</b><p>3-4 cümlelik öz: neden gidilir, kaç gün, en iyi dönem, tek cümlelik bütçe hissi.</p></div>
    - Kısa giriş paragrafı (H2'siz)
    - <h2> En iyi gezilecek yerler (4-7 gerçek yer, her biri <h3> + açıklama: giriş nereden, ne kadar sürer, çocukla uygun mu)
    - <h2> Aylara göre hava durumu ve en iyi dönem (mevsim mevsim iklim karakteri + hangi ay ne için ideal)
-   - <h2> Kaç gün yeterli? (önerilen süre + örnek gün planı)
+   - <h2> Örnek rotalar (<h3> ile üç rota: "İlk kez gelenler için 1 günlük rota", "2 günlük rota", "Çocuklu aile rotası" — saat aralıklı somut akış)
+   - <h2> Kaç gün yeterli? (önerilen süre)
    - <h2> Nasıl gidilir / ulaşım (uçak/otobüs/araç; şehir içi ulaşım ipuçları)
    - <h2> Nerede kalınır (semt/bölge önerisi; kime hangi bölge uyar)
    - <h2> Ne yenir? (yöresel lezzetler + nerede aranır)
+   - <h2> En iyi fotoğraf ve gün batımı noktaları (3-5 nokta; hangi saatte, hangi açıdan)
+   - <h2> Öne çıkan yerler karşılaştırması: <table> ile (sütunlar: Yer | Ayrılacak süre | Giriş | Kimlere ideal — Giriş'te "ücretsiz/ücretli/MüzeKart" gibi kategorik yaz, rakam uydurma)
    - <h2> Bütçe rehberi (ekonomik/orta/konfor için GENEL günlük aralık mantığı — kesin fiyat uydurmadan oran ve tasarruf ipuçlarıyla; <ul>)
    - <h2> Turist tuzakları ve güvenlik (bölgeye özgü dolandırıcılık/tuzak uyarıları, pazarlık, taksi, "hediye" tuzağı vb. — SOMUT)
    - <h2> En sık yapılan hatalar (gezginlerin bu destinasyonda yaptığı 4-6 gerçek hata + doğrusu; <ul>)
    - <h2> Bu şehir sana göre mi? (gezgin profiline göre dürüst uygunluk: aileler, çiftler, solo gezginler, doğa tutkunları, tarih meraklıları, gastronomi avcıları — kime ÇOK uyar, kime uymayabilir; <ul> ile)
-   - <h2> Pratik gezi ipuçları (madde madde <ul>)
+   - <h2> Pratik gezi ipuçları (madde madde <ul>; MUTLAKA şunları da kapsa: otopark durumu, toplu taşıma, engelli/bebek arabası erişilebilirliği, acil durumda bilinmesi gerekenler)
    H2 altında uygun yerlerde <h3>/<h4> kullan. Mantıklı yuvalama.
-4. EN SONDA <h2>Sık Sorulan Sorular</h2> bölümü: 4 soru — her soru <h3>, cevabı <p>. Sonra kısa kapanış paragrafı.
+4. EN SONDA <h2>Sık Sorulan Sorular</h2> bölümü: 8-10 UZUN KUYRUK soru (ör. 'X kaç günde gezilir?', 'MüzeKart geçerli mi?', 'Çocukla gidilir mi?', 'Yazın gidilir mi?', 'Araç kiralamak şart mı?') — her soru <h3>, cevabı <p> (2-3 cümle, net). Sonra kısa kapanış paragrafı.
 5. ÖZGÜN ve SOMUT — gerçek yer adları, gerçek bilgi. İstatistik/kesin fiyat/alıntı UYDURMA (genel bütçe ipucu olur). Tekrar yok, "spin"/genel dolgu yok.
 5b. KLİŞE YASAK: "unutulmaz deneyim", "büyüleyici", "mutlaka görülmeli", "eşsiz güzellik", "adeta", "cennet köşesi" gibi kalıpları KULLANMA. Bunun yerine SOMUT fayda yaz: hangi kapıdan girilir, sabah mı öğleden sonra mı gidilir, ne kadar sürer, yürüme mesafesi, çocukla/yaşlıyla uygun mu, otopark/toplu taşıma durumu.
 5c. GİRİŞTEN HEMEN SONRA "Hızlı Bilgiler" kutusu ekle — tam şu HTML yapısıyla:
@@ -107,11 +111,11 @@ KESİN KURALLAR — hepsine uy:
 <li><strong>Çocukla uygun mu:</strong> ...</li>
 <li><strong>En yakın havalimanı:</strong> ...</li>
 </ul></div>
-6. SADECE şu etiketler: h2, h3, h4, h5, p, ul, li, strong, a. Markdown yok, <h1> yok, <html>/<head>/<style> yok.
+6. SADECE şu etiketler: h2, h3, h4, h5, p, ul, li, strong, a, table, thead, tbody, tr, th, td ve yalnızca baştaki özet için <div class="tldr">. Markdown yok, <h1> yok, <html>/<head>/<style> yok.
 7. 1-2 dış OTORİTE linki ekle (resmi turizm/kültür sitesi, .gov.tr ya da ilgili Wikipedia maddesi). Sadece var olduğundan EMİN olduğun stabil URL'ler — https://tr.wikipedia.org/wiki/<Konu> tercih et. Deep URL UYDURMA. Cümle içinde doğal yerleştir, başlıkta değil.
 
 SADECE geçerli minified JSON çıktısı ver (kod bloğu/yorum yok), tam şu anahtarlar:
-{{"title":"...","meta_description":"max 155 karakter, anahtar kelimeyi içersin","keywords":"4-6 virgülle ayrılmış anahtar kelime","slug":"baslıktan-kebab-case-ascii","img_queries":["3 ayrı stok foto araması, her biri 2-4 İNGİLİZCE kelime, yazının FARKLI bölümlerini birebir karşılayan somut sahneler: 1) kapak manzarası 2) yemek/çarşı/kültür 3) doğa/detay (örn: [\"Sanliurfa Gobeklitepe\",\"Urfa kebab food\",\"Balikligol pool Urfa\"])"],"body":"makale HTML'i"}}"""
+{{"title":"...","meta_description":"max 155 karakter, anahtar kelimeyi içersin","keywords":"4-6 virgülle ayrılmış anahtar kelime","slug":"baslıktan-kebab-case-ascii","lat":"şehir merkezi enlem (ondalık)","lon":"boylam","img_queries":["3 ayrı stok foto araması, her biri 2-4 İNGİLİZCE kelime, yazının FARKLI bölümlerini birebir karşılayan somut sahneler: 1) kapak manzarası 2) yemek/çarşı/kültür 3) doğa/detay (örn: [\"Sanliurfa Gobeklitepe\",\"Urfa kebab food\",\"Balikligol pool Urfa\"])"],"body":"makale HTML'i"}}"""
 
 def _post(url, body, headers):
     req = urllib.request.Request(url, data=json.dumps(body).encode(), headers=headers, method="POST")
@@ -200,9 +204,9 @@ PAGE = """<!DOCTYPE html>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;600&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;600&display=swap"></noscript>
 <style>:root{--bg:#fbfaf7;--card:#fff;--ink:#1f2733;--muted:#69727f;--accent:#2f6bff;--accent2:#8b5cf6;--accent3:#2563eb;--line:#ece8e1;--shadow:0 6px 24px rgba(31,39,51,.07)}*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--ink);line-height:1.75;-webkit-font-smoothing:antialiased;overflow-x:hidden}.wrap{max-width:1080px;margin:0 auto;padding:0 22px}nav{position:sticky;top:0;z-index:40;background:rgba(251,250,247,.82);border-bottom:1px solid var(--line)}nav .nwrap{max-width:1080px;margin:0 auto;padding:0 22px;display:flex;align-items:center;justify-content:space-between;height:64px}.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:19px;color:var(--ink);text-decoration:none}.logo img{width:30px;height:30px;border-radius:9px}.nav-links a{color:var(--muted);text-decoration:none;font-size:14.5px;font-weight:600;margin-left:24px}h1,h2{font-family:'Sora',sans-serif}.page{padding:46px 0 30px}.aurora{position:fixed;inset:0;z-index:-2;background:var(--bg)}</style>
-<link rel="preload" href="/assets/blog.css?v=9" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/assets/blog.css?v=9"></noscript>
+<link rel="preload" href="/assets/blog.css?v=10" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/assets/blog.css?v=10"></noscript>
 <script type="application/ld+json">__SCHEMA__</script>
-<script src="/assets/analytics.js?v=2" defer></script><script src="/assets/enhance.js?v=5" defer></script>
+<script src="/assets/analytics.js?v=2" defer></script><script src="/assets/enhance.js?v=6" defer></script>
 </head>
 <body>
 <div class="aurora"></div>
@@ -452,6 +456,12 @@ def _h2_text(body, p):
 def write_post(d, app, posts=()):
     slug = d["slug"]; url = f"{SITE}/blog/{slug}/"
     body = insert_cta(d["body"], APPS[app]["cta"])
+    try:
+        la, lo = float(d.get("lat", 0)), float(d.get("lon", 0))
+        if 35 < la < 43 and 25 < lo < 45:  # Türkiye sınırı makul kontrol
+            body = f'<span id="geo" data-lat="{la}" data-lon="{lo}" hidden></span>' + body
+    except (TypeError, ValueError):
+        pass
     body = insert_map(body, d["title"].split()[0])
     body = add_internal_links(body, posts, slug)
     ogimg = f"{SITE}/assets/tabserve-og.png"
@@ -571,7 +581,7 @@ def rebuild_index(posts):
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;600&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;600&display=swap"></noscript>
 <style>:root{{--bg:#fbfaf7;--card:#fff;--ink:#1f2733;--muted:#69727f;--accent:#2f6bff;--accent2:#8b5cf6;--accent3:#2563eb;--line:#ece8e1;--shadow:0 6px 24px rgba(31,39,51,.07)}}*{{box-sizing:border-box;margin:0;padding:0}}body{{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--ink);line-height:1.75;-webkit-font-smoothing:antialiased;overflow-x:hidden}}.wrap{{max-width:1080px;margin:0 auto;padding:0 22px}}nav{{position:sticky;top:0;z-index:40;background:rgba(251,250,247,.82);border-bottom:1px solid var(--line)}}nav .nwrap{{max-width:1080px;margin:0 auto;padding:0 22px;display:flex;align-items:center;justify-content:space-between;height:64px}}.logo{{display:flex;align-items:center;gap:10px;font-weight:700;font-size:19px;color:var(--ink);text-decoration:none}}.logo img{{width:30px;height:30px;border-radius:9px}}.nav-links a{{color:var(--muted);text-decoration:none;font-size:14.5px;font-weight:600;margin-left:24px}}h1,h2{{font-family:'Sora',sans-serif}}.page{{padding:46px 0 30px}}.aurora{{position:fixed;inset:0;z-index:-2;background:var(--bg)}}</style>
-<link rel="preload" href="/assets/blog.css?v=9" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/assets/blog.css?v=9"></noscript><script src="/assets/analytics.js?v=2" defer></script><script src="/assets/enhance.js?v=5" defer></script>
+<link rel="preload" href="/assets/blog.css?v=10" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/assets/blog.css?v=10"></noscript><script src="/assets/analytics.js?v=2" defer></script><script src="/assets/enhance.js?v=6" defer></script>
 </head>
 <body>
 <div class="aurora"></div>
