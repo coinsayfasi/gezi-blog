@@ -199,6 +199,7 @@ PAGE = """<!DOCTYPE html>
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="__OGIMG__">
 <link rel="alternate" type="application/rss+xml" title="Türkiye Gezi Rehberi RSS" href="/feed.xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -211,7 +212,7 @@ PAGE = """<!DOCTYPE html>
 <body>
 <div class="aurora"></div>
 <nav><div class="nwrap">
-  <a class="logo" href="/"><img src="/assets/logo.svg" alt="">Gezi Rehberi</a>
+  <a class="logo" href="/"><img src="/assets/logo.svg" alt="Türkiye Gezi Rehberi">Gezi Rehberi</a>
   <div class="nav-links"><a href="/">Anasayfa</a><a href="/blog/">Rehberler</a><a href="https://coinsayfasi.github.io/routevia-app/">Routevia</a></div>
 </div></nav>
 <main class="wrap page">
@@ -226,7 +227,7 @@ __BODY__
 <footer class="site-footer">
   <div class="wrap foot-grid">
     <div class="foot-brand">
-      <a class="logo" href="/"><img src="/assets/logo.svg" alt="" width="30" height="30">Gezi Rehberi</a>
+      <a class="logo" href="/"><img src="/assets/logo.svg" alt="Türkiye Gezi Rehberi" width="30" height="30">Gezi Rehberi</a>
       <p>Simple, useful mobile apps for travel, trips and rentals — free to start on iOS &amp; Android.</p>
     </div>
     <div class="foot-col">
@@ -289,7 +290,7 @@ def related_block(posts, current_slug, n=4):
     """Yazı sonuna 'İlgili Gezi Rehberleri' bloğu — iç linkleme + kardeş site."""
     others = [p for p in posts if p["slug"] != current_slug][:n]
     if not others: return ""
-    lis = "".join(f'<li><a href="/blog/{p["slug"]}/">{html.escape(p["title"])}</a></li>'
+    lis = "".join(f'<li><a href="/blog/{p["slug"]}/">{html.escape(p["title"].split(":")[0].strip())}</a></li>'
                   for p in others)
     # Kardeş İngilizce site: birebir konu varsa yazıya, yoksa blog köküne
     x = CROSS.get(current_slug)
@@ -567,7 +568,7 @@ def rebuild_index(posts):
 <html lang="tr"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>__T__ | Türkiye Gezi Rehberi</title>
-<meta name="description" content="Türkiye'nin 81 ili ve popüler ilçeleri için gezilecek yerler, ulaşım, konaklama, yeme-içme, rota önerileri ve pratik seyahat ipuçları. Seyahat planını Routevia ile saniyeler içinde oluştur.">
+<meta name="description" content="Türkiye'nin 81 ili ve popüler ilçeleri için gezilecek yerler, rota önerileri, konaklama, ulaşım ve yeme içme rehberleri. Seyahatini Routevia ile planla.">
 <link rel="canonical" href="__CANON__">__PREVNEXT__
 <meta name="apple-itunes-app" content="app-id=6761003117">
 <meta name="robots" content="index,follow">
@@ -580,6 +581,7 @@ def rebuild_index(posts):
 <meta name="twitter:image" content="https://gezi.tabserve.com.tr/assets/og-home.jpg">
 <script type="application/ld+json">{{"@context":"https://schema.org","@type":"WebSite","name":"Türkiye Gezi Rehberi","url":"https://gezi.tabserve.com.tr/","inLanguage":"tr-TR","publisher":{{"@type":"Organization","name":"Tabserve","url":"https://gezi.tabserve.com.tr/","logo":{{"@type":"ImageObject","url":"https://gezi.tabserve.com.tr/assets/logo.svg"}}}},"potentialAction":{{"@type":"SearchAction","target":"https://gezi.tabserve.com.tr/blog/?q={{search_term_string}}","query-input":"required name=search_term_string"}}}}</script>__XSCHEMA__
 <link rel="alternate" type="application/rss+xml" title="Türkiye Gezi Rehberi RSS" href="/feed.xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;600&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;600&display=swap"></noscript>
@@ -588,12 +590,12 @@ def rebuild_index(posts):
 </head>
 <body>
 <div class="aurora"></div>
-<nav><div class="nwrap"><a class="logo" href="/"><img src="/assets/logo.svg" alt="">Gezi Rehberi</a>
+<nav><div class="nwrap"><a class="logo" href="/"><img src="/assets/logo.svg" alt="Türkiye Gezi Rehberi">Gezi Rehberi</a>
 <div class="nav-links"><a href="/">Anasayfa</a><a href="/hakkinda.html">Hakkında</a><a href="https://coinsayfasi.github.io/routevia-app/">Routevia</a></div></div></nav>"""
     foot = """<footer class="site-footer">
   <div class="wrap foot-grid">
     <div class="foot-brand">
-      <a class="logo" href="/"><img src="/assets/logo.svg" alt="" width="30" height="30">Gezi Rehberi</a>
+      <a class="logo" href="/"><img src="/assets/logo.svg" alt="Türkiye Gezi Rehberi" width="30" height="30">Gezi Rehberi</a>
       <p>Türkiye'nin il il, ilçe ilçe gezilecek yerleri. Rotanı <a href="https://coinsayfasi.github.io/routevia-app/" style="color:var(--accent3)">Routevia</a> ile planla — ücretsiz.</p>
     </div>
     <div class="foot-col"><p class="fh">Keşfet</p>
@@ -629,7 +631,7 @@ def rebuild_index(posts):
     poproutes = ("" if not _pr else
         '<div class="chipwrap" style="margin-top:26px"><span class="chiplbl">🧭 Popüler Rotalar</span><nav class="chips">'
         + "".join(f'<a href="{u}">{lbl}</a>' for u, lbl in _pr) + "</nav></div>")
-    home = (head.replace("__T__", "İl İl, İlçe İlçe Türkiye'yi Keşfet").replace("__CANON__", f"{SITE}/").replace("__PREVNEXT__", "").replace("__XSCHEMA__",
+    home = (head.replace("__T__", "81 İl ve En Güzel Gezilecek Yerler").replace("__CANON__", f"{SITE}/").replace("__PREVNEXT__", "").replace("__XSCHEMA__",
         '<script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Türkiye Gezi Rehberi","url":"https://gezi.tabserve.com.tr/","inLanguage":"tr-TR","description":"Türkiye\'nin 81 ili ve popüler ilçeleri için gezi rehberleri."}</script>')
         + f"""
 <header style="text-align:center;padding:70px 22px 30px">
