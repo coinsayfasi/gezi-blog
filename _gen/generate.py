@@ -200,6 +200,8 @@ PAGE = """<!DOCTYPE html>
 <meta name="twitter:image" content="__OGIMG__">
 <link rel="alternate" type="application/rss+xml" title="Türkiye Gezi Rehberi RSS" href="/feed.xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -311,6 +313,12 @@ def insert_cta(body, cta):
         i = pos[len(pos)//2]; return body[:i] + cta + body[i:]
     return body + cta
 
+
+SOURCES_BOX = ('<div class="contrib sources"><b>📚 Faydalı Resmî Kaynaklar</b>'
+ '<p><a href="https://www.ktb.gov.tr" rel="noopener">Kültür ve Turizm Bakanlığı</a> · '
+ '<a href="https://muze.gov.tr" rel="noopener">Müzeler (MüzeKart)</a> · '
+ '<a href="https://www.mgm.gov.tr" rel="noopener">Meteoroloji (MGM)</a> · '
+ '<a href="https://goturkiye.com" rel="noopener">GoTürkiye</a></p></div>')
 
 CONTRIB_BOX = ('<div class="contrib"><b>🗣️ Sen de katkıda bulun</b>'
  '<p>Bu rehbere eklenecek bir ipucun, güncel bir bilgin ya da düzeltmen mi var? '
@@ -493,12 +501,12 @@ def write_post(d, app, posts=()):
     schema = json.dumps(schemas, ensure_ascii=False)
     read = max(4, round(words(body)/180))
     extras, rail = post_extras(url, d["title"])
-    body = body + ONEBAG_CTA + CONTRIB_BOX + related_block(posts, slug) + extras  # ilgili rehberler + paylaş + yazar
+    body = body + SOURCES_BOX + ONEBAG_CTA + CONTRIB_BOX + related_block(posts, slug) + extras  # ilgili rehberler + paylaş + yazar
     page = (PAGE.replace("__TITLE__", html.escape(d["title"])).replace("__DESC__", html.escape(d["meta_description"]))
         .replace("__KW__", html.escape(d["keywords"])).replace("__URL__", url).replace("__OGIMG__", html.escape(ogimg))
         .replace("__SCHEMA__", schema).replace("__CRUMB__", html.escape(d["title"][:40]))
         .replace("__TAG__", APPS[app]["tag"]).replace("__READ__", str(read)).replace("__RAIL__", rail)
-        .replace("__NICE__", today.strftime("%B %Y")).replace("__BODY__", body))
+        .replace("__NICE__", "Yayın: " + today.strftime("%d.%m.%Y") + " · Güncelleme: " + today.strftime("%d.%m.%Y")).replace("__BODY__", body))
     (BLOG / slug).mkdir(parents=True, exist_ok=True)
     (BLOG / slug / "index.html").write_text(page, encoding="utf-8")
 
@@ -530,7 +538,7 @@ q.addEventListener('input',function(){var v=norm(q.value.trim());
   if(grid)grid.style.display='none';if(nav)nav.style.display='none';
   if(!hits.length){res.style.display='none';res.innerHTML='';qn.style.display='block';return}
   qn.style.display='none';
-  res.innerHTML=hits.map(function(p){return '<a class="pcard in" href="'+p.u+'"><h2>'+esc(p.t)+'</h2><p>'+esc(p.d)+'</p></a>'}).join('');
+  res.innerHTML=hits.map(function(p){return '<a class="pcard in" href="'+p.u+'"><h3>'+esc(p.t)+'</h3><p>'+esc(p.d)+'</p></a>'}).join('');
   res.style.display='';}
  if(idx){run()}else{fetch('/assets/search.json').then(function(r){return r.json()}).then(function(j){idx=j;run()}).catch(function(){})}
 });
@@ -559,7 +567,7 @@ def region_of(slug):
 def rebuild_index(posts):
     def card(p):
         return (f'    <a class="pcard" href="/blog/{p["slug"]}/"><span class="tag">{html.escape(p["tag"])}</span>'
-                f'<h2>{html.escape(p["title"])}</h2><p>{html.escape(p["desc"])}</p></a>')
+                f'<h3>{html.escape(p["title"])}</h3><p>{html.escape(p["desc"])}</p></a>')
     # site geneli arama index'i
     (ROOT / "assets" / "search.json").write_text(json.dumps(
         [{"t": p["title"], "d": p["desc"], "u": f"/blog/{p['slug']}/"} for p in posts],
@@ -582,6 +590,8 @@ def rebuild_index(posts):
 <script type="application/ld+json">{{"@context":"https://schema.org","@type":"WebSite","name":"Türkiye Gezi Rehberi","url":"https://gezi.tabserve.com.tr/","inLanguage":"tr-TR","publisher":{{"@type":"Organization","name":"Tabserve","url":"https://gezi.tabserve.com.tr/","logo":{{"@type":"ImageObject","url":"https://gezi.tabserve.com.tr/assets/logo.svg"}}}},"potentialAction":{{"@type":"SearchAction","target":"https://gezi.tabserve.com.tr/blog/?q={{search_term_string}}","query-input":"required name=search_term_string"}}}}</script>__XSCHEMA__
 <link rel="alternate" type="application/rss+xml" title="Türkiye Gezi Rehberi RSS" href="/feed.xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;600&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;600&display=swap"></noscript>
