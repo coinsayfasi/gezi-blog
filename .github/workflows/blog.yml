@@ -37,6 +37,10 @@ jobs:
         env:
           GOOGLE_INDEXING_SA: ${{ secrets.GOOGLE_INDEXING_SA }}
         run: python -u _gen/index_ping.py
+      - name: Push notification (Routevia FCM)
+        env:
+          FIREBASE_SA: ${{ secrets.FIREBASE_SA }}
+        run: python -u _gen/push_notify.py || echo "::warning::push gönderilemedi"
       - name: Post new posts to Bluesky
         env:
           BLUESKY_IDENTIFIER: ${{ secrets.BLUESKY_IDENTIFIER }}
