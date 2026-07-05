@@ -83,14 +83,29 @@ jobs:
           BLUESKY_PASSWORD: ${{ secrets.BLUESKY_PASSWORD }}
           DRIP_PER_RUN: "2"
         run: python -u _gen/social_gezi_drip.py
+      - name: Post to Telegram (yeni + evergreen drip)
+        continue-on-error: true
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          DRIP_PER_RUN: "2"
+        run: python -u _gen/telegram_post.py
+      - name: Post to Mastodon (yeni + evergreen drip)
+        continue-on-error: true
+        env:
+          MASTODON_INSTANCE: ${{ secrets.MASTODON_INSTANCE }}
+          MASTODON_TOKEN: ${{ secrets.MASTODON_TOKEN }}
+          DRIP_PER_RUN: "2"
+        run: python -u _gen/mastodon_post.py
       - name: Commit drip state
         continue-on-error: true
         run: |
-          [ -n "$(git status --porcelain _gen/social_gezi_state.json)" ] || { echo "drip state değişmedi"; exit 0; }
+          FILES="_gen/social_gezi_state.json _gen/telegram_state.json _gen/mastodon_state.json"
+          [ -n "$(git status --porcelain $FILES)" ] || { echo "drip state değişmedi"; exit 0; }
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add _gen/social_gezi_state.json
-          git commit -m "chore(drip): evergreen Bluesky drip state [skip ci]"
+          git add $FILES
+          git commit -m "chore(drip): sosyal drip state (bsky/telegram/mastodon) [skip ci]"
           for i in 1 2 3 4 5; do
             git pull --rebase -X ours origin main && git push && exit 0
             git rebase --abort 2>/dev/null || true
