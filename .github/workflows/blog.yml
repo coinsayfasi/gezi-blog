@@ -76,3 +76,24 @@ jobs:
           BLUESKY_IDENTIFIER: ${{ secrets.BLUESKY_IDENTIFIER }}
           BLUESKY_PASSWORD: ${{ secrets.BLUESKY_PASSWORD }}
         run: python -u _gen/social_post.py
+      - name: Drip evergreen gezi pages to Bluesky (backlink signal)
+        continue-on-error: true
+        env:
+          BLUESKY_IDENTIFIER: ${{ secrets.BLUESKY_IDENTIFIER }}
+          BLUESKY_PASSWORD: ${{ secrets.BLUESKY_PASSWORD }}
+          DRIP_PER_RUN: "2"
+        run: python -u _gen/social_gezi_drip.py
+      - name: Commit drip state
+        continue-on-error: true
+        run: |
+          [ -n "$(git status --porcelain _gen/social_gezi_state.json)" ] || { echo "drip state değişmedi"; exit 0; }
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add _gen/social_gezi_state.json
+          git commit -m "chore(drip): evergreen Bluesky drip state [skip ci]"
+          for i in 1 2 3 4 5; do
+            git pull --rebase -X ours origin main && git push && exit 0
+            git rebase --abort 2>/dev/null || true
+            sleep $((RANDOM%5+3))
+          done
+          echo "::warning::drip state push başarısız (sonraki run düzeltir)"
