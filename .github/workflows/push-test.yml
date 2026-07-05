@@ -1,0 +1,23 @@
+name: Routevia push smoke test
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: pip install -r _gen/requirements.txt
+      - name: Send latest blog push
+        env:
+          FIREBASE_SA: ${{ secrets.FIREBASE_SA }}
+          FORCE_BLOG_PUSH: "true"
+        run: python -u _gen/push_notify.py
