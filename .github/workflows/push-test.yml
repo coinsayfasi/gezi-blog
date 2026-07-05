@@ -2,6 +2,11 @@ name: Routevia push smoke test
 
 on:
   workflow_dispatch:
+    inputs:
+      url:
+        description: "Gönderilecek canlı blog URL'si"
+        required: true
+        default: "https://gezi.tabserve.com.tr/blog/kalkan-gezilecek-yerler-gezi-rehberi/"
 
 permissions:
   contents: read
@@ -20,4 +25,5 @@ jobs:
         env:
           FIREBASE_SA: ${{ secrets.FIREBASE_SA }}
           FORCE_BLOG_PUSH: "true"
+          PUSH_URL: ${{ github.event.inputs.url }}
         run: python -u _gen/push_notify.py

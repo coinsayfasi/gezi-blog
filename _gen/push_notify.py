@@ -32,7 +32,11 @@ def main():
         return
 
     sa_json = os.environ.get("FIREBASE_SA")
-    urls = [u.strip() for u in NEW.read_text(encoding="utf-8").splitlines() if u.strip()] if NEW.exists() else []
+    push_url = os.environ.get("PUSH_URL", "").strip()
+    urls = [push_url] if push_url else (
+        [u.strip() for u in NEW.read_text(encoding="utf-8").splitlines() if u.strip()]
+        if NEW.exists() else []
+    )
     urls = [u for u in urls if "/blog/" in u]
     if not urls:
         print("Push: yeni blog yazısı yok"); return
