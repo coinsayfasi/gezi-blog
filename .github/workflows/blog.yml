@@ -13,7 +13,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: blog-writer
+  group: content-publisher
   cancel-in-progress: false
 
 jobs:
@@ -30,22 +30,9 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          BLOG_COUNT: ${{ github.event.inputs.count || '2' }}
+          BLOG_COUNT: ${{ github.event.inputs.count || '1' }}
           PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
         run: python -u _gen/generate.py
-      - name: Ping Google Indexing + IndexNow
-        env:
-          GOOGLE_INDEXING_SA: ${{ secrets.GOOGLE_INDEXING_SA }}
-        run: python -u _gen/index_ping.py
-      - name: Push notification (Routevia FCM)
-        env:
-          FIREBASE_SA: ${{ secrets.FIREBASE_SA }}
-        run: python -u _gen/push_notify.py || echo "::warning::push gönderilemedi"
-      - name: Post new posts to Bluesky
-        env:
-          BLUESKY_IDENTIFIER: ${{ secrets.BLUESKY_IDENTIFIER }}
-          BLUESKY_PASSWORD: ${{ secrets.BLUESKY_PASSWORD }}
-        run: python -u _gen/social_post.py
       - name: Commit & push
         run: |
           [ -n "$(git status --porcelain)" ] || { echo "değişiklik yok"; exit 0; }
@@ -64,4 +51,23 @@ jobs:
             git rebase --abort 2>/dev/null || true
             sleep $((RANDOM%5+3))
           done
-          echo "::warning::blog push başarısız"
+          echo "::error::blog push başarısız"
+          exit 1
+      - name: Wait for production deployment
+        run: python -u _gen/wait_live.py
+      - name: Ping Google Indexing + IndexNow
+        continue-on-error: true
+        env:
+          GOOGLE_INDEXING_SA: ${{ secrets.GOOGLE_INDEXING_SA }}
+        run: python -u _gen/index_ping.py
+      - name: Push notification (Routevia FCM)
+        continue-on-error: true
+        env:
+          FIREBASE_SA: ${{ secrets.FIREBASE_SA }}
+        run: python -u _gen/push_notify.py
+      - name: Post new posts to Bluesky
+        continue-on-error: true
+        env:
+          BLUESKY_IDENTIFIER: ${{ secrets.BLUESKY_IDENTIFIER }}
+          BLUESKY_PASSWORD: ${{ secrets.BLUESKY_PASSWORD }}
+        run: python -u _gen/social_post.py

@@ -3,7 +3,7 @@
 """Yeni blog URL'lerini Google Indexing API + IndexNow'a (Bing/Yandex) bildirir.
 generate.py'nin yazdığı _gen/new_urls.txt'ten okur.
 Env: GOOGLE_INDEXING_SA (service account JSON; yoksa Google ping atlanır)."""
-import os, json, urllib.request
+import os, json, time, urllib.request
 from pathlib import Path
 
 GEN = Path(__file__).resolve().parent
@@ -26,12 +26,19 @@ def google_index(urls, sa_raw):
         json.loads(sa_raw), scopes=["https://www.googleapis.com/auth/indexing"])
     s = AuthorizedSession(creds)
     for u in urls:
-        try:
-            r = s.post("https://indexing.googleapis.com/v3/urlNotifications:publish",
-                       json={"url": u, "type": "URL_UPDATED"}, timeout=30)
-            print(f"  Google: {u} → {r.status_code}")
-        except Exception as e:
-            print(f"  Google hata ({u}): {type(e).__name__}")
+        for attempt, wait in enumerate((0, 10, 30), start=1):
+            if wait:
+                time.sleep(wait)
+            try:
+                r = s.post("https://indexing.googleapis.com/v3/urlNotifications:publish",
+                           json={"url": u, "type": "URL_UPDATED"}, timeout=30)
+                print(f"  Google: {u} → {r.status_code}")
+                if r.status_code != 429 or attempt == 3:
+                    break
+                print(f"  Google kota beklemesi ({attempt}/3)")
+            except Exception as e:
+                print(f"  Google hata ({u}): {type(e).__name__}")
+                break
 
 def indexnow(urls):
     try:

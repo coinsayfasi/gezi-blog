@@ -17,7 +17,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: content-refresh
+  group: content-publisher
   cancel-in-progress: false
 
 jobs:
@@ -38,10 +38,6 @@ jobs:
           REFRESH_SLUG: ${{ github.event.inputs.slug || '' }}
           REFRESH_DAYS: ${{ github.event.inputs.days || '45' }}
         run: python -u _gen/refresh.py
-      - name: Ping Google Indexing + IndexNow
-        env:
-          GOOGLE_INDEXING_SA: ${{ secrets.GOOGLE_INDEXING_SA }}
-        run: python -u _gen/index_ping.py
       - name: Commit & push
         run: |
           [ -n "$(git status --porcelain)" ] || { echo "değişiklik yok"; exit 0; }
@@ -60,4 +56,12 @@ jobs:
             git rebase --abort 2>/dev/null || true
             sleep $((RANDOM%5+3))
           done
-          echo "::warning::refresh push başarısız"
+          echo "::error::refresh push başarısız"
+          exit 1
+      - name: Wait for production deployment
+        run: python -u _gen/wait_live.py
+      - name: Ping Google Indexing + IndexNow
+        continue-on-error: true
+        env:
+          GOOGLE_INDEXING_SA: ${{ secrets.GOOGLE_INDEXING_SA }}
+        run: python -u _gen/index_ping.py
