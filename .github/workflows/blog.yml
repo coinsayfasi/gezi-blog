@@ -8,6 +8,10 @@ on:
       count:
         description: "Kaç yazı üretilsin"
         default: "2"
+      force_push:
+        description: "Test için blog push frekans sınırını aş"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -64,6 +68,7 @@ jobs:
         continue-on-error: true
         env:
           FIREBASE_SA: ${{ secrets.FIREBASE_SA }}
+          FORCE_BLOG_PUSH: ${{ github.event.inputs.force_push || 'false' }}
         run: python -u _gen/push_notify.py
       - name: Post new posts to Bluesky
         continue-on-error: true
