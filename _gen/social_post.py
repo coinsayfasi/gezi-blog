@@ -79,7 +79,7 @@ def main():
                 pass
         ext = {"uri": url, "title": title[:280], "description": desc[:300]}
         if thumb: ext["thumb"] = thumb
-        rec = {"$type": "app.bsky.feed.post", "text": text, "facets": hashtag_facets(text), "langs": ["tr"],
+        rec = {"$type": "app.bsky.feed.post", "text": text, "facets": hashtag_facets(text), "langs": ["en"],
                "createdAt": datetime.datetime.now(datetime.timezone.utc).isoformat().replace("+00:00", "Z"),
                "embed": {"$type": "app.bsky.embed.external", "external": ext}}
         api("com.atproto.repo.createRecord", sess["accessJwt"],
