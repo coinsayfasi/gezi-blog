@@ -4,13 +4,15 @@
 generate.py'nin yazdığı _gen/new_urls.txt'ten okur; günde en fazla 1 bildirim
 (kullanıcıyı sıkmamak için — birden çok yazı varsa yalnızca ilki gönderilir).
 Env: FIREBASE_SA (routevia-prod service account JSON; yoksa atlar)."""
-import os, re, json, html, urllib.request
+import os, re, json, html, datetime, urllib.request
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 GEN = Path(__file__).resolve().parent
 ROOT = GEN.parent
 NEW = GEN / "new_urls.txt"
 TOPIC = "blog"
+PUSH_WEEKDAYS = {2, 5}  # Çarşamba + Cumartesi; pazartesi weekly digest ile çakışmaz
 esc = html.unescape
 
 
@@ -23,6 +25,12 @@ def meta(h, *pats):
 
 
 def main():
+    force = os.environ.get("FORCE_BLOG_PUSH", "").lower() in {"1", "true", "yes"}
+    today = datetime.datetime.now(ZoneInfo("Europe/Istanbul"))
+    if not force and today.weekday() not in PUSH_WEEKDAYS:
+        print("Push: frekans sınırı — blog bildirimi yalnızca Çarşamba/Cumartesi")
+        return
+
     sa_json = os.environ.get("FIREBASE_SA")
     urls = [u.strip() for u in NEW.read_text(encoding="utf-8").splitlines() if u.strip()] if NEW.exists() else []
     urls = [u for u in urls if "/blog/" in u]
@@ -49,7 +57,12 @@ def main():
     body = {"message": {
         "topic": TOPIC,
         "notification": {"title": f"🗺️ {title}", "body": desc},
-        "data": {"url": url, "type": "blog"},
+        "data": {
+            "url": url,
+            "type": "blog",
+            "screen": "blog-reader",
+            "campaign": f"blog_{today:%Y%m%d}",
+        },
         "apns": {"payload": {"aps": {"sound": "default"}}},
     }}
     req = urllib.request.Request(
