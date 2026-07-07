@@ -695,13 +695,16 @@ def rebuild_index(posts):
             items += [('<span class="cur">%d</span>' % i) if i == n else f'<a href="{page_href(i)}">{i}</a>' for i in range(1, total+1)]
             items.append(f'<a href="{page_href(n+1)}" aria-label="Sonraki">›</a>' if n < total else '<span class="dis">›</span>')
             pagenav = '<nav class="pagenav" aria-label="Sayfalar">' + "".join(items) + '</nav>'
+        # <title>: her sayfa benzersiz olsun (SEO — sayfa no kalır)
         title = "Tüm Gezi Rehberleri" if n == 1 else f"Gezi Rehberleri — Sayfa {n}"
+        # Görünür H1: sayfa no YOK (altta pagenav + breadcrumb zaten gösteriyor)
+        h1 = "Tüm Gezi Rehberleri"
         listing = (head.replace("__T__", title).replace("__CANON__", page_url(n)).replace("__PREVNEXT__", prevnext).replace("__XSCHEMA__",
             '<script type="application/ld+json">' + json.dumps({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Anasayfa","item":SITE+"/"},{"@type":"ListItem","position":2,"name":"Rehberler" if n==1 else f"Rehberler — Sayfa {n}","item":page_url(n)}]}, ensure_ascii=False) + '</script>')
             + f"""
 <main class="wrap page">
   <div class="crumb"><a href="/">Anasayfa</a> › Rehberler{'' if n == 1 else f' › Sayfa {n}'}</div>
-  <h1 class="title">{title}</h1>
+  <h1 class="title">{h1}</h1>
   <p class="meta">Türkiye'nin il il, ilçe ilçe gezilecek yerleri.{f' ({len(posts)} rehber)' if n == 1 else ''}</p>
 {SEARCH}
   <div class="posts">
