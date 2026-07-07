@@ -190,7 +190,7 @@ PAGE = """<!DOCTYPE html>
 <meta name="keywords" content="__KW__">
 <link rel="canonical" href="__URL__">
 <meta name="apple-itunes-app" content="app-id=6761003117">
-<meta name="robots" content="index,follow">
+<meta name="robots" content="index,follow,max-image-preview:large">
 <meta property="og:type" content="article">
 <meta property="og:title" content="__TITLE__">
 <meta property="og:description" content="__DESC__">
@@ -580,7 +580,7 @@ def rebuild_index(posts):
 <meta name="description" content="Türkiye'nin 81 ili ve popüler ilçeleri için gezilecek yerler, rota önerileri, konaklama, ulaşım ve yeme içme rehberleri. Seyahatini Routevia ile planla.">
 <link rel="canonical" href="__CANON__">__PREVNEXT__
 <meta name="apple-itunes-app" content="app-id=6761003117">
-<meta name="robots" content="index,follow">
+<meta name="robots" content="index,follow,max-image-preview:large">
 <meta property="og:type" content="website">
 <meta property="og:title" content="__T__">
 <meta property="og:description" content="Türkiye'nin 81 ili ve popüler ilçeleri için gezilecek yerler, ulaşım, konaklama ve rota önerileri. Routevia ile planla.">
