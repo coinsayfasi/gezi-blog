@@ -327,8 +327,9 @@ CONTRIB_BOX = ('<div class="contrib"><b>🗣️ Sen de katkıda bulun</b>'
  '<a href="https://coinsayfasi.github.io/routevia-app/" rel="noopener">Routevia topluluğunda</a> da paylaşabilirsin.</p></div>')
 
 ONEBAG_CTA = ('<div class="appcta onebagcta"><b>🧳 Bu gezi için bavulunu OneBag\'le hazırla</b>'
- '<p>Ne alacağını şaşırma: OneBag destinasyonuna göre valiz listeni saniyede çıkarır, '
- 'kabin bagajı ağırlığını 89 havayolunun limitine göre takip eder.'
+ '<p><b>YENİ — AI Çek &amp; İşaretle:</b> çantanın fotoğrafını çek, OneBag\'in yapay zekâsı '
+ 'eşyaları otomatik işaretlesin ve eksik kritiği (pasaport, cüzdan) uyarsın. '
+ 'Ayrıca destinasyona göre valiz listesi + 89 havayolu ağırlık takibi.'
  '</p>'
  '<div class="appbadges"><a href="https://apps.apple.com/app/id6761047805" rel="noopener" aria-label="OneBag — App Store">&#63743; App Store</a>'
  '<a href="https://play.google.com/store/apps/details?id=com.onebag.travel" rel="noopener" aria-label="OneBag — Google Play">&#9654; Google Play</a>'
