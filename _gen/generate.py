@@ -647,7 +647,7 @@ def rebuild_index(posts):
         + f"""
 <header style="text-align:center;padding:70px 22px 30px">
   <span class="brand" style="display:inline-block;font-size:13px;letter-spacing:.28em;text-transform:uppercase;font-weight:700;color:var(--accent3)">Türkiye Gezi Rehberi</span>
-  <h1 style="font-family:'Sora',sans-serif;font-size:clamp(30px,5.5vw,52px);font-weight:800;letter-spacing:-.02em;margin:16px 0 12px">Türkiye Gezi Rehberi:<br>81 İl, İlçe İlçe Gezilecek Yerler</h1>
+  <h1 style="font-family:'Sora',sans-serif;font-size:clamp(24px,5vw,48px);font-weight:800;letter-spacing:-.02em;margin:16px 0 12px">Türkiye Gezi Rehberi:<br>81 İl, İlçe İlçe Gezilecek Yerler</h1>
   <p style="color:var(--muted);font-size:18px;max-width:640px;margin:0 auto">81 il ve popüler ilçeler için gezilecek yerler, ulaşım, konaklama, yeme-içme ve rota önerileri. Seyahat planını <strong>Routevia</strong> ile saniyeler içinde oluştur.</p>
 </header>
 <main class="wrap page" style="padding-top:10px">
