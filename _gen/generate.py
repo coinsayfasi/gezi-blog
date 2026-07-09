@@ -576,6 +576,7 @@ def rebuild_index(posts):
     head = f"""<!DOCTYPE html>
 <html lang="tr"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="blogarama-site-verification" content="blogarama-f925cf24-3b60-4d6a-bc6c-f8253efd471d">
 <title>__T__ | Türkiye Gezi Rehberi</title>
 <meta name="description" content="Türkiye'nin 81 ili ve popüler ilçeleri için gezilecek yerler, rota önerileri, konaklama, ulaşım ve yeme içme rehberleri. Seyahatini Routevia ile planla.">
 <link rel="canonical" href="__CANON__">__PREVNEXT__
