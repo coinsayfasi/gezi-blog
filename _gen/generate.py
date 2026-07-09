@@ -185,7 +185,7 @@ PAGE = """<!DOCTYPE html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>__TITLE__ | Türkiye Gezi Rehberi</title>
+<title>__TITLETAG__</title>
 <meta name="description" content="__DESC__">
 <meta name="keywords" content="__KW__">
 <link rel="canonical" href="__URL__">
@@ -503,7 +503,7 @@ def write_post(d, app, posts=()):
     read = max(4, round(words(body)/180))
     extras, rail = post_extras(url, d["title"])
     body = body + SOURCES_BOX + ONEBAG_CTA + CONTRIB_BOX + related_block(posts, slug) + extras  # ilgili rehberler + paylaş + yazar
-    page = (PAGE.replace("__TITLE__", html.escape(d["title"])).replace("__DESC__", html.escape(d["meta_description"]))
+    _ttl=d["title"]; _sfx=" | Türkiye Gezi Rehberi"; _ttag=(_ttl+_sfx) if len(_ttl+_sfx)<=70 else (_ttl if len(_ttl)<=70 else _ttl[:70].rsplit(" ",1)[0]); page = (PAGE.replace("__TITLETAG__", html.escape(_ttag)).replace("__TITLE__", html.escape(d["title"])).replace("__DESC__", html.escape(d["meta_description"]))
         .replace("__KW__", html.escape(d["keywords"])).replace("__URL__", url).replace("__OGIMG__", html.escape(ogimg))
         .replace("__SCHEMA__", schema).replace("__CRUMB__", html.escape(d["title"] if len(d["title"]) <= 42 else d["title"][:42].rsplit(" ", 1)[0] + "…"))
         .replace("__TAG__", APPS[app]["tag"]).replace("__READ__", str(read)).replace("__RAIL__", rail)
