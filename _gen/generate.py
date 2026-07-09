@@ -659,6 +659,61 @@ def rebuild_index(posts):
         + "".join(f'<details style="border:1px solid var(--line);border-radius:12px;background:#fff;padding:2px 18px;margin-bottom:10px"><summary style="cursor:pointer;font-weight:600;padding:14px 0;color:var(--ink)">{html.escape(q)}</summary><p style="color:var(--muted);padding:0 0 14px">{html.escape(a)}</p></details>' for q,a in home_faq) + '</section>')
     faq_schema = '<script type="application/ld+json">' + json.dumps({"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in home_faq]}, ensure_ascii=False) + '</script>'
     org_schema = '<script type="application/ld+json">' + json.dumps({"@context":"https://schema.org","@type":"Organization","name":"Tabserve","alternateName":"Türkiye Gezi Rehberi","url":SITE+"/","logo":SITE+"/assets/logo.svg","email":"teknopattv@gmail.com","foundingDate":"2025","founder":{"@type":"Person","name":"Yunus Güneş"},"sameAs":["https://mastodon.social/@tabserve","https://bsky.app/profile/tabserve.bsky.social","https://www.youtube.com/@tabserve","https://t.me/gezirehberitr","https://github.com/coinsayfasi","https://indiepa.ge/tabserve"]}, ensure_ascii=False) + '</script>'
+    # ── HUB: Bölgeler kartları ────────────────────────────────────────────────
+    _regions = [
+      ("ege-gezilecek-yerler","Ege","🏖️","Çeşme, Bodrum, İzmir, Alaçatı — mavi bayraklı koylar ve antik kentler"),
+      ("akdeniz-gezilecek-yerler","Akdeniz","☀️","Antalya, Kaş, Alanya, Side — turkuaz deniz ve bol güneş"),
+      ("marmara-gezilecek-yerler","Marmara","🌉","İstanbul, Bursa, Sapanca — tarih, kültür ve şehir kaçamakları"),
+      ("karadeniz-gezilecek-yerler","Karadeniz","🌲","Uzungöl, Ayder, Trabzon, Amasra — yeşil yaylalar ve sis"),
+      ("ic-anadolu-gezilecek-yerler","İç Anadolu","🎈","Kapadokya, Konya, Safranbolu — peribacaları ve derin tarih"),
+      ("guneydogu-anadolu-gezilecek-yerler","Güneydoğu Anadolu","🏛️","Mardin, Şanlıurfa, Gaziantep, Göbeklitepe — medeniyetin beşiği"),
+    ]
+    regions_html = ('<section class="reveal" style="max-width:1080px;margin:8px auto 0">'
+      '<h2 style="font-family:\'Sora\',sans-serif;font-size:27px;text-align:center;margin:10px 0 4px;color:var(--ink)">Bölgelere Göre Keşfet</h2>'
+      '<p style="text-align:center;color:var(--muted);margin-bottom:22px">Türkiye\'nin her bölgesi ayrı bir dünya — ilham almak için başla</p>'
+      '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(248px,1fr));gap:16px">'
+      + "".join(f'<a href="/{s}/" style="display:block;background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px;color:var(--ink);box-shadow:var(--shadow)"><div style="font-size:30px;line-height:1">{e}</div><h3 style="font-family:\'Sora\',sans-serif;font-size:19px;margin:10px 0 6px">{n}</h3><p style="color:var(--muted);font-size:14px;line-height:1.6;margin:0">{d}</p></a>' for s,n,e,d in _regions)
+      + '</div></section>')
+    # ── HUB: Popüler Şehirler ─────────────────────────────────────────────────
+    _pcities = [("kapadokya-gezi-rehberi-en-iyi-gezilecek-yerler-ve-ipuclari","Kapadokya"),("antalya-gezilecek-yerler-gezi-rehberi","Antalya"),
+      ("izmir-gezilecek-yerler-gezi-rehberi","İzmir"),("bursa-gezilecek-yerler-gezi-rehberi","Bursa"),
+      ("trabzon-gezilecek-yerler-gezi-rehberi","Trabzon"),("marmaris-gezilecek-yerler-gezi-rehberi","Marmaris"),
+      ("cesme-gezilecek-yerler-gezi-rehberi","Çeşme"),("alacati-gezilecek-yerler-gezi-rehberi","Alaçatı"),
+      ("mardin-gezilecek-yerler-gezi-rehberi","Mardin"),("gaziantep-gezilecek-yerler-gezi-rehberi","Gaziantep"),
+      ("safranbolu-gezilecek-yerler-gezi-rehberi","Safranbolu"),("konya-gezilecek-yerler-gezi-rehberi","Konya")]
+    _have = {p["slug"] for p in posts}
+    cities_html = ('<section class="reveal" style="max-width:1080px;margin:46px auto 0">'
+      '<h2 style="font-family:\'Sora\',sans-serif;font-size:27px;text-align:center;margin:10px 0 4px;color:var(--ink)">Popüler Şehirler</h2>'
+      '<p style="text-align:center;color:var(--muted);margin-bottom:20px">En çok gezilen destinasyonların detaylı rehberleri</p>'
+      '<div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center">'
+      + "".join(f'<a href="/blog/{s}/" style="padding:11px 19px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--ink);font-weight:600;font-size:14.5px;box-shadow:var(--shadow)">{n}</a>' for s,n in _pcities if s in _have)
+      + '</div></section>')
+    # ── HUB: kapsamlı rehber metni ────────────────────────────────────────────
+    hub_html = '''<section class="reveal" style="max-width:820px;margin:52px auto 6px;color:var(--muted);font-size:16.5px;line-height:1.85">
+  <h2 style="font-family:'Sora',sans-serif;font-size:27px;color:var(--ink);margin-bottom:14px">Türkiye Gezi Rehberi: Nereye, Ne Zaman, Nasıl?</h2>
+  <p>Türkiye; antik kentleri, turkuaz koyları, karlı dağları ve binlerce yıllık kültürüyle tek bir tatile sığmayacak kadar zengin bir ülke. Bu <strong>Türkiye gezi rehberi</strong>, 81 ili ve popüler ilçeleri il il, ilçe ilçe ele alarak <strong>gezilecek yerler</strong>, ulaşım, konaklama, bütçe ve rota planlamasını tek yerde topluyor. İster ilk kez geliyor ol, ister yeni bir rota arıyor ol — nereden başlayacağını burada bulacaksın.</p>
+
+  <h3 style="font-family:'Sora',sans-serif;font-size:21px;color:var(--ink);margin:26px 0 10px">Bölge Bölge Türkiye</h3>
+  <p><a href="/ege-gezilecek-yerler/">Ege</a>; Çeşme, Alaçatı ve Bodrum\'un mavi bayraklı koylarıyla, Efes ve Bergama gibi antik kentleriyle deniz ve tarihi bir arada sunar. <a href="/akdeniz-gezilecek-yerler/">Akdeniz</a>, Antalya\'dan Kaş\'a uzanan turkuaz kıyısı ve uzun yaz sezonuyla plaj tatilinin merkezidir. <a href="/marmara-gezilecek-yerler/">Marmara</a>, İstanbul ve Bursa\'nın tarih-kültür ağırlığını taşırken hafta sonu kaçamaklarına da elverişlidir. <a href="/karadeniz-gezilecek-yerler/">Karadeniz</a>; Uzungöl, Ayder ve yaylalarıyla yemyeşil bir doğa vaat eder. <a href="/ic-anadolu-gezilecek-yerler/">İç Anadolu</a>, Kapadokya\'nın peribacaları ve Konya\'nın manevi mirasıyla; <a href="/guneydogu-anadolu-gezilecek-yerler/">Güneydoğu Anadolu</a> ise Mardin, Şanlıurfa ve Göbeklitepe ile medeniyetin başladığı toprakları keşfettirir.</p>
+
+  <h3 style="font-family:'Sora',sans-serif;font-size:21px;color:var(--ink);margin:26px 0 10px">Ne Zaman Gidilir?</h3>
+  <p>Doğru mevsim, gezinin keyfini ikiye katlar. Kabaca bir yol haritası:</p>
+  <div style="overflow-x:auto;margin:8px 0 4px"><table style="width:100%;border-collapse:collapse;font-size:15px;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden">
+   <thead><tr style="background:#f6f4ef;text-align:left"><th style="padding:11px 14px">Bölge</th><th style="padding:11px 14px">En İyi Dönem</th><th style="padding:11px 14px">Öne Çıkan</th></tr></thead>
+   <tbody>
+   <tr style="border-top:1px solid var(--line)"><td style="padding:11px 14px"><strong>Ege &amp; Akdeniz</strong></td><td style="padding:11px 14px">Mayıs–Haziran, Eylül–Ekim</td><td style="padding:11px 14px">Deniz, kalabalıksız koylar</td></tr>
+   <tr style="border-top:1px solid var(--line)"><td style="padding:11px 14px"><strong>Kapadokya</strong></td><td style="padding:11px 14px">Nisan–Haziran, Eylül–Kasım</td><td style="padding:11px 14px">Balon turu, ılıman hava</td></tr>
+   <tr style="border-top:1px solid var(--line)"><td style="padding:11px 14px"><strong>Karadeniz</strong></td><td style="padding:11px 14px">Haziran–Eylül</td><td style="padding:11px 14px">Yaylalar, yeşil doğa</td></tr>
+   <tr style="border-top:1px solid var(--line)"><td style="padding:11px 14px"><strong>Güneydoğu</strong></td><td style="padding:11px 14px">Mart–Mayıs, Ekim–Kasım</td><td style="padding:11px 14px">Serin hava, tarih turu</td></tr>
+   </tbody></table></div>
+
+  <h3 style="font-family:'Sora',sans-serif;font-size:21px;color:var(--ink);margin:26px 0 10px">Rota Nasıl Planlanır?</h3>
+  <p>İyi bir rota, gününü ve enerjini boşa harcamaz. Gün sayını, ulaşım şeklini ve gezi hızını belirleyip yakın destinasyonları grupla: örneğin bir Ege turunda İzmir–Çeşme–Alaçatı\'yı; bir Kapadokya kaçamağında Göreme–Uçhisar–Avanos\'u aynı güzergâhta birleştir. Gitmek istediğin yerleri seç, gerisini <a href="https://coinsayfasi.github.io/routevia-app/"><strong>Routevia</strong></a> uygulamasına bırak — yapay zekâ, süreye göre günlük gezi rotanı saniyeler içinde oluşturur. Hazır <a href="/blog/">şehir rehberlerimizden</a> ilham alıp kendi rotanı da kurabilirsin.</p>
+
+  <h3 style="font-family:'Sora',sans-serif;font-size:21px;color:var(--ink);margin:26px 0 10px">Ulaşım, Konaklama ve Bütçe</h3>
+  <p>Büyük şehirler arası uçak en hızlısıdır; bölge içi keşiflerde ise kiralık araç özgürlük sağlar. Konaklamada yaz aylarında kıyı bölgelerini önceden ayırtmak hem yer hem fiyat avantajı verir. Tahmini masrafını önceden görmek istersen <a href="/gezi-butcesi-hesaplayici/">gezi bütçesi hesaplayıcımızı</a> kullanabilir; her şehir rehberimizde ise güncel ulaşım, konaklama ve yeme-içme ipuçlarını bulabilirsin.</p>
+  <p>Yeni il ve ilçe rehberleri düzenli olarak ekleniyor. Keşfetmeye <a href="/blog/">tüm gezi rehberlerinden</a> ya da yukarıdaki bölgelerden başlayabilirsin — iyi yolculuklar!</p>
+</section>'''
     home = (head.replace("__T__", "81 İl ve En Güzel Gezilecek Yerler").replace("__CANON__", f"{SITE}/").replace("__PREVNEXT__", "").replace("__XSCHEMA__",
         org_schema + '<script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Türkiye Gezi Rehberi","url":"https://gezi.tabserve.com.tr/","inLanguage":"tr-TR","description":"Türkiye\'nin 81 ili ve popüler ilçeleri için gezi rehberleri."}</script>' + faq_schema)
         + f"""
@@ -669,6 +724,10 @@ def rebuild_index(posts):
 </header>
 <main class="wrap page" style="padding-top:10px">
 {SEARCH}
+{regions_html}
+{cities_html}
+  <h2 style="font-family:'Sora',sans-serif;font-size:27px;text-align:center;margin:48px 0 4px;color:var(--ink)">Son Gezi Rehberleri</h2>
+  <p style="text-align:center;color:var(--muted);margin-bottom:22px">En yeni eklenen il ve ilçe rehberleri</p>
   <div class="posts">
 {home_cards}
   </div>
@@ -686,11 +745,7 @@ def rebuild_index(posts):
       <div class="appbadges"><a href="https://apps.apple.com/app/id6761003117" rel="noopener" aria-label="Routevia — App Store">&#63743; App Store</a><a href="https://play.google.com/store/apps/details?id=com.yunusgunes.routevia" rel="noopener" aria-label="Routevia — Google Play">&#9654; Google Play</a></div>
     </div>
   </section>
-  <section class="reveal" style="max-width:780px;margin:52px auto 6px;color:var(--muted);font-size:16px;line-height:1.85">
-    <h2 style="font-family:'Sora',sans-serif;font-size:25px;color:var(--ink);margin-bottom:14px">Türkiye'nin il il, ilçe ilçe gezi rehberi</h2>
-    <p>Türkiye Gezi Rehberi; İstanbul'dan Kapadokya'ya, Karadeniz yaylalarından Akdeniz koylarına kadar <strong>il il, ilçe ilçe gezilecek yerleri</strong> tek tek ele alır. Her gezi rehberinde <strong>en iyi gezilecek yerler</strong>, ne zaman gidilir, kaç gün yeterli, nasıl gidilir, nerede kalınır ve yöresel lezzetler gibi başlıklarla planını kolaylaştırırız.</p>
-    <p>Amacımız gerçekten faydalı, güncel ve özgün <strong>gezi rehberleri</strong> sunmak; rotanı ise <a href="https://coinsayfasi.github.io/routevia-app/">Routevia uygulaması</a> ile saniyeler içinde planlamanı sağlamak. Yeni il ve ilçe rehberleri düzenli olarak eklenir — favori destinasyonunu keşfetmeye buradan başla.</p>
-  </section>
+{hub_html}
 {faq_html}
 </main>
 """ + foot)
