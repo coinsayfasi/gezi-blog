@@ -551,6 +551,15 @@ if(qp){q.value=qp;q.dispatchEvent(new Event("input"));}});</script>
 # ── Bölge mimarisi: il/ilçe → bölge (hub sayfaları /<bolge>-gezilecek-yerler/) ──
 REGION_NAMES = {"ege":"Ege","akdeniz":"Akdeniz","karadeniz":"Karadeniz","marmara":"Marmara",
                 "ic-anadolu":"İç Anadolu","dogu-anadolu":"Doğu Anadolu","guneydogu-anadolu":"Güneydoğu Anadolu"}
+# Bölge sayfaları için özgün meta description (duplike açıklamayı önler)
+REGION_DESC = {
+ "ege":"Ege Bölgesi gezilecek yerler: İzmir, Çeşme, Alaçatı, Bodrum, Fethiye ve Pamukkale. Mavi bayraklı koylar, antik kentler ve şehir şehir Ege gezi rehberleri.",
+ "akdeniz":"Akdeniz Bölgesi gezilecek yerler: Antalya, Kaş, Kalkan, Alanya, Side ve Kekova. Turkuaz koylar, antik kentler ve şehir şehir Akdeniz gezi rehberleri.",
+ "karadeniz":"Karadeniz Bölgesi gezilecek yerler: Trabzon, Uzungöl, Ayder, Amasra ve Safranbolu. Yeşil yaylalar, tarihi konaklar ve şehir şehir Karadeniz gezi rehberleri.",
+ "marmara":"Marmara Bölgesi gezilecek yerler: İstanbul, Bursa, Edirne, Sapanca ve Çanakkale. Tarih, kültür, hafta sonu kaçamakları ve şehir şehir Marmara gezi rehberleri.",
+ "ic-anadolu":"İç Anadolu gezilecek yerler: Kapadokya, Konya, Ankara, Safranbolu ve Eskişehir. Peribacaları, tarihi ve manevi duraklar, şehir şehir İç Anadolu gezi rehberleri.",
+ "dogu-anadolu":"Doğu Anadolu gezilecek yerler: Van, Erzurum, Kars, Ağrı ve Nemrut Dağı. Göller, kayak merkezleri, tarih ve şehir şehir Doğu Anadolu gezi rehberleri.",
+ "guneydogu-anadolu":"Güneydoğu Anadolu gezilecek yerler: Mardin, Şanlıurfa, Gaziantep, Diyarbakır ve Göbeklitepe. Tarih, gastronomi ve şehir şehir Güneydoğu gezi rehberleri."}
 _R = {
  "ege":"izmir aydin mugla manisa denizli usak kutahya afyon afyonkarahisar cesme alacati bodrum marmaris fethiye kusadasi sirince ayvalik cunda didim datca akyaka pamukkale",
  "akdeniz":"antalya mersin adana hatay isparta burdur kahramanmaras osmaniye alanya side kas kalkan kemer belek olimpos cirali kekova anamur",
@@ -578,20 +587,20 @@ def rebuild_index(posts):
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="blogarama-site-verification" content="blogarama-f925cf24-3b60-4d6a-bc6c-f8253efd471d">
 <title>__T__ | Türkiye Gezi Rehberi</title>
-<meta name="description" content="Türkiye'nin 81 ili ve popüler ilçeleri için gezilecek yerler, rota önerileri, konaklama, ulaşım ve yeme içme rehberleri. Seyahatini Routevia ile planla.">
+<meta name="description" content="__DESC__">
 <link rel="canonical" href="__CANON__">__PREVNEXT__
 <meta name="apple-itunes-app" content="app-id=6761003117">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <meta property="og:type" content="website">
 <meta property="og:title" content="__T__">
-<meta property="og:description" content="Türkiye'nin 81 ili ve popüler ilçeleri için gezilecek yerler, ulaşım, konaklama ve rota önerileri. Routevia ile planla.">
+<meta property="og:description" content="__DESC__">
 <meta property="og:url" content="__CANON__">
 <meta property="og:image" content="https://gezi.tabserve.com.tr/assets/og-home.jpg">
 <meta property="og:site_name" content="Türkiye Gezi Rehberi">
 <meta property="og:locale" content="tr_TR">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="__T__">
-<meta name="twitter:description" content="Türkiye'nin 81 ili ve popüler ilçeleri için gezilecek yerler, ulaşım, konaklama ve rota önerileri. Routevia ile planla.">
+<meta name="twitter:description" content="__DESC__">
 <meta name="twitter:image" content="https://gezi.tabserve.com.tr/assets/og-home.jpg">
 <script type="application/ld+json">{{"@context":"https://schema.org","@type":"WebSite","name":"Türkiye Gezi Rehberi","url":"https://gezi.tabserve.com.tr/","inLanguage":"tr-TR","publisher":{{"@type":"Organization","name":"Tabserve","url":"https://gezi.tabserve.com.tr/","logo":{{"@type":"ImageObject","url":"https://gezi.tabserve.com.tr/assets/logo.svg"}}}},"potentialAction":{{"@type":"SearchAction","target":"https://gezi.tabserve.com.tr/blog/?q={{search_term_string}}","query-input":"required name=search_term_string"}}}}</script>__XSCHEMA__
 <link rel="alternate" type="application/rss+xml" title="Türkiye Gezi Rehberi RSS" href="/feed.xml">
@@ -714,7 +723,7 @@ def rebuild_index(posts):
   <p>Büyük şehirler arası uçak en hızlısıdır; bölge içi keşiflerde ise kiralık araç özgürlük sağlar. Konaklamada yaz aylarında kıyı bölgelerini önceden ayırtmak hem yer hem fiyat avantajı verir. Tahmini masrafını önceden görmek istersen <a href="/gezi-butcesi-hesaplayici/">gezi bütçesi hesaplayıcımızı</a> kullanabilir; her şehir rehberimizde ise güncel ulaşım, konaklama ve yeme-içme ipuçlarını bulabilirsin.</p>
   <p>Yeni il ve ilçe rehberleri düzenli olarak ekleniyor. Keşfetmeye <a href="/blog/">tüm gezi rehberlerinden</a> ya da yukarıdaki bölgelerden başlayabilirsin — iyi yolculuklar!</p>
 </section>'''
-    home = (head.replace("__T__", "81 İl ve En Güzel Gezilecek Yerler").replace("__CANON__", f"{SITE}/").replace("__PREVNEXT__", "").replace("__XSCHEMA__",
+    home = (head.replace("__T__", "81 İl ve En Güzel Gezilecek Yerler").replace("__DESC__", "Türkiye'nin 81 ili ve popüler ilçeleri için gezilecek yerler, rota önerileri, konaklama, ulaşım ve yeme içme rehberleri. Seyahatini Routevia ile planla.").replace("__CANON__", f"{SITE}/").replace("__PREVNEXT__", "").replace("__XSCHEMA__",
         org_schema + '<script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Türkiye Gezi Rehberi","url":"https://gezi.tabserve.com.tr/","inLanguage":"tr-TR","description":"Türkiye\'nin 81 ili ve popüler ilçeleri için gezi rehberleri."}</script>' + faq_schema)
         + f"""
 <header style="text-align:center;padding:70px 22px 30px">
@@ -772,7 +781,8 @@ def rebuild_index(posts):
         title = "Tüm Gezi Rehberleri" if n == 1 else f"Gezi Rehberleri — Sayfa {n}"
         # Görünür H1: sayfa no YOK (altta pagenav + breadcrumb zaten gösteriyor)
         h1 = "Tüm Gezi Rehberleri"
-        listing = (head.replace("__T__", title).replace("__CANON__", page_url(n)).replace("__PREVNEXT__", prevnext).replace("__XSCHEMA__",
+        list_desc = (f"Türkiye'nin tüm gezi rehberleri — il il, ilçe ilçe gezilecek yerler, ulaşım, konaklama ve rota önerileri. {len(posts)} güncel rehber." if n == 1 else f"Türkiye gezi rehberleri, sayfa {n}. İl il, ilçe ilçe gezilecek yerler, ulaşım, konaklama ve rota önerileri.")
+        listing = (head.replace("__T__", title).replace("__DESC__", list_desc).replace("__CANON__", page_url(n)).replace("__PREVNEXT__", prevnext).replace("__XSCHEMA__",
             '<script type="application/ld+json">' + json.dumps({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Anasayfa","item":SITE+"/"},{"@type":"ListItem","position":2,"name":"Rehberler" if n==1 else f"Rehberler — Sayfa {n}","item":page_url(n)}]}, ensure_ascii=False) + '</script>')
             + f"""
 <main class="wrap page">
@@ -809,7 +819,7 @@ def rebuild_index(posts):
         rslug = f"{r}-gezilecek-yerler"
         region_slugs.append((rslug, rname, len(rposts)))
         rcards = "\n".join(card(pp) for pp in rposts)
-        rpage = (head.replace("__T__", f"{rname} Bölgesi Gezilecek Yerler").replace("__CANON__", f"{SITE}/{rslug}/").replace("__PREVNEXT__", "").replace("__XSCHEMA__",
+        rpage = (head.replace("__T__", f"{rname} Bölgesi Gezilecek Yerler").replace("__DESC__", REGION_DESC.get(r, f"{rname} Bölgesi gezilecek yerler, şehir şehir gezi rehberleri, ulaşım, konaklama ve rota önerileri. {rname} bölgesini Routevia ile keşfet.")).replace("__CANON__", f"{SITE}/{rslug}/").replace("__PREVNEXT__", "").replace("__XSCHEMA__",
             '<script type="application/ld+json">' + json.dumps({"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Anasayfa","item":SITE+"/"},{"@type":"ListItem","position":2,"name":"Rehberler","item":SITE+"/blog/"},{"@type":"ListItem","position":3,"name":rname}]}, ensure_ascii=False) + '</script>')
             + f"""
 <main class="wrap page">
