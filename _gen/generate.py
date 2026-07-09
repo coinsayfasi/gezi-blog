@@ -248,7 +248,7 @@ __BODY__
   </div>
   <div class="foot-bottom"><div class="wrap">
     <span>© 2026 Tabserve · Built by Yunus Güneş</span>
-    <span>Made with ♥ in Türkiye · <a rel="me" href="https://mastodon.social/@tabserve">Mastodon</a></span>
+    <span>Made with ♥ in Türkiye · <a rel="me" href="https://mastodon.social/@tabserve">Mastodon</a> · <a href="https://www.youtube.com/@tabserve" rel="noopener">YouTube</a> · <a rel="me" href="https://bsky.app/profile/tabserve.bsky.social">Bluesky</a></span>
   </div></div>
 </footer>
 <script src="/assets/cookie.js?v=2" defer></script>
@@ -639,7 +639,7 @@ def rebuild_index(posts):
   </div>
   <div class="foot-bottom"><div class="wrap">
     <span>© 2026 Türkiye Gezi Rehberi · Tabserve</span>
-    <span>Made with ♥ in Türkiye · <a rel="me" href="https://mastodon.social/@tabserve">Mastodon</a></span>
+    <span>Made with ♥ in Türkiye · <a rel="me" href="https://mastodon.social/@tabserve">Mastodon</a> · <a href="https://www.youtube.com/@tabserve" rel="noopener">YouTube</a> · <a rel="me" href="https://bsky.app/profile/tabserve.bsky.social">Bluesky</a></span>
   </div></div>
 </footer>
 <script>const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}}),{threshold:.12});document.querySelectorAll('.pcard,.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%4*70)+'ms';io.observe(el)});</script>
