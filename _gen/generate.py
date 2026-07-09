@@ -587,7 +587,11 @@ def rebuild_index(posts):
 <meta property="og:description" content="Türkiye'nin 81 ili ve popüler ilçeleri için gezilecek yerler, ulaşım, konaklama ve rota önerileri. Routevia ile planla.">
 <meta property="og:url" content="__CANON__">
 <meta property="og:image" content="https://gezi.tabserve.com.tr/assets/og-home.jpg">
+<meta property="og:site_name" content="Türkiye Gezi Rehberi">
+<meta property="og:locale" content="tr_TR">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="__T__">
+<meta name="twitter:description" content="Türkiye'nin 81 ili ve popüler ilçeleri için gezilecek yerler, ulaşım, konaklama ve rota önerileri. Routevia ile planla.">
 <meta name="twitter:image" content="https://gezi.tabserve.com.tr/assets/og-home.jpg">
 <script type="application/ld+json">{{"@context":"https://schema.org","@type":"WebSite","name":"Türkiye Gezi Rehberi","url":"https://gezi.tabserve.com.tr/","inLanguage":"tr-TR","publisher":{{"@type":"Organization","name":"Tabserve","url":"https://gezi.tabserve.com.tr/","logo":{{"@type":"ImageObject","url":"https://gezi.tabserve.com.tr/assets/logo.svg"}}}},"potentialAction":{{"@type":"SearchAction","target":"https://gezi.tabserve.com.tr/blog/?q={{search_term_string}}","query-input":"required name=search_term_string"}}}}</script>__XSCHEMA__
 <link rel="alternate" type="application/rss+xml" title="Türkiye Gezi Rehberi RSS" href="/feed.xml">
@@ -643,8 +647,20 @@ def rebuild_index(posts):
     poproutes = ("" if not _pr else
         '<div class="chipwrap" style="margin-top:26px"><span class="chiplbl">🧭 Popüler Rotalar</span><nav class="chips">'
         + "".join(f'<a href="{u}">{lbl}</a>' for u, lbl in _pr) + "</nav></div>")
+    home_faq = [
+      ("Türkiye'de en güzel gezilecek yerler nereleri?","Kapadokya, İstanbul, Efes, Pamukkale, Antalya, Ege ve Akdeniz kıyıları, Karadeniz yaylaları ve Güneydoğu'nun tarihi şehirleri Türkiye'nin en çok gezilen yerleridir. Sitemizde 81 il ve popüler ilçeler için detaylı gezi rehberleri bulabilirsiniz."),
+      ("Kapadokya kaç günde gezilir?","Kapadokya'yı rahat bir tempoda gezmek için 2-3 gün idealdir. Balon turu, yeraltı şehirleri, Göreme Açık Hava Müzesi ve vadileri bu sürede görebilirsiniz."),
+      ("Türkiye'de yaz tatili için nereye gidilir?","Yaz tatili için Bodrum, Fethiye, Marmaris, Çeşme, Alanya, Kaş ve Antalya kıyıları en popüler seçeneklerdir. Berrak koylar, plajlar ve deniz aktiviteleri için idealdir."),
+      ("Türkiye gezi rotası nasıl planlanır?","Gün sayınızı, ulaşım şeklinizi ve gezi hızınızı belirleyip bölgeleri gruplayarak planlama yapabilirsiniz. Routevia uygulaması, gitmek istediğiniz yerlere göre otomatik günlük rota oluşturur."),
+      ("Türkiye'de kışın nereye gidilir?","Kışın Uludağ, Kartalkaya, Palandöken kayak merkezleri; Abant, Bolu ve Kapadokya karlı manzaralarıyla; Şanlıurfa, Mardin ve Gaziantep ise tarihi-kültürel gezi için idealdir."),
+      ("Ege ve Akdeniz'de görülmesi gereken yerler neresi?","Ege'de Efes, Şirince, Alaçatı, Bodrum ve Pamukkale; Akdeniz'de Antalya, Kaş, Kekova, Olimpos ve Side mutlaka görülmesi gereken yerlerdir."),
+    ]
+    faq_html = ('<section class="reveal" style="max-width:780px;margin:44px auto 6px"><h2 style="font-family:\'Sora\',sans-serif;font-size:25px;color:var(--ink);margin-bottom:16px">Sık Sorulan Sorular</h2>'
+        + "".join(f'<details style="border:1px solid var(--line);border-radius:12px;background:#fff;padding:2px 18px;margin-bottom:10px"><summary style="cursor:pointer;font-weight:600;padding:14px 0;color:var(--ink)">{html.escape(q)}</summary><p style="color:var(--muted);padding:0 0 14px">{html.escape(a)}</p></details>' for q,a in home_faq) + '</section>')
+    faq_schema = '<script type="application/ld+json">' + json.dumps({"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in home_faq]}, ensure_ascii=False) + '</script>'
+    org_schema = '<script type="application/ld+json">' + json.dumps({"@context":"https://schema.org","@type":"Organization","name":"Tabserve","alternateName":"Türkiye Gezi Rehberi","url":SITE+"/","logo":SITE+"/assets/logo.svg","email":"teknopattv@gmail.com","foundingDate":"2025","founder":{"@type":"Person","name":"Yunus Güneş"},"sameAs":["https://mastodon.social/@tabserve","https://bsky.app/profile/tabserve.bsky.social","https://www.youtube.com/@tabserve","https://t.me/gezirehberitr","https://github.com/coinsayfasi","https://indiepa.ge/tabserve"]}, ensure_ascii=False) + '</script>'
     home = (head.replace("__T__", "81 İl ve En Güzel Gezilecek Yerler").replace("__CANON__", f"{SITE}/").replace("__PREVNEXT__", "").replace("__XSCHEMA__",
-        '<script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Türkiye Gezi Rehberi","url":"https://gezi.tabserve.com.tr/","inLanguage":"tr-TR","description":"Türkiye\'nin 81 ili ve popüler ilçeleri için gezi rehberleri."}</script>')
+        org_schema + '<script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Türkiye Gezi Rehberi","url":"https://gezi.tabserve.com.tr/","inLanguage":"tr-TR","description":"Türkiye\'nin 81 ili ve popüler ilçeleri için gezi rehberleri."}</script>' + faq_schema)
         + f"""
 <header style="text-align:center;padding:70px 22px 30px">
   <span class="brand" style="display:inline-block;font-size:13px;letter-spacing:.28em;text-transform:uppercase;font-weight:700;color:var(--accent3)">Türkiye Gezi Rehberi</span>
@@ -675,6 +691,7 @@ def rebuild_index(posts):
     <p>Türkiye Gezi Rehberi; İstanbul'dan Kapadokya'ya, Karadeniz yaylalarından Akdeniz koylarına kadar <strong>il il, ilçe ilçe gezilecek yerleri</strong> tek tek ele alır. Her gezi rehberinde <strong>en iyi gezilecek yerler</strong>, ne zaman gidilir, kaç gün yeterli, nasıl gidilir, nerede kalınır ve yöresel lezzetler gibi başlıklarla planını kolaylaştırırız.</p>
     <p>Amacımız gerçekten faydalı, güncel ve özgün <strong>gezi rehberleri</strong> sunmak; rotanı ise <a href="https://coinsayfasi.github.io/routevia-app/">Routevia uygulaması</a> ile saniyeler içinde planlamanı sağlamak. Yeni il ve ilçe rehberleri düzenli olarak eklenir — favori destinasyonunu keşfetmeye buradan başla.</p>
   </section>
+{faq_html}
 </main>
 """ + foot)
     (ROOT / "index.html").write_text(home, encoding="utf-8")
