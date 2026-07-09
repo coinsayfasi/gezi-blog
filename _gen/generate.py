@@ -586,6 +586,7 @@ def rebuild_index(posts):
 <html lang="tr"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="blogarama-site-verification" content="blogarama-f925cf24-3b60-4d6a-bc6c-f8253efd471d">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7579691213276550" crossorigin="anonymous"></script>
 <title>__T__ | Türkiye Gezi Rehberi</title>
 <meta name="description" content="__DESC__">
 <link rel="canonical" href="__CANON__">__PREVNEXT__
