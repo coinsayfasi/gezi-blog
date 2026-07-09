@@ -242,7 +242,7 @@ __BODY__
       <p class="fh">Company</p>
       <a href="/blog/">Blog</a>
       <a href="/#about">About</a>
-      <a href="/privacy.html">Privacy</a>
+      <a href="/gizlilik.html">Gizlilik</a>
       <a href="mailto:teknopattv@gmail.com">Contact</a>
     </div>
   </div>
