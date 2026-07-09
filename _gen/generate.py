@@ -505,7 +505,7 @@ def write_post(d, app, posts=()):
     body = body + SOURCES_BOX + ONEBAG_CTA + CONTRIB_BOX + related_block(posts, slug) + extras  # ilgili rehberler + paylaş + yazar
     page = (PAGE.replace("__TITLE__", html.escape(d["title"])).replace("__DESC__", html.escape(d["meta_description"]))
         .replace("__KW__", html.escape(d["keywords"])).replace("__URL__", url).replace("__OGIMG__", html.escape(ogimg))
-        .replace("__SCHEMA__", schema).replace("__CRUMB__", html.escape(d["title"][:40]))
+        .replace("__SCHEMA__", schema).replace("__CRUMB__", html.escape(d["title"] if len(d["title"]) <= 42 else d["title"][:42].rsplit(" ", 1)[0] + "…"))
         .replace("__TAG__", APPS[app]["tag"]).replace("__READ__", str(read)).replace("__RAIL__", rail)
         .replace("__NICE__", "Yayın: " + today.strftime("%d.%m.%Y") + " · Güncelleme: " + today.strftime("%d.%m.%Y")).replace("__BODY__", body))
     (BLOG / slug).mkdir(parents=True, exist_ok=True)
