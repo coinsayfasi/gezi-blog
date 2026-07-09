@@ -1,0 +1,21 @@
+# Türkiye Gezi Rehberi (Tabserve)
+
+> Detailed Turkey travel guides — the best places to visit, routes, transport, budget tips and day-by-day itineraries across all 81 provinces.
+
+## Guides
+- [All travel guides](https://gezi.tabserve.com.tr/blog/): City and district travel guides for Turkey.
+- [Aegean](https://gezi.tabserve.com.tr/ege-gezilecek-yerler/)
+- [Mediterranean](https://gezi.tabserve.com.tr/akdeniz-gezilecek-yerler/)
+- [Marmara](https://gezi.tabserve.com.tr/marmara-gezilecek-yerler/)
+- [Black Sea](https://gezi.tabserve.com.tr/karadeniz-gezilecek-yerler/)
+- [Central Anatolia](https://gezi.tabserve.com.tr/ic-anadolu-gezilecek-yerler/)
+- [Southeastern Anatolia](https://gezi.tabserve.com.tr/guneydogu-anadolu-gezilecek-yerler/)
+
+## Tools
+- [Trip budget calculator](https://gezi.tabserve.com.tr/gezi-butcesi-hesaplayici/)
+- [Routevia app](https://coinsayfasi.github.io/routevia-app/): Plan your Turkey trip route with AI.
+
+## About
+- [About](https://gezi.tabserve.com.tr/hakkinda.html)
+- [Privacy](https://gezi.tabserve.com.tr/gizlilik.html)
+- Contact: teknopattv@gmail.com
