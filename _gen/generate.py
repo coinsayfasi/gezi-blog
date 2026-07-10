@@ -115,7 +115,7 @@ KESİN KURALLAR — hepsine uy:
 7. 1-2 dış OTORİTE linki ekle (resmi turizm/kültür sitesi, .gov.tr ya da ilgili Wikipedia maddesi). Sadece var olduğundan EMİN olduğun stabil URL'ler — https://tr.wikipedia.org/wiki/<Konu> tercih et. Deep URL UYDURMA. Cümle içinde doğal yerleştir, başlıkta değil.
 
 SADECE geçerli minified JSON çıktısı ver (kod bloğu/yorum yok), tam şu anahtarlar:
-{{"title":"...","meta_description":"max 155 karakter, anahtar kelimeyi içersin","keywords":"4-6 virgülle ayrılmış anahtar kelime","slug":"baslıktan-kebab-case-ascii","lat":"şehir merkezi enlem (ondalık)","lon":"boylam","img_queries":["3 ayrı stok foto araması, her biri 2-4 İNGİLİZCE kelime, yazının FARKLI bölümlerini birebir karşılayan somut sahneler: 1) kapak manzarası 2) yemek/çarşı/kültür 3) doğa/detay (örn: [\"Sanliurfa Gobeklitepe\",\"Urfa kebab food\",\"Balikligol pool Urfa\"])"],"body":"makale HTML'i"}}"""
+{{"title":"...","meta_description":"max 155 karakter, anahtar kelimeyi içersin","keywords":"4-6 virgülle ayrılmış anahtar kelime","slug":"baslıktan-kebab-case-ascii","lat":"şehir merkezi enlem (ondalık)","lon":"boylam","img_queries":["5 ayrı stok foto araması, her biri 2-4 İNGİLİZCE kelime, yazının FARKLI bölümlerini (tüm makaleye yayılmış) karşılayan somut sahneler: 1) kapak manzarası 2) yemek/çarşı/kültür 3) doğa/detay 4) tarihi/mekan 5) başka somut sahne (örn: [\"Sanliurfa Gobeklitepe\",\"Urfa kebab food\",\"Balikligol pool Urfa\"])"],"body":"makale HTML'i"}}"""
 
 def _post(url, body, headers):
     req = urllib.request.Request(url, data=json.dumps(body).encode(), headers=headers, method="POST")
@@ -416,7 +416,7 @@ def fetch_inpost(query, slug, idx):
 def insert_inpost_images(body, slug, queries, alt_base):
     """2. ve 4. H2 öncesine içerik görseli yerleştirir (varsa)."""
     pos = [m.start() for m in re.finditer(r"<h2", body)]
-    spots = [i for i in (1, 3) if i < len(pos)][:len(queries)]
+    spots = [i for i in (1, 3, 5, 7) if i < len(pos)][:len(queries)]
     for k in reversed(range(len(spots))):
         rel = fetch_inpost(queries[k], slug, k + 1)
         if not rel: continue
@@ -918,7 +918,7 @@ def main():
         iqs = d.get("img_queries") or ([d["img_query"]] if d.get("img_query") else [])
         fetch_hero((iqs[0] if iqs else f"{kw.split()[0]} Turkey travel"), d["slug"])
         if len(iqs) > 1:
-            d["body"] = insert_inpost_images(d["body"], d["slug"], iqs[1:3], d["title"])
+            d["body"] = insert_inpost_images(d["body"], d["slug"], iqs[1:5], d["title"])
         write_post(d, app, posts)
         posts.insert(0, {"slug":d["slug"],"title":d["title"],"desc":d["meta_description"],
                          "tag":APPS[app]["tag"],"date":datetime.date.today().isoformat()})
