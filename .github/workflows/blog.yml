@@ -37,6 +37,10 @@ jobs:
           BLOG_COUNT: ${{ github.event.inputs.count || '1' }}
           PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
         run: python -u _gen/generate.py
+      - name: Dedupe + content-match images (Wikimedia/Pexels)
+        env:
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+        run: python -u _gen/retrofit_dedupe.py
       - name: Commit & push
         run: |
           [ -n "$(git status --porcelain)" ] || { echo "değişiklik yok"; exit 0; }
