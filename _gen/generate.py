@@ -671,7 +671,7 @@ def rebuild_index(posts):
     _slugmap = {pp["slug"].split("-")[0]: pp["slug"] for pp in posts}
     _pr = [(f"/blog/{_slugmap[k]}/", lbl) for k, lbl in POPD if k in _slugmap][:4]
     poproutes = ("" if not _pr else
-        '<div class="chipwrap" style="margin-top:26px"><span class="chiplbl"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"/></svg> Popüler Rotalar</span><nav class="chips">'
+        '<div class="chipwrap" style="margin-top:26px"><span class="chiplbl"><svg class="ico" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"/></svg> Popüler Rotalar</span><nav class="chips">'
         + "".join(f'<a href="{u}">{lbl}</a>' for u, lbl in _pr) + "</nav></div>")
     home_faq = [
       ("Türkiye'de en güzel gezilecek yerler nereleri?","Kapadokya, İstanbul, Efes, Pamukkale, Antalya, Ege ve Akdeniz kıyıları, Karadeniz yaylaları ve Güneydoğu'nun tarihi şehirleri Türkiye'nin en çok gezilen yerleridir. Sitemizde 81 il ve popüler ilçeler için detaylı gezi rehberleri bulabilirsiniz."),
