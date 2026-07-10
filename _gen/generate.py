@@ -214,7 +214,7 @@ PAGE = """<!DOCTYPE html>
 <body>
 <div class="aurora"></div>
 <nav><div class="nwrap">
-  <a class="logo" href="/"><img src="/assets/logo.svg" alt="Türkiye Gezi Rehberi">Gezi Rehberi</a>
+  <a class="logo" href="/"><img src="/assets/logo.svg" alt="Türkiye Gezi Rehberi" width="30" height="30">Gezi Rehberi</a>
   <div class="nav-links"><a href="/">Anasayfa</a><a href="/blog/">Rehberler</a><a href="https://coinsayfasi.github.io/routevia-app/">Routevia</a></div>
 </div></nav>
 <main class="wrap page">
@@ -586,6 +586,7 @@ def rebuild_index(posts):
 <html lang="tr"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="blogarama-site-verification" content="blogarama-f925cf24-3b60-4d6a-bc6c-f8253efd471d">
+<link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7579691213276550" crossorigin="anonymous"></script>
 <title>__T__ | Türkiye Gezi Rehberi</title>
 <meta name="description" content="__DESC__">
@@ -616,7 +617,7 @@ def rebuild_index(posts):
 </head>
 <body>
 <div class="aurora"></div>
-<nav><div class="nwrap"><a class="logo" href="/"><img src="/assets/logo.svg" alt="Türkiye Gezi Rehberi">Gezi Rehberi</a>
+<nav><div class="nwrap"><a class="logo" href="/"><img src="/assets/logo.svg" alt="Türkiye Gezi Rehberi" width="30" height="30">Gezi Rehberi</a>
 <div class="nav-links"><a href="/">Anasayfa</a><a href="/hakkinda.html">Hakkında</a><a href="https://coinsayfasi.github.io/routevia-app/">Routevia</a></div></div></nav>"""
     foot = """<footer class="site-footer">
   <div class="wrap foot-grid">
