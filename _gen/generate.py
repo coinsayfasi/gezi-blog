@@ -80,7 +80,7 @@ Yazı tek başına gerçekten faydalı olmalı; sonuna otomatik küçük bir uyg
 
 KESİN KURALLAR — hepsine uy:
 1. Hedef anahtar kelime "{kw}" BAŞLIKTA geçmeli ve net konu olmalı. Başlık aynı zamanda H1'dir — <h1> YAZMA.
-2. Uzunluk: 1000-1400 KELİME gerçek gövde metni (kelime say, karakter değil). Dolgu yapma, her bölüm gerçek bilgi içersin.
+2. Uzunluk: 2500-3000 KELİME gerçek gövde metni (kelime say, karakter değil). Dolgu YAPMA — her bölüm gerçek, somut, özgün bilgi içersin (fiyat aralıkları, süreler, mesafeler, pratik ipuçları, örnek rotalar). Uzunluğu 8-11 zengin H2 bölümüyle doğal doldur.
 3. ZORUNLU BÖLÜM YAPISI — büyük gezi siteleri gibi, her biri ayrı <h2> (anahtar kelime varyasyonlu) olacak:
    - EN BAŞA: <div class="tldr"><b>⚡ 30 saniyede ...</b><p>3-4 cümlelik öz: neden gidilir, kaç gün, en iyi dönem, tek cümlelik bütçe hissi.</p></div>
    - Kısa giriş paragrafı (H2'siz)
@@ -174,7 +174,7 @@ def validate(d, kw):
     wc = words(b.replace("{{APP_CTA}}",""))
     h2,h3,h4 = len(re.findall(r"<h2",b)),len(re.findall(r"<h3",b)),len(re.findall(r"<h4",b))
     errs=[]
-    if wc < 850: errs.append(f"kelime {wc}<850")
+    if wc < 2000: errs.append(f"kelime {wc}<2000")
     if h2 < 3: errs.append(f"H2 {h2}<3")
     if h3 < 2: errs.append(f"H3 {h3}<2")
     if kw.split()[0].lower() not in d.get("title","").lower(): errs.append("anahtar kelime title'da yok")
