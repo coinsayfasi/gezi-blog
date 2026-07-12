@@ -1,3 +1,5 @@
+@font-face{font-family:'Inter';font-style:normal;font-weight:400 600;font-display:swap;src:url(/assets/fonts/inter.woff2) format('woff2')}
+@font-face{font-family:'Sora';font-style:normal;font-weight:600 800;font-display:swap;src:url(/assets/fonts/sora.woff2) format('woff2')}
 :root{
   --bg:#fbfaf7;--card:#ffffff;--ink:#1f2733;--muted:#5b6470;
   --accent:#1380a6;--accent2:#e08a4e;--accent3:#0f7a8c;--line:#ece8e1;
