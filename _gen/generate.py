@@ -111,7 +111,8 @@ KESİN KURALLAR — hepsine uy:
 <li><strong>Çocukla uygun mu:</strong> ...</li>
 <li><strong>En yakın havalimanı:</strong> ...</li>
 </ul></div>
-6. SADECE şu etiketler: h2, h3, h4, h5, p, ul, li, strong, a, table, thead, tbody, tr, th, td ve yalnızca baştaki özet için <div class="tldr">. Markdown yok, <h1> yok, <html>/<head>/<style> yok.
+6. SADECE şu etiketler: h2, h3, h4, h5, p, ul, li, strong, a, table, thead, tbody, tr, th, td ve yalnızca baştaki özet için <div class="tldr">. Markdown yok, <h1> yok, <html>/<head>
+<meta name="google-adsense-account" content="ca-pub-7579691213276550">/<style> yok.
 7. 1-2 dış OTORİTE linki ekle (resmi turizm/kültür sitesi, .gov.tr ya da ilgili Wikipedia maddesi). Sadece var olduğundan EMİN olduğun stabil URL'ler — https://tr.wikipedia.org/wiki/<Konu> tercih et. Deep URL UYDURMA. Cümle içinde doğal yerleştir, başlıkta değil.
 
 SADECE geçerli minified JSON çıktısı ver (kod bloğu/yorum yok), tam şu anahtarlar:
