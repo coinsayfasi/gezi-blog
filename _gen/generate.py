@@ -11,7 +11,7 @@ import os, re, sys, json, html, time, datetime, urllib.request, urllib.error, ur
 from pathlib import Path
 
 SOCIAL = [("YouTube","https://youtube.com/@tabserve"),("Instagram","https://instagram.com/tabservee"),
-          ("TikTok","https://tiktok.com/@tabserve"),("Bluesky","https://bsky.app/profile/tabserve.bsky.social"),("Pinterest","https://pinterest.com/nedir_nasil")]
+          ("TikTok","https://tiktok.com/@tabserve"),("Bluesky"),("Pinterest","https://pinterest.com/nedir_nasil")]
 
 def _svg(d): return f'<svg viewBox="0 0 24 24" width="19" height="19" fill="currentColor" aria-hidden="true"><path d="{d}"/></svg>'
 ICON = {
@@ -250,7 +250,7 @@ __BODY__
   </div>
   <div class="foot-bottom"><div class="wrap">
     <span>© 2026 Tabserve · Built by Yunus Güneş</span>
-    <span>Made with ♥ in Türkiye · <a rel="me" href="https://mastodon.social/@tabserve">Mastodon</a> · <a href="https://www.youtube.com/@tabserve" rel="noopener">YouTube</a> · <a rel="me" href="https://bsky.app/profile/tabserve.bsky.social">Bluesky</a></span>
+    <span>Made with ♥ in Türkiye · <a rel="me" href="https://mastodon.social/@tabserve">Mastodon</a> · <a href="https://www.youtube.com/@tabserve" rel="noopener">YouTube</a> · </span>
   </div></div>
 </footer>
 <script src="/assets/cookie.js?v=2" defer></script>
@@ -666,7 +666,7 @@ addEventListener("load",function(){{setTimeout(load,1500);}});}})();
   </div>
   <div class="foot-bottom"><div class="wrap">
     <span>© 2026 Türkiye Gezi Rehberi · Tabserve · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · <a href="/cookies.html">Cookies</a></span>
-    <span>Made with ♥ in Türkiye · <a rel="me" href="https://mastodon.social/@tabserve">Mastodon</a> · <a href="https://www.youtube.com/@tabserve" rel="noopener">YouTube</a> · <a rel="me" href="https://bsky.app/profile/tabserve.bsky.social">Bluesky</a></span>
+    <span>Made with ♥ in Türkiye · <a rel="me" href="https://mastodon.social/@tabserve">Mastodon</a> · <a href="https://www.youtube.com/@tabserve" rel="noopener">YouTube</a> · </span>
   </div></div>
 </footer>
 <script>const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}}),{threshold:.12});document.querySelectorAll('.pcard,.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%4*70)+'ms';io.observe(el)});</script>
@@ -695,7 +695,7 @@ addEventListener("load",function(){{setTimeout(load,1500);}});}})();
     faq_html = ('<section class="reveal" style="max-width:780px;margin:44px auto 6px"><h2 style="font-family:\'Sora\',sans-serif;font-size:25px;color:var(--ink);margin-bottom:16px">Sık Sorulan Sorular</h2>'
         + "".join(f'<details style="border:1px solid var(--line);border-radius:12px;background:#fff;padding:2px 18px;margin-bottom:10px"><summary style="cursor:pointer;font-weight:600;padding:14px 0;color:var(--ink)">{html.escape(q)}</summary><p style="color:var(--muted);padding:0 0 14px">{html.escape(a)}</p></details>' for q,a in home_faq) + '</section>')
     faq_schema = '<script type="application/ld+json">' + json.dumps({"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in home_faq]}, ensure_ascii=False) + '</script>'
-    org_schema = '<script type="application/ld+json">' + json.dumps({"@context":"https://schema.org","@type":"Organization","name":"Tabserve","alternateName":"Türkiye Gezi Rehberi","url":SITE+"/","logo":SITE+"/assets/logo.svg","email":"teknopattv@gmail.com","foundingDate":"2025","founder":{"@type":"Person","name":"Yunus Güneş"},"sameAs":["https://mastodon.social/@tabserve","https://bsky.app/profile/tabserve.bsky.social","https://www.youtube.com/@tabserve","https://t.me/gezirehberitr","https://github.com/coinsayfasi","https://indiepa.ge/tabserve"]}, ensure_ascii=False) + '</script>'
+    org_schema = '<script type="application/ld+json">' + json.dumps({"@context":"https://schema.org","@type":"Organization","name":"Tabserve","alternateName":"Türkiye Gezi Rehberi","url":SITE+"/","logo":SITE+"/assets/logo.svg","email":"teknopattv@gmail.com","foundingDate":"2025","founder":{"@type":"Person","name":"Yunus Güneş"},"sameAs":["https://mastodon.social/@tabserve","https://www.youtube.com/@tabserve","https://t.me/gezirehberitr","https://github.com/coinsayfasi","https://indiepa.ge/tabserve"]}, ensure_ascii=False) + '</script>'
     # ── HUB: Bölgeler kartları ────────────────────────────────────────────────
     _regions = [
       ("ege-gezilecek-yerler","Ege","🏖️","Çeşme, Bodrum, İzmir, Alaçatı — mavi bayraklı koylar ve antik kentler"),
