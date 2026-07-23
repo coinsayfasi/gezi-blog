@@ -55,7 +55,8 @@
   "https://gezi.tabserve.com.tr/blog/page/3/": "2026-07-20",
   "https://gezi.tabserve.com.tr/blog/page/4/": "2026-07-20",
   "https://gezi.tabserve.com.tr/blog/page/5/": "2026-07-20",
-  "https://gezi.tabserve.com.tr/blog/sumela-manastiri-rehberi-en-iyi-gezilecek-erler-ulasim-ve-pratik-ipucu/": "2026-07-22"
+  "https://gezi.tabserve.com.tr/blog/sumela-manastiri-rehberi-en-iyi-gezilecek-erler-ulasim-ve-pratik-ipucu/": "2026-07-22",
+  "https://gezi.tabserve.com.tr/blog/foca-gezilecek-yerler-gezi-rehberi/": "2026-07-23"
  },
  "history": [
   {
@@ -67,6 +68,13 @@
   },
   {
    "date": "2026-07-22",
+   "mode": "yeni",
+   "ok": 1,
+   "quota_hit": false,
+   "errors": 0
+  },
+  {
+   "date": "2026-07-23",
    "mode": "yeni",
    "ok": 1,
    "quota_hit": false,
