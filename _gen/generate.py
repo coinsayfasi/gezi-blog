@@ -37,8 +37,10 @@ def post_extras(url, title):
     share = '<div class="share"><span>Bu yazıyı paylaş:</span>' + ''.join(
         f'<a class="ico" href="{h}" target="_blank" rel="noopener" aria-label="{lbl[n]}">{ICON[n]}</a>' for n,h in S) + '</div>'
     follow = ''.join(f'<a class="ico" href="{lu}" target="_blank" rel="noopener" aria-label="{ln}">{ICON.get(ln,ln)}</a>' for ln,lu in SOCIAL)
-    author = ('<div class="author-box"><img class="ab-logo" src="/assets/logo.svg" alt="Tabserve" width="56" height="56">'
-              '<div class="ab-body"><b>Türkiye Gezi Rehberi</b><p>Türkiye\'nin il il, ilçe ilçe gezilecek yerlerini paylaşıyoruz. '
+    author = ('<div class="author-box"><img class="ab-logo" src="/assets/logo.svg" alt="Aycan Merve Güneş — Tabserve" width="56" height="56">'
+              '<div class="ab-body"><b>Yazar: <a href="https://www.tabserve.com.tr/author.html">Aycan Merve Güneş</a></b>'
+              '<p style="color:var(--muted);font-size:13px;margin:2px 0 8px">Bağımsız Full Stack Developer · Tabserve Kurucusu</p>'
+              '<p>Türkiye\'nin il il, ilçe ilçe gezilecek yerlerini paylaşıyorum. '
               f'Rotanı saniyede planlamak için Routevia uygulamasını ücretsiz indir.</p><div class="follow"><span>Bizi takip et:</span>{follow}</div></div></div>')
     rail = '<div class="share-rail" aria-label="Paylaş">' + ''.join(
         f'<a href="{h}" target="_blank" rel="noopener" aria-label="{lbl[n]}">{ICON[n]}</a>' for n,h in S) + '</div>'
@@ -261,7 +263,7 @@ __BODY__
     </div>
   </div>
   <div class="foot-bottom"><div class="wrap">
-    <span>© 2026 Tabserve · Built by Yunus Güneş</span>
+    <span>© 2026 Tabserve · Built by Aycan Merve Güneş</span>
     <span>Made with ♥ in Türkiye · <a rel="me" href="https://mastodon.social/@tabserve">Mastodon</a> · <a href="https://www.youtube.com/@tabserve" rel="noopener">YouTube</a> · </span>
   </div></div>
 </footer>
@@ -523,7 +525,8 @@ def write_post(d, app, posts=()):
             break
     today = datetime.date.today()
     schemas = [{"@context":"https://schema.org","@type":"Article","headline":d["title"],
-        "description":d["meta_description"],"image":ogimg,"author":{"@type":"Organization","name":"Tabserve"},
+        "description":d["meta_description"],"image":ogimg,
+        "author":{"@type":"Person","name":"Aycan Merve Güneş","jobTitle":"Independent Full Stack Developer","url":"https://www.tabserve.com.tr/author.html"},
         "publisher":{"@type":"Organization","name":"Tabserve","logo":{"@type":"ImageObject","url":f"{SITE}/assets/tabserve-og.png"}},
         "datePublished":today.isoformat(),"dateModified":today.isoformat(),"mainEntityOfPage":url}]
     faq = faq_schema(body)
@@ -547,7 +550,7 @@ def write_post(d, app, posts=()):
 PER_PAGE = 9  # listeleme sayfası başına yazı
 
 # Kardeş site çapraz linkleri (aynı yayıncı — TR↔EN doğal iç ağ)
-SISTER_URL = "https://apps.tabserve.com.tr"
+SISTER_URL = "https://www.tabserve.com.tr"
 CROSS = {  # gezi slug -> apps.tabserve slug (birebir konu eşleşmesi)
   "kapadokya-gezi-rehberi-en-iyi-gezilecek-yerler-ve-ipuclari": "cappadocia-travel-guide",
   "antalya-gezilecek-yerler-gezi-rehberi": "antalya-travel-guide-beaches-old-town-day-trips",
@@ -619,12 +622,7 @@ def rebuild_index(posts):
 <html lang="tr"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="blogarama-site-verification" content="blogarama-f925cf24-3b60-4d6a-bc6c-f8253efd471d">
-<link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
-<script>
-(function(){{var d=0;function load(){{if(d)return;d=1;var s=document.createElement("script");s.async=1;s.crossOrigin="anonymous";s.src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7579691213276550";document.head.appendChild(s);}}
-["scroll","touchstart","mousedown","keydown"].forEach(function(e){{addEventListener(e,load,{{once:true,passive:true}});}});
-addEventListener("load",function(){{setTimeout(load,4000);}});}})();
-</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7579691213276550" crossorigin="anonymous"></script>
 <title>__T__ | Türkiye Gezi Rehberi</title>
 <meta name="description" content="__DESC__">
 <link rel="canonical" href="__CANON__">__PREVNEXT__
@@ -667,7 +665,7 @@ addEventListener("load",function(){{setTimeout(load,4000);}});}})();
       <a href="/blog/">Tüm Rehberler</a>
       <a href="/gezi-butcesi-hesaplayici/">Bütçe Hesaplayıcı</a>
       <a href="https://coinsayfasi.github.io/routevia-app/">Routevia Uygulaması</a>
-      <a href="https://apps.tabserve.com.tr/blog/">Tabserve Blog (English)</a>
+      <a href="https://www.tabserve.com.tr/blog/">Tabserve Blog (English)</a>
     </div>
     <div class="foot-col"><p class="fh">Kurumsal</p>
       <a href="/hakkinda.html">Hakkında</a>
@@ -707,7 +705,7 @@ addEventListener("load",function(){{setTimeout(load,4000);}});}})();
     faq_html = ('<section class="reveal" style="max-width:780px;margin:44px auto 6px"><h2 style="font-family:\'Sora\',sans-serif;font-size:25px;color:var(--ink);margin-bottom:16px">Sık Sorulan Sorular</h2>'
         + "".join(f'<details style="border:1px solid var(--line);border-radius:12px;background:#fff;padding:2px 18px;margin-bottom:10px"><summary style="cursor:pointer;font-weight:600;padding:14px 0;color:var(--ink)">{html.escape(q)}</summary><p style="color:var(--muted);padding:0 0 14px">{html.escape(a)}</p></details>' for q,a in home_faq) + '</section>')
     faq_schema = '<script type="application/ld+json">' + json.dumps({"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in home_faq]}, ensure_ascii=False) + '</script>'
-    org_schema = '<script type="application/ld+json">' + json.dumps({"@context":"https://schema.org","@type":"Organization","name":"Tabserve","alternateName":"Türkiye Gezi Rehberi","url":SITE+"/","logo":SITE+"/assets/logo.svg","email":"teknopattv@gmail.com","foundingDate":"2025","founder":{"@type":"Person","name":"Yunus Güneş"},"sameAs":["https://mastodon.social/@tabserve","https://www.youtube.com/@tabserve","https://t.me/gezirehberitr","https://github.com/coinsayfasi","https://indiepa.ge/tabserve"]}, ensure_ascii=False) + '</script>'
+    org_schema = '<script type="application/ld+json">' + json.dumps({"@context":"https://schema.org","@type":"Organization","name":"Tabserve","alternateName":"Türkiye Gezi Rehberi","url":SITE+"/","logo":SITE+"/assets/logo.svg","email":"teknopattv@gmail.com","foundingDate":"2025","founder":{"@type":"Person","name":"Aycan Merve Güneş"},"sameAs":["https://mastodon.social/@tabserve","https://www.youtube.com/@tabserve","https://t.me/gezirehberitr","https://github.com/coinsayfasi","https://indiepa.ge/tabserve"]}, ensure_ascii=False) + '</script>'
     # ── HUB: Bölgeler kartları ────────────────────────────────────────────────
     _regions = [
       ("ege-gezilecek-yerler","Ege","🏖️","Çeşme, Bodrum, İzmir, Alaçatı — mavi bayraklı koylar ve antik kentler"),
