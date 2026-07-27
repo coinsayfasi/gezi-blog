@@ -59,7 +59,8 @@
   "https://gezi.tabserve.com.tr/blog/foca-gezilecek-yerler-gezi-rehberi/": "2026-07-23",
   "https://gezi.tabserve.com.tr/blog/sirince-koyu-gezi-rehberi/": "2026-07-24",
   "https://gezi.tabserve.com.tr/blog/akyaka-gezilecek-yerler-gezi-rehberi/": "2026-07-25",
-  "https://gezi.tabserve.com.tr/blog/gokceada-gezilecek-yerler-gezi-rehberi/": "2026-07-26"
+  "https://gezi.tabserve.com.tr/blog/gokceada-gezilecek-yerler-gezi-rehberi/": "2026-07-26",
+  "https://gezi.tabserve.com.tr/blog/bozcaada-gezilecek-yerler/": "2026-07-27"
  },
  "history": [
   {
@@ -99,6 +100,13 @@
   },
   {
    "date": "2026-07-26",
+   "mode": "yeni",
+   "ok": 1,
+   "quota_hit": false,
+   "errors": 0
+  },
+  {
+   "date": "2026-07-27",
    "mode": "yeni",
    "ok": 1,
    "quota_hit": false,
