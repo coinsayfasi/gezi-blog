@@ -104,6 +104,8 @@ KESİN KURALLAR — hepsine uy:
 4. EN SONDA <h2>Sık Sorulan Sorular</h2> bölümü: 8-10 UZUN KUYRUK soru (ör. 'X kaç günde gezilir?', 'MüzeKart geçerli mi?', 'Çocukla gidilir mi?', 'Yazın gidilir mi?', 'Araç kiralamak şart mı?') — her soru <h3>, cevabı <p> (2-3 cümle, net). Sonra kısa kapanış paragrafı.
 5. ÖZGÜN ve SOMUT — gerçek yer adları, gerçek bilgi. İstatistik/kesin fiyat/alıntı UYDURMA (genel bütçe ipucu olur). Tekrar yok, "spin"/genel dolgu yok.
 5b. KLİŞE YASAK: "unutulmaz deneyim", "büyüleyici", "mutlaka görülmeli", "eşsiz güzellik", "adeta", "cennet köşesi" gibi kalıpları KULLANMA. Bunun yerine SOMUT fayda yaz: hangi kapıdan girilir, sabah mı öğleden sonra mı gidilir, ne kadar sürer, yürüme mesafesi, çocukla/yaşlıyla uygun mu, otopark/toplu taşıma durumu.
+5d. ÖNCELİKLE İNSAN İÇİN YAZ, arama motoru için değil. Yazılar arasında cümle ritmini ve bölüm kurgusunu ÇEŞİTLENDİR — aynı geçiş cümlelerini, aynı kalıp ifadeleri farklı yazılarda tekrar etme. Bu site çok sayıda yazı yayınlıyor; her biri bağımsız yazılmış gibi okunmalı, bir şablonun varyasyonu gibi değil.
+5e. Gerçekten yerinde olduğunda, konuyu iyi bildiğini gösteren somut pratik detaylar ekle (belirli bir senaryo, insanların yaptığı bir hata ve nedeni, sadece gidip görmüş birinin bileceği bir nüans) — genel/klişe cümleler yerine. Uydurma kişisel anı/gezi hikayesi YAZMA — bunun yerine somut, doğrulanabilir detaylarla (kesin süreler, isimlendirilmiş kurallar/mekanlar, neden-sonuç mantığı) tavsiyeyi gerçek uzmanlık gibi göster, dolgu değil.
 5c. GİRİŞTEN HEMEN SONRA "Hızlı Bilgiler" kutusu ekle — tam şu HTML yapısıyla:
 <div class="quickfacts"><h2>Hızlı Bilgiler</h2><ul>
 <li><strong>Kaç gün yeterli:</strong> ...</li>
