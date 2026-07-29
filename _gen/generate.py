@@ -64,7 +64,7 @@ _gemini_ok = None  # çalıştığı doğrulanan model (cache)
 
 APPS = {
  "routevia":{"tag":"Türkiye · Gezi",
-   "cta":'<div class="appcta"><b>🚗 Rotanı saniyede planla — Routevia</b><p>Routevia, Türkiye\'nin il il, ilçe ilçe gezilecek yerlerini keşfetmeni ve yapay zekâ ile rotanı saniyede planlamanı sağlar. Ücretsiz, iOS &amp; Android.</p><div class="appbadges"><a href="https://apps.apple.com/app/id6761003117" rel="noopener" aria-label="Routevia — App Store">&#63743; App Store</a><a href="https://play.google.com/store/apps/details?id=com.yunusgunes.routevia" rel="noopener" aria-label="Routevia — Google Play">&#9654; Google Play</a><a class="ghost" href="https://coinsayfasi.github.io/routevia-app/">Daha fazla bilgi →</a></div></div>',
+   "cta":'<div class="appcta"><b>🚗 Rotanı saniyede planla — Routevia</b><p>Routevia, Türkiye\'nin il il, ilçe ilçe gezilecek yerlerini keşfetmeni ve yapay zekâ ile rotanı saniyede planlamanı sağlar. Ücretsiz, iOS &amp; Android.</p><div class="appbadges"><a href="https://apps.apple.com/app/id6761003117" rel="noopener" aria-label="Routevia — App Store">&#63743; App Store</a><a href="https://play.google.com/store/apps/details?id=com.yunusgunes.routevia" rel="noopener" aria-label="Routevia — Google Play">&#9654; Google Play</a><a class="ghost" href="https://coinsayfasi.github.io/routevia-app/">Routevia özelliklerini gör →</a></div></div>',
    "name":"Routevia","one":"Türkiye gezi uygulaması Routevia (il il gezilecek yerler + yapay zekâ rota planı)"},
 }
 
