@@ -82,7 +82,7 @@ Yazı tek başına gerçekten faydalı olmalı; sonuna otomatik küçük bir uyg
 
 KESİN KURALLAR — hepsine uy:
 1. Hedef anahtar kelime "{kw}" BAŞLIKTA geçmeli ve net konu olmalı. Başlık aynı zamanda H1'dir — <h1> YAZMA. KRİTİK: "title" alanı 40-58 KARAKTER arasında, TAM ve doğal bir cümle/ifade olmalı (karakter say). Uzun yazıp sonradan kesilmesini BEKLEME — baştan kısa ve tam yaz.
-2. Uzunluk: 2500-3000 KELİME gerçek gövde metni (kelime say, karakter değil). Dolgu YAPMA — her bölüm gerçek, somut, özgün bilgi içersin (fiyat aralıkları, süreler, mesafeler, pratik ipuçları, örnek rotalar). Uzunluğu 8-11 zengin H2 bölümüyle doğal doldur.
+2. Uzunluk: MİNİMUM 3000 KELİME gerçek gövde metni, hedef 3000-3500 (kelime say, karakter değil). ASLA 3000'in altında teslim etme. Dolgu YAPMA — her bölüm gerçek, somut, özgün bilgi içersin (fiyat aralıkları, süreler, mesafeler, pratik ipuçları, örnek rotalar). Uzunluğu 10-13 zengin H2 bölümüyle doğal doldur.
 3. ZORUNLU BÖLÜM YAPISI — büyük gezi siteleri gibi, her biri ayrı <h2> (anahtar kelime varyasyonlu) olacak:
    - EN BAŞA: <div class="tldr"><b>⚡ 30 saniyede ...</b><p>3-4 cümlelik öz: neden gidilir, kaç gün, en iyi dönem, tek cümlelik bütçe hissi.</p></div>
    - Kısa giriş paragrafı (H2'siz)
@@ -185,7 +185,7 @@ def validate(d, kw):
     wc = words(b.replace("{{APP_CTA}}",""))
     h2,h3,h4 = len(re.findall(r"<h2",b)),len(re.findall(r"<h3",b)),len(re.findall(r"<h4",b))
     errs=[]
-    if wc < 2000: errs.append(f"kelime {wc}<2000")
+    if wc < 3000: errs.append(f"kelime {wc}<3000")
     if h2 < 3: errs.append(f"H2 {h2}<3")
     if h3 < 2: errs.append(f"H3 {h3}<2")
     if kw.split()[0].lower() not in d.get("title","").lower(): errs.append("anahtar kelime title'da yok")
