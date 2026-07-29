@@ -81,7 +81,7 @@ AÇI: {angle}
 Yazı tek başına gerçekten faydalı olmalı; sonuna otomatik küçük bir uygulama tanıtım kutusu (Routevia) eklenecek — sen sadece makale gövdesini yaz. ({one})
 
 KESİN KURALLAR — hepsine uy:
-1. Hedef anahtar kelime "{kw}" BAŞLIKTA geçmeli ve net konu olmalı. Başlık aynı zamanda H1'dir — <h1> YAZMA.
+1. Hedef anahtar kelime "{kw}" BAŞLIKTA geçmeli ve net konu olmalı. Başlık aynı zamanda H1'dir — <h1> YAZMA. KRİTİK: "title" alanı 40-58 KARAKTER arasında, TAM ve doğal bir cümle/ifade olmalı (karakter say). Uzun yazıp sonradan kesilmesini BEKLEME — baştan kısa ve tam yaz.
 2. Uzunluk: 2500-3000 KELİME gerçek gövde metni (kelime say, karakter değil). Dolgu YAPMA — her bölüm gerçek, somut, özgün bilgi içersin (fiyat aralıkları, süreler, mesafeler, pratik ipuçları, örnek rotalar). Uzunluğu 8-11 zengin H2 bölümüyle doğal doldur.
 3. ZORUNLU BÖLÜM YAPISI — büyük gezi siteleri gibi, her biri ayrı <h2> (anahtar kelime varyasyonlu) olacak:
    - EN BAŞA: <div class="tldr"><b>⚡ 30 saniyede ...</b><p>3-4 cümlelik öz: neden gidilir, kaç gün, en iyi dönem, tek cümlelik bütçe hissi.</p></div>
@@ -118,7 +118,7 @@ KESİN KURALLAR — hepsine uy:
 7. 1-2 dış OTORİTE linki ekle (resmi turizm/kültür sitesi, .gov.tr ya da ilgili Wikipedia maddesi). Sadece var olduğundan EMİN olduğun stabil URL'ler — https://tr.wikipedia.org/wiki/<Konu> tercih et. Deep URL UYDURMA. Cümle içinde doğal yerleştir, başlıkta değil.
 
 SADECE geçerli minified JSON çıktısı ver (kod bloğu/yorum yok), tam şu anahtarlar:
-{{"title":"...","meta_description":"max 155 karakter, anahtar kelimeyi içersin","keywords":"4-6 virgülle ayrılmış anahtar kelime","slug":"baslıktan-kebab-case-ascii","lat":"şehir merkezi enlem (ondalık)","lon":"boylam","img_queries":["5 ayrı stok foto araması, her biri 2-4 İNGİLİZCE kelime, yazının FARKLI bölümlerini (tüm makaleye yayılmış) karşılayan somut sahneler: 1) kapak manzarası 2) yemek/çarşı/kültür 3) doğa/detay 4) tarihi/mekan 5) başka somut sahne (örn: [\"Sanliurfa Gobeklitepe\",\"Urfa kebab food\",\"Balikligol pool Urfa\"])"],"body":"makale HTML'i"}}"""
+{{"title":"tam, dogal bir baslik, KESINLIKLE 40-58 karakter, asla cumle ortasinda kesilmis olmamali","meta_description":"max 155 karakter, anahtar kelimeyi içersin","keywords":"4-6 virgülle ayrılmış anahtar kelime","slug":"baslıktan-kebab-case-ascii","lat":"şehir merkezi enlem (ondalık)","lon":"boylam","img_queries":["5 ayrı stok foto araması, her biri 2-4 İNGİLİZCE kelime, yazının FARKLI bölümlerini (tüm makaleye yayılmış) karşılayan somut sahneler: 1) kapak manzarası 2) yemek/çarşı/kültür 3) doğa/detay 4) tarihi/mekan 5) başka somut sahne (örn: [\"Sanliurfa Gobeklitepe\",\"Urfa kebab food\",\"Balikligol pool Urfa\"])"],"body":"makale HTML'i"}}"""
 
 def _post(url, body, headers):
     req = urllib.request.Request(url, data=json.dumps(body).encode(), headers=headers, method="POST")
@@ -539,7 +539,7 @@ def write_post(d, app, posts=()):
     read = max(4, round(words(body)/180))
     extras, rail = post_extras(url, d["title"])
     body = body + SOURCES_BOX + ONEBAG_CTA + CONTRIB_BOX + related_block(posts, slug) + extras  # ilgili rehberler + paylaş + yazar
-    _ttl=d["title"]; _sfx=" | Türkiye Gezi Rehberi"; _sfx2=" | Gezi Rehberi"; _ttag=(_ttl+_sfx) if len(_ttl+_sfx)<=60 else ((_ttl+_sfx2) if len(_ttl+_sfx2)<=60 else (_ttl[:60-len(_sfx2)].rsplit(" ",1)[0]+_sfx2)); page = (PAGE.replace("__TITLETAG__", html.escape(_ttag)).replace("__TITLE__", html.escape(d["title"])).replace("__DESC__", html.escape(d["meta_description"]))
+    _ttl=d["title"]; _sfx=" | Türkiye Gezi Rehberi"; _sfx2=" | Gezi Rehberi"; _ttag=(_ttl+_sfx) if len(_ttl+_sfx)<=60 else ((_ttl+_sfx2) if len(_ttl+_sfx2)<=60 else (_ttl if len(_ttl)<=60 else (_ttl[:60].rsplit(" ",1)[0].rstrip(",:;-") or _ttl[:57]+"..."))); page = (PAGE.replace("__TITLETAG__", html.escape(_ttag)).replace("__TITLE__", html.escape(d["title"])).replace("__DESC__", html.escape(d["meta_description"]))
         .replace("__KW__", html.escape(d["keywords"])).replace("__URL__", url).replace("__OGIMG__", html.escape(ogimg))
         .replace("__SCHEMA__", schema).replace("__CRUMB__", html.escape(d["title"] if len(d["title"]) <= 42 else d["title"][:42].rsplit(" ", 1)[0] + "…"))
         .replace("__TAG__", APPS[app]["tag"]).replace("__READ__", str(read)).replace("__RAIL__", rail)
