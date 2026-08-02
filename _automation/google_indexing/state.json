@@ -68,7 +68,8 @@
   "https://gezi.tabserve.com.tr/blog/karadeniz-turu-rotasi-gezilecek-yerler-ve-rehber/": "2026-07-30",
   "https://gezi.tabserve.com.tr/blog/page/6/": "2026-07-30",
   "https://gezi.tabserve.com.tr/blog/pamukkaleye-nasil-gidilir-gezi-rehberi/": "2026-07-31",
-  "https://gezi.tabserve.com.tr/blog/burdur-gezilecek-yerler-gezi-rehberi/": "2026-08-01"
+  "https://gezi.tabserve.com.tr/blog/burdur-gezilecek-yerler-gezi-rehberi/": "2026-08-01",
+  "https://gezi.tabserve.com.tr/blog/duzce-gezilecek-yerler-gezi-rehberi/": "2026-08-02"
  },
  "history": [
   {
@@ -150,6 +151,13 @@
   },
   {
    "date": "2026-08-01",
+   "mode": "yeni",
+   "ok": 1,
+   "quota_hit": false,
+   "errors": 0
+  },
+  {
+   "date": "2026-08-02",
    "mode": "yeni",
    "ok": 1,
    "quota_hit": false,
