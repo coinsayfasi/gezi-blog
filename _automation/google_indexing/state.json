@@ -70,7 +70,8 @@
   "https://gezi.tabserve.com.tr/blog/pamukkaleye-nasil-gidilir-gezi-rehberi/": "2026-07-31",
   "https://gezi.tabserve.com.tr/blog/burdur-gezilecek-yerler-gezi-rehberi/": "2026-08-01",
   "https://gezi.tabserve.com.tr/blog/duzce-gezilecek-yerler-gezi-rehberi/": "2026-08-02",
-  "https://gezi.tabserve.com.tr/blog/karabuk-gezilecek-yerler-gezi-rehberi/": "2026-08-03"
+  "https://gezi.tabserve.com.tr/blog/karabuk-gezilecek-yerler-gezi-rehberi/": "2026-08-03",
+  "https://gezi.tabserve.com.tr/blog/nigde-gezilecek-yerler-gezi-rehberi/": "2026-08-04"
  },
  "history": [
   {
@@ -166,6 +167,13 @@
   },
   {
    "date": "2026-08-03",
+   "mode": "yeni",
+   "ok": 1,
+   "quota_hit": false,
+   "errors": 0
+  },
+  {
+   "date": "2026-08-04",
    "mode": "yeni",
    "ok": 1,
    "quota_hit": false,
