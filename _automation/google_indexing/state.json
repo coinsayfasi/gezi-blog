@@ -72,7 +72,9 @@
   "https://gezi.tabserve.com.tr/blog/duzce-gezilecek-yerler-gezi-rehberi/": "2026-08-02",
   "https://gezi.tabserve.com.tr/blog/karabuk-gezilecek-yerler-gezi-rehberi/": "2026-08-03",
   "https://gezi.tabserve.com.tr/blog/nigde-gezilecek-yerler-gezi-rehberi/": "2026-08-04",
-  "https://gezi.tabserve.com.tr/blog/tokat-gezilecek-yerler-gezi-rehberi/": "2026-08-05"
+  "https://gezi.tabserve.com.tr/blog/tokat-gezilecek-yerler-gezi-rehberi/": "2026-08-05",
+  "https://gezi.tabserve.com.tr/blog/inkumu-gezilecek-yerler-gezi-rehberi/": "2026-08-06",
+  "https://gezi.tabserve.com.tr/blog/page/7/": "2026-08-06"
  },
  "history": [
   {
@@ -184,6 +186,13 @@
    "date": "2026-08-05",
    "mode": "yeni",
    "ok": 1,
+   "quota_hit": false,
+   "errors": 0
+  },
+  {
+   "date": "2026-08-06",
+   "mode": "yeni",
+   "ok": 2,
    "quota_hit": false,
    "errors": 0
   }
